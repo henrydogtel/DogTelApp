@@ -19,7 +19,7 @@ export const storage = new CloudinaryStorage({
             public_id: file.originalname,
         };
     },
-});
+}); 
 
 
 
