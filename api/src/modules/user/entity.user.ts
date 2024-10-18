@@ -4,9 +4,9 @@ import { v4 as uuid } from 'uuid';
 
 
 export enum UserRole {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-  SITTER = 'SITTER',
+  ADMIN = 'admin',
+  USER = 'user',
+  SITTER = 'sitter',
 }
 
 @ObjectType()  
