@@ -6,6 +6,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServicesSitterModule } from './modules/services-sitter/services-sitter.module';
 import typeorm from 'src/config/typeorm';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
+
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import typeorm from 'src/config/typeorm';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 
     }),
-    ServicesSitterModule,
+    ServicesSitterModule,AppointmentsModule,
 
   ],
 
