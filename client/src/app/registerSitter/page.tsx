@@ -1,11 +1,12 @@
 import React from 'react'
+import RegisterSitterForm from '@/components/RegisterSitterForm';
 
 const registerSitter = () => {
   return (
     <div>
-      <h1>Register Sitter</h1>
+     <RegisterSitterForm/>
     </div>
-  )
+  );
 }
 
 export default registerSitter
