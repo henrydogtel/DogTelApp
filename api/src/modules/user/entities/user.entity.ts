@@ -1,5 +1,7 @@
 import { Field, ObjectType, ID } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Credentials } from 'src/modules/credentials/entities/credential.entity';
+import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 export enum UserRole {
@@ -9,11 +11,11 @@ export enum UserRole {
 }
 
 @Entity()
-@ObjectType()  // GraphQL
+@ObjectType()
 export class User {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();  // Asegúrate de usar 'string' en vez de 'String'
+  id: String = uuid();
 
   @Field(() => String)
   @Column({ type: 'varchar', length: 255 })
@@ -35,16 +37,13 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
-  @Field(() => String)
-  @Column({ type: 'uuid' })
-  credentialId: string;
+  @Field(()=> String)
+  @Column({ default: 'https://thumbs.dreamstime.com/b/perfil-de-usuario-vectorial-avatar-predeterminado-179376714.jpg' })
+  userImg: string
 
-  // Puedes habilitar estas relaciones cuando las necesites:
-  // @Field(() => Credential)
-  // @OneToOne(() => Credentials, (credentials) => credentials.user)
-  // credentials: Credentials;
+  @Field(() => Credentials)
+  @OneToOne(() => Credentials, (credentials) => credentials.user)
+  @JoinColumn({ name: 'credentials_id' })
+  credentials: Credentials;
 
-  // @Field(() => [Sitter])
-  // @OneToMany(() => Sitter, (sitter) => sitter.user)
-  // sitters: Sitter[];
 }

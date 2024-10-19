@@ -9,17 +9,16 @@ cloudinary.config({
 });
 
 export const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
+    cloudinary: cloudinary,  
     params: async (req, file) => {
-        const fileFormat = file.mimetype.split('/')[1];
-
-        return {
-            folder: 'uploads',
-            format: fileFormat,
-            public_id: file.originalname,
-        };
+      const fileFormat = file.mimetype.split('/')[1];
+      return {
+        folder: 'uploads',
+        format: fileFormat,
+        public_id: file.originalname.split('.')[0], 
+      };
     },
-}); 
+  });
 
 
 
