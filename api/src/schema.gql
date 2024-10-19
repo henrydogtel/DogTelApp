@@ -2,20 +2,71 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: String!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String!
+  credentialId: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Sitter {
+  id: String!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String!
+  credentialId: String!
+  sitterId: String!
+  area: String!
+  rate: Int!
+  fee: Int!
+}
+
 type ServicesSitter {
   id: String!
   name: String!
   description: String!
 }
 
+type Credentials {
+  credentialId: String!
+  username: String!
+  password: String!
+  passport: String!
+  email: String!
+  verified: Boolean!
+}
+
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
+  user(id: Int!): User!
+  credentials: [Credentials!]!
+  credential(id: String!): Credentials!
+  sitter(id: String!): Sitter!
 }
 
 type Mutation {
   createServicesSitter(createServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
   updateServicesSitter(updateServicesSitterInput: UpdateServicesSitterInput!): ServicesSitter!
   removeServicesSitter(id: Int!): ServicesSitter!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
+  updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
+  removeCredential(id: String!): Credentials!
+  createSitter(createSitterInput: CreateSitterInput!): Sitter!
+  updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
+  removeSitter(id: String!): Sitter!
 }
 
 input CreateServicesSitterInput {
@@ -27,4 +78,62 @@ input UpdateServicesSitterInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input CreateUserInput {
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String!
+  credentialsId: String!
+  paymentDataIds: [String!]
+}
+
+input UpdateUserInput {
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  address: String
+  role: String
+  credentialsId: String
+  paymentDataIds: [String!]
+  id: Float!
+}
+
+input CreateCredentialInput {
+  username: String!
+  password: String!
+  passport: String!
+  email: String!
+  verified: Boolean!
+}
+
+input UpdateCredentialInput {
+  username: String
+  password: String
+  passport: String
+  email: String
+  verified: Boolean
+  credentialId: String!
+}
+
+input CreateSitterInput {
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String!
+  credentialsId: String!
+  paymentDataIds: [String!]
+  area: String!
+  rate: Float!
+  fee: Float!
+}
+
+input UpdateSitterInput {
+  id: ID!
+  area: String!
+  rate: Float!
+  fee: Float!
 }
