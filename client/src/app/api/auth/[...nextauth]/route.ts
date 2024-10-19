@@ -10,5 +10,5 @@ const handler = NextAuth({
   ],
 });
 
-console.log(process.env);
+
 export { handler as GET, handler as POST };

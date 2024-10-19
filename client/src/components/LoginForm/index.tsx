@@ -131,9 +131,8 @@ function SignInForm() {
       </div>
       <div className="flex flex-col items-center mt-6">
         <h1 className="text-xl font-semibold text-gray-700">
-          Not have an account?
+          You don't have an account?
           <Link
-
             href="/registerAs"
             className="text-[#FA7070] hover:text-[#B94F4F] ml-2 transition-colors duration-300"
           >
