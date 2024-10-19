@@ -58,6 +58,33 @@ const NavbarComponent = () => {
                   Sign Up
                 </Link>
               </li>
+              <li className="">
+                <Link
+                  href="/dashboardAdmin"
+                  className="block p-2 px-3 text-black bg-white rounded-2xl"
+                  aria-current="page"
+                >
+                  AdminDash
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="/dashboardOwner"
+                  className="block p-2 px-3 text-black bg-white rounded-2xl"
+                  aria-current="page"
+                >
+                  OwnerDash
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="/dashboardSitter"
+                  className="block p-2 px-3 text-black bg-white rounded-2xl"
+                  aria-current="page"
+                >
+                  SitterDash
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
