@@ -3,8 +3,9 @@
 # ------------------------------------------------------
 
 type ServicesSitter {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: String!
+  name: String!
+  description: String!
 }
 
 type Query {
