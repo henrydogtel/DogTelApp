@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Credentials {
+  credentialId: String!
+  username: String!
+  password: String!
+  passport: String!
+  email: String!
+  verified: Boolean!
+  user: User!
+}
+
 type User {
   id: String!
   firstname: String!
@@ -9,7 +19,8 @@ type User {
   birthdate: DateTime!
   address: String!
   role: String!
-  credentialId: String!
+  userImg: String!
+  credentials: Credentials!
 }
 
 """
@@ -24,26 +35,19 @@ type Sitter {
   birthdate: DateTime!
   address: String!
   role: String!
-  credentialId: String!
-  sitterId: String!
+  userImg: String!
+  credentials: Credentials!
   area: String!
   rate: Int!
   fee: Int!
+  services: [ServicesSitter!]!
 }
 
 type ServicesSitter {
   id: String!
   name: String!
   description: String!
-}
-
-type Credentials {
-  credentialId: String!
-  username: String!
-  password: String!
-  passport: String!
-  email: String!
-  verified: Boolean!
+  sitter: Sitter!
 }
 
 type Query {
@@ -61,6 +65,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  uploadImage(userId: String!, file: String!): String!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
   removeCredential(id: String!): Credentials!

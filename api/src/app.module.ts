@@ -6,14 +6,12 @@ import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServicesSitterModule } from './modules/services-sitter/services-sitter.module';
-// <<<<<<< UsersModule
-// import typeorm from 'config/typeorm';
-// import { CredentialsModule } from './modules/credentials/credentials.module';
-// import { SitterModule } from './modules/sitter/sitter.module';
-// import { UserService } from './modules/user/user.service';
-// =======
-// import typeorm from 'src/config/typeorm';
-// >>>>>>> dev-backend
+import { CredentialsModule } from './modules/credentials/credentials.module';
+import { SitterModule } from './modules/sitter/sitter.module';
+import { UserService } from './modules/user/user.service';
+import typeorm from './config/typeorm';
+import { User } from './modules/user/entities/user.entity';
+
 
 @Module({
   imports: [
@@ -28,8 +26,8 @@ import { ServicesSitterModule } from './modules/services-sitter/services-sitter.
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-
     }),
+    TypeOrmModule.forFeature([User]),
     ServicesSitterModule,
     UserModule,
     CredentialsModule,
