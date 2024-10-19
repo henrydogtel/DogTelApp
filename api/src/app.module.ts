@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { UserModule } from './modules/user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
@@ -7,6 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServicesSitterModule } from './modules/services-sitter/services-sitter.module';
 import typeorm from 'src/config/typeorm';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
+
+
+// import typeorm from 'config/typeorm';
+import { CredentialsModule } from './modules/credentials/credentials.module';
+import { SitterModule } from './modules/sitter/sitter.module';
+import { UserService } from './modules/user/user.service';
+// import typeorm from 'src/config/typeorm';
 
 
 @Module({
@@ -25,8 +33,13 @@ import { AppointmentsModule } from './modules/appointments/appointments.module';
 
     }),
     ServicesSitterModule,AppointmentsModule,
+    ServicesSitterModule,
+    UserModule,
+    CredentialsModule,
+    SitterModule,
 
   ],
+  providers: [UserService]
 
 })
 export class AppModule { }
