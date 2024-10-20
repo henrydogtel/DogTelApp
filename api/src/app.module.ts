@@ -5,24 +5,15 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ServicesSitterModule } from './modules/services-sitter/services-sitter.module';
-import typeorm from 'src/config/typeorm';
-import { AppointmentsModule } from './modules/appointments/appointments.module';
-
-
-// import typeorm from 'config/typeorm';
-import { CredentialsModule } from './modules/credentials/credentials.module';
-import { SitterModule } from './modules/sitter/sitter.module';
-import { UserService } from './modules/user/user.service';
-// import typeorm from 'src/config/typeorm';
-import { CredentialsModule } from './modules/credentials/credentials.module';
-import { SitterModule } from './modules/sitter/sitter.module';
-import { UserService } from './modules/user/user.service';
 import typeorm from './config/typeorm';
+import { ServicesSitterModule } from './modules/services-sitter/services-sitter.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
+import { CredentialsModule } from './modules/credentials/credentials.module';
+import { SitterModule } from './modules/sitter/sitter.module';
+import { UserService } from './modules/user/user.service';
 import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { DogsModule } from './modules/dogs/dogs.module';
-
 
 @Module({
   imports: [
@@ -38,17 +29,15 @@ import { DogsModule } from './modules/dogs/dogs.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
-    ServicesSitterModule,AppointmentsModule,
-    TypeOrmModule.forFeature([User]),
     ServicesSitterModule,
+    AppointmentsModule,
+    TypeOrmModule.forFeature([User]),
     UserModule,
     CredentialsModule,
     SitterModule,
     AuthModule,
-    DogsModule
+    DogsModule,
   ],
-  providers: [UserService]
-
+  providers: [UserService],
 })
-export class AppModule { }
-
+export class AppModule {}
