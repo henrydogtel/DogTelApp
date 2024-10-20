@@ -46,4 +46,6 @@ export class User {
   @JoinColumn({ name: 'credentials_id' })
   credentials: Credentials;
 
+
+
 }
