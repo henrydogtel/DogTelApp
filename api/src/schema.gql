@@ -50,13 +50,21 @@ type Appointment {
   time: DateTime
 
   """Estado de la cita"""
-  status: String
+  status: typeStatus
 
   """total de la cita"""
   total: Float
 
   """Nota del cliente sobre la cita"""
   note: String
+}
+
+"""Los estados de la cita soportados."""
+enum typeStatus {
+  PENDING
+  CANCELLED
+  ENDING
+  FINISHED
 }
 
 type Credentials {

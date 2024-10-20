@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, Float, extend,} from '@nestjs/graphql';
+import { ObjectType, Field, Int, Float, extend, registerEnumType,} from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 import {v4 as uuid} from 'uuid'
 
@@ -9,6 +9,10 @@ export enum typeStatus {
   FINISHED = 'finished'
 }
 
+registerEnumType(typeStatus, {
+  name: 'typeStatus',
+  description: 'Los estados de la cita soportados.',
+})
 
 
 @Entity({name:'appointments'})
@@ -31,7 +35,7 @@ export class Appointment {
   time?:Date
 
 
-  @Field(() => String, {description:'Estado de la cita', nullable:true })
+  @Field(() => typeStatus, {description:'Estado de la cita', nullable:true })
   @Column({default:typeStatus.PENDING,nullable:true})
   status?:typeStatus
   
