@@ -21,6 +21,7 @@ import { UserService } from './modules/user/user.service';
 import typeorm from './config/typeorm';
 import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { DogsModule } from './modules/dogs/dogs.module';
 
 
 @Module({
@@ -44,7 +45,7 @@ import { AuthModule } from './modules/auth/auth.module';
     CredentialsModule,
     SitterModule,
     AuthModule,
-
+    DogsModule
   ],
   providers: [UserService]
 

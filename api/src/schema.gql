@@ -92,6 +92,26 @@ type Credentials {
   sitter: Sitter!
 }
 
+type Dog {
+  """Unique ID for the dog"""
+  id: Int!
+
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
+}
+
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
   appointments: [Appointment!]!
@@ -103,6 +123,8 @@ type Query {
   credentials: [Credentials!]!
   credential(id: String!): Credentials!
   sitter(id: String!): Sitter!
+  dogs: [Dog!]!
+  dog(id: Int!): Dog!
 }
 
 type Mutation {
@@ -123,6 +145,9 @@ type Mutation {
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   removeSitter(id: String!): Sitter!
   login(email: String!, password: String!): String!
+  createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
+  updateDog(updateDogInput: UpdateDogInput!): Dog!
+  removeDog(id: Int!): Dog!
 }
 
 input CreateServicesSitterInput {
@@ -242,4 +267,39 @@ input UpdateSitterInput {
   area: String!
   rate: Float!
   fee: Float!
+}
+
+input CreateDogInput {
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
+}
+
+input UpdateDogInput {
+  """The name of the pet"""
+  name: String
+
+  """The birthdate of the dog"""
+  birthdate: String
+
+  """List of image URLs for the dog"""
+  images: [String!]
+
+  """Race of the dog"""
+  race: String
+
+  """Size of the dog"""
+  size: String
+  id: Int!
 }
