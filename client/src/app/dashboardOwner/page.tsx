@@ -1,9 +1,10 @@
+import OwnerDashboard from '@/components/OwnerDashBoardComponent'
 import React from 'react'
 
 const dashboardOwner = () => {
   return (
     <div>
-      <h1>Dashboard Owner</h1>
+      <OwnerDashboard/>
     </div>
   )
 }

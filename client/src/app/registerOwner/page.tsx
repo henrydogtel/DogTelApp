@@ -1,11 +1,12 @@
 import React from 'react'
+import RegisterOwnerForm from '@/components/RegisterOwnerForm';
 
-const Register = () => {
+const RegisterOwner = () => {
   return (
     <div>
-      <h1>Register Owner</h1>
+     <RegisterOwnerForm/>
     </div>
-  )
+  );
 }
 
-export default Register
+export default RegisterOwner;
