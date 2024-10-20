@@ -14,24 +14,29 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) { }
 
- create(createUserInput: CreateUserInput) {   
-    return 'This action adds a new user';
+  create(createUserInput: CreateUserInput) {
+    return this.userRepository.create(createUserInput);
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns user #${id}`;
+  findOne(id: string) {
+    return this.userRepository.findOne({ where: { id: id } });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates user #${id}`;
+  update(id: string, updateUserInput: UpdateUserInput) {
+    return this.userRepository.update(id, updateUserInput);
   }
 
-  remove(id: number) {
-    return `This action removes user #${id}`;
+  async removeUser(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (user) {
+      await this.userRepository.remove(user);
+    } else {
+      throw new Error('Usuario no encontrado');
+    }
   }
 
 //subida de imagenes

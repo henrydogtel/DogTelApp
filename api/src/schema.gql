@@ -65,7 +65,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
-  uploadImage(userId: String!, file: String!): String!
+  uploadProfilePicture(userId: Int!): User!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
   removeCredential(id: String!): Credentials!
@@ -103,7 +103,7 @@ input UpdateUserInput {
   role: String
   credentialsId: String
   paymentDataIds: [String!]
-  id: Float!
+  id: String!
 }
 
 input CreateCredentialInput {
