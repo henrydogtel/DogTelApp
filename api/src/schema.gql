@@ -52,9 +52,8 @@ type ServicesSitter {
 
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
-  user(id: Int!): User!
-  credentials: [Credentials!]!
-  credential(id: String!): Credentials!
+  users: [User!]!
+  user(id: String!): User!
   sitter(id: String!): Sitter!
 }
 
@@ -63,12 +62,9 @@ type Mutation {
   updateServicesSitter(updateServicesSitterInput: UpdateServicesSitterInput!): ServicesSitter!
   removeServicesSitter(id: Int!): ServicesSitter!
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
-  uploadImage(userId: String!, file: String!): String!
-  createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
-  updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
-  removeCredential(id: String!): Credentials!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  uploadProfilePicture(userId: String!): User!
   createSitter(createSitterInput: CreateSitterInput!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   removeSitter(id: String!): Sitter!
@@ -92,6 +88,9 @@ input CreateUserInput {
   address: String!
   role: String!
   credentialsId: String!
+  password: String!
+  passport: String!
+  email: String!
   paymentDataIds: [String!]
 }
 
@@ -102,25 +101,11 @@ input UpdateUserInput {
   address: String
   role: String
   credentialsId: String
-  paymentDataIds: [String!]
-  id: Float!
-}
-
-input CreateCredentialInput {
-  username: String!
-  password: String!
-  passport: String!
-  email: String!
-  verified: Boolean!
-}
-
-input UpdateCredentialInput {
-  username: String
   password: String
   passport: String
   email: String
-  verified: Boolean
-  credentialId: String!
+  paymentDataIds: [String!]
+  id: String!
 }
 
 input CreateSitterInput {
@@ -130,6 +115,9 @@ input CreateSitterInput {
   address: String!
   role: String!
   credentialsId: String!
+  password: String!
+  passport: String!
+  email: String!
   paymentDataIds: [String!]
   area: String!
   rate: Float!

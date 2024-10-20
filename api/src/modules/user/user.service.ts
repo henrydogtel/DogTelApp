@@ -1,49 +1,82 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import { User } from './entities/user.entity';
-import { v2 as cloudinary } from 'cloudinary'; 
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Sitter } from '../sitter/entities/sitter.entity';
+import { User } from './entities/user.entity';
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import { Credentials } from '../credentials/entities/credential.entity';
+import {v2 as cloudinary}from 'cloudinary';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+    @InjectRepository(Credentials)
+    private readonly credentialsRepository: Repository<Credentials>,
+  ) {}
 
- create(createUserInput: CreateUserInput) {   
-    return 'This action adds a new user';
+  async create(createUserInput: CreateUserInput): Promise<User> {
+    // Crear credenciales
+    const credentials = this.credentialsRepository.create({
+      username: createUserInput.credentialsId,
+      password: createUserInput.password, // Maneja la lógica de la contraseña adecuadamente
+      passport: createUserInput.passport,
+      email: createUserInput.email,
+    });
+
+    await this.credentialsRepository.save(credentials);
+
+    // Crear el nuevo usuario
+    const newUser = this.userRepository.create({
+      firstname: createUserInput.firstname,
+      lastname: createUserInput.lastname,
+      birthdate: createUserInput.birthdate,
+      address: createUserInput.address,
+      role: createUserInput.role,
+      credentials, // Referencia a las credenciales creadas
+    });
+
+    return await this.userRepository.save(newUser);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns user #${id}`;
+  async findOne(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return user;
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates user #${id}`;
+  async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
+    const user = await this.userRepository.preload({
+      id,
+      ...updateUserInput,
+    });
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return this.userRepository.save(user);
   }
 
-  remove(id: number) {
-    return `This action removes user #${id}`;
+  async removeUser(id: string): Promise<void> {
+    const user = await this.findOne(id);
+    await this.userRepository.remove(user);
   }
 
-//subida de imagenes
-  async uploadProfilePicture(userId:string, file: Express.Multer.File): Promise<User> {
-  
+  // Subida de imágenes
+  async uploadProfilePicture(userId: string, file: Express.Multer.File): Promise<User> {
     const uploadResult = await cloudinary.uploader.upload(file.path, {
       public_id: file.originalname.split('.')[0],
     });
 
-    const user = await this.userRepository.findOne({ where: { id: String(userId)} });
+    const user = await this.userRepository.findOne({ where: { id: String(userId) } });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     user.userImg = uploadResult.secure_url;
@@ -51,5 +84,4 @@ export class UserService {
 
     return user;
   }
-  
 }
