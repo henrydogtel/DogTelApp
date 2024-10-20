@@ -9,7 +9,7 @@ export const DB_USERNAME = process.env.DB_USERNAME;
 export const DB_PASSWORD = process.env.DB_PASSWORD;
 export const DB_NAME = process.env.DB_NAME;
 export const PORT = process.env.PORT
-
+export const NODE_ENV = process.env.NODE_ENV
 //Cloudinary
 
 export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME

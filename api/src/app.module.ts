@@ -14,6 +14,8 @@ import { UserService } from './modules/user/user.service';
 import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { DogsModule } from './modules/dogs/dogs.module';
+import { ApolloServerPluginLandingPageProductionDefault, ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { NODE_ENV } from './helpers/developmentEnv';
 
 @Module({
   imports: [
@@ -28,6 +30,14 @@ import { DogsModule } from './modules/dogs/dogs.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      playground:false,
+      plugins: [
+        NODE_ENV === 'production'
+          ? ApolloServerPluginLandingPageProductionDefault({
+              footer: false,
+            })
+          : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+      ],
     }),
     ServicesSitterModule,
     AppointmentsModule,
