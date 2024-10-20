@@ -3,9 +3,10 @@ import { SitterService } from './sitter.service';
 import { SitterResolver } from './sitter.resolver';
 import { Sitter } from './entities/sitter.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SitterRepository } from './sitter.repository';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Sitter])],
-  providers: [SitterResolver, SitterService],
+  providers: [SitterResolver, SitterService, SitterRepository],
 })
 export class SitterModule {}

@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Credentials {
+  credentialId: String!
+  username: String!
+  password: String!
+  passport: String!
+  email: String!
+  verified: Boolean!
+  user: User!
+}
+
 type User {
   id: String!
   firstname: String!
@@ -9,7 +19,8 @@ type User {
   birthdate: DateTime!
   address: String!
   role: String!
-  credentialId: String!
+  userImg: String!
+  credentials: Credentials!
 }
 
 """
@@ -24,11 +35,12 @@ type Sitter {
   birthdate: DateTime!
   address: String!
   role: String!
-  credentialId: String!
-  sitterId: String!
+  userImg: String!
+  credentials: Credentials!
   area: String!
   rate: Int!
   fee: Int!
+  services: [ServicesSitter!]!
 }
 
 type ServicesSitter {
@@ -74,6 +86,10 @@ type Credentials {
   passport: String!
   email: String!
   verified: Boolean!
+  id: String!
+  name: String!
+  description: String!
+  sitter: Sitter!
 }
 
 type Query {
@@ -81,6 +97,9 @@ type Query {
   appointments: [Appointment!]!
   appointment(id: Int!): Appointment!
   user(id: Int!): User!
+
+  users: [User!]!
+  user(id: String!): User!
   credentials: [Credentials!]!
   credential(id: String!): Credentials!
   sitter(id: String!): Sitter!
@@ -94,14 +113,16 @@ type Mutation {
   updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
   removeAppointment(id: Int!): Appointment!
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  uploadProfilePicture(userId: String!): User!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
   removeCredential(id: String!): Credentials!
   createSitter(createSitterInput: CreateSitterInput!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   removeSitter(id: String!): Sitter!
+  login(email: String!, password: String!): String!
 }
 
 input CreateServicesSitterInput {
@@ -163,6 +184,9 @@ input CreateUserInput {
   address: String!
   role: String!
   credentialsId: String!
+  password: String!
+  passport: String!
+  email: String!
   paymentDataIds: [String!]
 }
 
@@ -173,24 +197,27 @@ input UpdateUserInput {
   address: String
   role: String
   credentialsId: String
+  password: String
+  passport: String
+  email: String
   paymentDataIds: [String!]
-  id: Float!
+  id: String!
 }
 
 input CreateCredentialInput {
   username: String!
   password: String!
-  passport: String!
   email: String!
-  verified: Boolean!
+  passport: String
+  verified: Boolean! = false
 }
 
 input UpdateCredentialInput {
   username: String
   password: String
-  passport: String
   email: String
-  verified: Boolean
+  passport: String
+  verified: Boolean = false
   credentialId: String!
 }
 
@@ -201,6 +228,9 @@ input CreateSitterInput {
   address: String!
   role: String!
   credentialsId: String!
+  password: String!
+  passport: String!
+  email: String!
   paymentDataIds: [String!]
   area: String!
   rate: Float!

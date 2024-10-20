@@ -7,5 +7,5 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field()
   @IsUUID()
   @IsOptional()
-  id?: number;  
+  id?: string;  
 }

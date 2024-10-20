@@ -15,6 +15,12 @@ import { CredentialsModule } from './modules/credentials/credentials.module';
 import { SitterModule } from './modules/sitter/sitter.module';
 import { UserService } from './modules/user/user.service';
 // import typeorm from 'src/config/typeorm';
+import { CredentialsModule } from './modules/credentials/credentials.module';
+import { SitterModule } from './modules/sitter/sitter.module';
+import { UserService } from './modules/user/user.service';
+import typeorm from './config/typeorm';
+import { User } from './modules/user/entities/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 
 @Module({
@@ -30,13 +36,14 @@ import { UserService } from './modules/user/user.service';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-
     }),
     ServicesSitterModule,AppointmentsModule,
+    TypeOrmModule.forFeature([User]),
     ServicesSitterModule,
     UserModule,
     CredentialsModule,
     SitterModule,
+    AuthModule,
 
   ],
   providers: [UserService]

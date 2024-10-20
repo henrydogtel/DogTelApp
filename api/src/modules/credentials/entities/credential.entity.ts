@@ -30,7 +30,7 @@ export class Credentials {
   @Column({ default: false })
   verified: boolean;
 
-  // @Field(() => User) 
-  // @OneToOne(() => User, (user) => user.credentials)
-  // user: User;
+  @Field(() => User) 
+  @OneToOne(() => User, (user) => user.credentials)
+  user: User;
 }

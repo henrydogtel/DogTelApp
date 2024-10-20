@@ -1,14 +1,12 @@
 import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { ServicesSitter } from 'src/modules/services-sitter/entities/services-sitter.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 
 @Entity()
-@ObjectType()  // Para GraphQL 
+@ObjectType()
 export class Sitter extends User {
-  @Field(() => String)
-  @PrimaryGeneratedColumn('uuid')
-  sitterId: string;
 
   @Field(() => String)
   @Column({ type: 'varchar', length: 255 })
@@ -20,9 +18,9 @@ export class Sitter extends User {
 
   @Field(() => Int)
   @Column({ type: 'int' })
-  fee: number;  // Cuota
+  fee: number;
 
-  
-  //@ManyToOne(() => User, (user) => user.sitters)
-  //user: User;
+  @OneToMany(() => ServicesSitter, (services) => services.sitter)
+  @Field(() => [ServicesSitter])
+  services: ServicesSitter[];
 }
