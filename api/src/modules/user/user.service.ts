@@ -5,7 +5,7 @@ import { User } from './entities/user.entity';
 import { v2 as cloudinary } from 'cloudinary'; 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Sitter } from '../sitter/entities/sitter.entity';
+
 
 @Injectable()
 export class UserService {
@@ -41,7 +41,7 @@ export class UserService {
       public_id: file.originalname.split('.')[0],
     });
 
-    const user = await this.userRepository.findOne({ where: { id: String(userId)} });
+    const user = await this.userRepository.findOne({ where: { id: (userId)} });
     if (!user) {
       throw new Error('User not found');
     }

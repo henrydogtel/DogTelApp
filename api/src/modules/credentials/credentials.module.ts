@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { CredentialsService } from './credentials.service';
-import { CredentialsResolver } from './credentials.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CredentialsService } from './credentials.service';
+import { CredentialsRepository } from './credentials.repository';
+import { CredentialsResolver } from './credentials.resolver';
 import { Credentials } from './entities/credential.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Credentials])],
-  providers: [CredentialsResolver, CredentialsService],
+  imports: [TypeOrmModule.forFeature([Credentials])],
+  providers: [CredentialsService, CredentialsRepository, CredentialsResolver],
+  exports: [CredentialsService],
 })
-export class CredentialsModule {}
+export class CredentialsModule { }
