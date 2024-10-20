@@ -44,6 +44,48 @@ type Sitter {
 }
 
 type ServicesSitter {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Appointment {
+  """id unico para cada cita"""
+  id: String!
+
+  """Fecha de incio de la cita"""
+  entryDate: DateTime
+
+  """Fecha del final de la cita"""
+  departureDate: DateTime
+
+  """Hora de la cita"""
+  time: DateTime
+
+  """Estado de la cita"""
+  status: typeStatus
+
+  """total de la cita"""
+  total: Float
+
+  """Nota del cliente sobre la cita"""
+  note: String
+}
+
+"""Los estados de la cita soportados."""
+enum typeStatus {
+  PENDING
+  CANCELLED
+  ENDING
+  FINISHED
+}
+
+type Credentials {
+  credentialId: String!
+  username: String!
+  password: String!
+  passport: String!
+  email: String!
+  verified: Boolean!
   id: String!
   name: String!
   description: String!
@@ -52,6 +94,10 @@ type ServicesSitter {
 
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
+  appointments: [Appointment!]!
+  appointment(id: Int!): Appointment!
+  user(id: Int!): User!
+
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
@@ -63,6 +109,9 @@ type Mutation {
   createServicesSitter(createServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
   updateServicesSitter(updateServicesSitterInput: UpdateServicesSitterInput!): ServicesSitter!
   removeServicesSitter(id: Int!): ServicesSitter!
+  createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
+  updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
+  removeAppointment(id: Int!): Appointment!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
@@ -84,6 +133,47 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   """Example field (placeholder)"""
   exampleField: Int
+  id: Int!
+}
+
+input CreateAppointmentInput {
+  """Estado de la cita"""
+  status: String
+
+  """Fecha de inicio de la cita"""
+  entryDate: DateTime
+
+  """Fecha de finalización de la cita"""
+  departureDate: DateTime
+
+  """Hora de la cita"""
+  time: DateTime
+
+  """Total de la cita"""
+  total: Float
+
+  """Nota del cliente sobre la cita"""
+  note: String
+}
+
+input UpdateAppointmentInput {
+  """Estado de la cita"""
+  status: String
+
+  """Fecha de inicio de la cita"""
+  entryDate: DateTime
+
+  """Fecha de finalización de la cita"""
+  departureDate: DateTime
+
+  """Hora de la cita"""
+  time: DateTime
+
+  """Total de la cita"""
+  total: Float
+
+  """Nota del cliente sobre la cita"""
+  note: String
   id: Int!
 }
 
