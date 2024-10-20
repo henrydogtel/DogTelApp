@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { ParseUUIDPipe, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Resolver(() => User)
