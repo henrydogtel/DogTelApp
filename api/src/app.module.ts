@@ -11,6 +11,7 @@ import { SitterModule } from './modules/sitter/sitter.module';
 import { UserService } from './modules/user/user.service';
 import typeorm from './config/typeorm';
 import { User } from './modules/user/entities/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 
 @Module({
@@ -32,6 +33,7 @@ import { User } from './modules/user/entities/user.entity';
     UserModule,
     CredentialsModule,
     SitterModule,
+    AuthModule,
 
   ],
   providers: [UserService]

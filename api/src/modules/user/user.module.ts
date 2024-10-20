@@ -7,10 +7,11 @@ import { MulterModule } from '@nestjs/platform-express';
 import { HttpModule } from '@nestjs/axios';
 import { Credentials } from '../credentials/entities/credential.entity';
 import { CredentialsService } from '../credentials/credentials.service';
+import { CredentialsModule } from '../credentials/credentials.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Credentials]),HttpModule ,
-  MulterModule.register()],
+  MulterModule.register(),CredentialsModule],
   providers: [UserResolver, UserService, CredentialsService],
 })
 export class UserModule { }

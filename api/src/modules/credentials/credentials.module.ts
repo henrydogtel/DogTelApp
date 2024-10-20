@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CredentialsService } from './credentials.service';
+import { CredentialsRepository } from './credentials.repository';
+import { CredentialsResolver } from './credentials.resolver';
 import { Credentials } from './entities/credential.entity';
-import { CredentialsService } from './credentials.service'; // Asegúrate de que este archivo exista
-
 
 @Module({
   imports: [TypeOrmModule.forFeature([Credentials])],
-  providers: [CredentialsService], // Asegúrate de que este servicio exista
-  exports: [TypeOrmModule], // Exporta el TypeOrmModule para que otros módulos puedan usar el repositorio
+  providers: [CredentialsService, CredentialsRepository, CredentialsResolver],
+  exports: [CredentialsService, CredentialsRepository, TypeOrmModule],
 })
-export class CredentialsModule {}
+export class CredentialsModule { }
+

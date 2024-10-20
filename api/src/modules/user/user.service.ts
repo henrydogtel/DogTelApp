@@ -17,24 +17,23 @@ export class UserService {
   ) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-    // Crear credenciales
     const credentials = this.credentialsRepository.create({
       username: createUserInput.credentialsId,
-      password: createUserInput.password, // Maneja la lógica de la contraseña adecuadamente
+      password: createUserInput.password, 
       passport: createUserInput.passport,
       email: createUserInput.email,
     });
 
     await this.credentialsRepository.save(credentials);
 
-    // Crear el nuevo usuario
+    
     const newUser = this.userRepository.create({
       firstname: createUserInput.firstname,
       lastname: createUserInput.lastname,
       birthdate: createUserInput.birthdate,
       address: createUserInput.address,
       role: createUserInput.role,
-      credentials, // Referencia a las credenciales creadas
+      credentials, 
     });
 
     return await this.userRepository.save(newUser);

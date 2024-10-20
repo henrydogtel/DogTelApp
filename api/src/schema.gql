@@ -54,6 +54,8 @@ type Query {
   servicesSitter(id: Int!): ServicesSitter!
   users: [User!]!
   user(id: String!): User!
+  credentials: [Credentials!]!
+  credential(id: String!): Credentials!
   sitter(id: String!): Sitter!
 }
 
@@ -65,9 +67,13 @@ type Mutation {
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
   uploadProfilePicture(userId: String!): User!
+  createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
+  updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
+  removeCredential(id: String!): Credentials!
   createSitter(createSitterInput: CreateSitterInput!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   removeSitter(id: String!): Sitter!
+  login(email: String!, password: String!): String!
 }
 
 input CreateServicesSitterInput {
@@ -106,6 +112,23 @@ input UpdateUserInput {
   email: String
   paymentDataIds: [String!]
   id: String!
+}
+
+input CreateCredentialInput {
+  username: String!
+  password: String!
+  email: String!
+  passport: String
+  verified: Boolean! = false
+}
+
+input UpdateCredentialInput {
+  username: String
+  password: String
+  email: String
+  passport: String
+  verified: Boolean = false
+  credentialId: String!
 }
 
 input CreateSitterInput {
