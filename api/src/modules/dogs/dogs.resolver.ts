@@ -3,15 +3,19 @@ import { DogsService } from './dogs.service';
 import { Dog } from './entities/dog.entity';
 import { CreateDogInput } from './dto/create-dog.input';
 import { UpdateDogInput } from './dto/update-dog.input';
+import { ParseUUIDPipe } from '@nestjs/common';
 
 @Resolver(() => Dog)
 export class DogsResolver {
   constructor(private readonly dogsService: DogsService) {}
 
   @Mutation(() => Dog)
-  createDog(@Args('createDogInput') createDogInput: CreateDogInput) {
-    return this.dogsService.create(createDogInput);
+  createDog(@Args('idUser', ParseUUIDPipe) isUser: String,@Args('createDogInput') createDogInput: CreateDogInput) {
+    const {name,birthdate,race,size,images} = createDogInput    
   }
+
+
+
 
   @Query(() => [Dog], { name: 'dogs' })
   findAll() {

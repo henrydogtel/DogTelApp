@@ -1,11 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDogInput } from './dto/create-dog.input';
 import { UpdateDogInput } from './dto/update-dog.input';
+import { DogsRepository } from './dogs.repository';
+import { Dog } from './entities/dog.entity';
 
 @Injectable()
 export class DogsService {
-  create(createDogInput: CreateDogInput) {
-    return 'This action adds a new dog';
+
+  constructor(private readonly dogRepository:DogsRepository){}
+
+
+  async createDog(idUser:String, createDogInput: CreateDogInput):Promise<Dog> {
+   
+    try {
+      return await this.dogRepository.createDog(idUser,createDogInput)
+    } catch (error) {
+      throw error
+    }
+
+
   }
 
   findAll() {

@@ -96,7 +96,7 @@ type Mutation {
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   removeSitter(id: String!): Sitter!
   login(email: String!, password: String!): String!
-  createDog(createDogInput: CreateDogInput!): Dog!
+  createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: Int!): Dog!
 }
@@ -180,12 +180,36 @@ input UpdateSitterInput {
 }
 
 input CreateDogInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
 }
 
 input UpdateDogInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """The name of the pet"""
+  name: String
+
+  """The birthdate of the dog"""
+  birthdate: String
+
+  """List of image URLs for the dog"""
+  images: [String!]
+
+  """Race of the dog"""
+  race: String
+
+  """Size of the dog"""
+  size: String
   id: Int!
 }
