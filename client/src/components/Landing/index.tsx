@@ -6,9 +6,9 @@ import Image from "next/image";
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="w-full mt-4">
+      <div className="w-full mt-11">
         <Image
-          src="/dogtel.jpg"
+          src="/marron.png"
           alt="Full Width Image"
           width={1200} 
           height={600} 
