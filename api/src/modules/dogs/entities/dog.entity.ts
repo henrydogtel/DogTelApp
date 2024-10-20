@@ -7,8 +7,8 @@ export enum typeRace {
   LARGE = 'large'
 }
 
-@ObjectType()
 @Entity({ name: 'dogs' })
+@ObjectType()
 export class Dog {
   
   @Field(() => Int, { description: 'Unique ID for the dog' })
@@ -32,6 +32,6 @@ export class Dog {
   race: string; // Change to string
 
   @Column({ type: 'enum', enum: typeRace }) // Use enum for size
-  @Field(() => typeRace, { description: 'Size of the dog' })
+  @Field(() => String, { description: 'Size of the dog' })
   size: typeRace;
 }
