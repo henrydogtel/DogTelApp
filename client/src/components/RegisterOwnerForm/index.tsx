@@ -7,6 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import SignUpWithGoogle from "../SignUpGoogle";
 import Link from "next/link";
+import { postSignUpOwner } from "@/app/lib/server/fetchUsers";
 
 const RegisterOwnerForm = () => {
   const router = useRouter();
@@ -39,8 +40,9 @@ const RegisterOwnerForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+      console.log(signupValues);
 
-    const success = await (signupValues);
+    const success = await postSignUpOwner(signupValues);
     if (success) {
       const Toast = Swal.mixin({
         toast: true,

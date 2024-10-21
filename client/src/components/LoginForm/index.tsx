@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import SignUpWithGoogle from "../SignUpGoogle";
 import Link from "next/link";
+import { postSignIn } from "@/app/lib/server/fetchUsers";
 
 function SignInForm() {
   const router = useRouter();
@@ -43,8 +44,9 @@ function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(signinValues)
 
-    const success = await signIn(signinValues);
+    const success = await postSignIn(signinValues);
 
     if (success) {
       Swal.fire({
