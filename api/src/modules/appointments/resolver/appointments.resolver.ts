@@ -3,7 +3,6 @@ import { AppointmentsService } from '../service/appointments.service';
 import { Appointment } from '../entities/appointment.entity';
 import { CreateAppointmentInput } from '../dto/create-appointment.input';
 import { UpdateAppointmentInput } from '../dto/update-appointment.input';
-import { Body } from '@nestjs/common';
 
 @Resolver(() => Appointment)
 export class AppointmentsResolver {
@@ -11,10 +10,6 @@ export class AppointmentsResolver {
 
   @Mutation(() => Appointment)
   createAppointment(@Args('createAppointment') createAppointment: CreateAppointmentInput) {
-    console.log(createAppointment);
-
-    
-    
     return this.appointmentsService.create(createAppointment);
   }
 
