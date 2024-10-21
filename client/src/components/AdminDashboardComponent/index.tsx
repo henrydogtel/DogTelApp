@@ -111,7 +111,7 @@ const AdminDashboard = () => {
     <div className="p-8 bg-[#FAF7F0] min-h-screen">
       {/* Información del administrador */}
       <section className="mb-12 text-center">
-        <h1 className="text-3xl font-bold text-[#B17457] mb-4">
+        <h1 className="text-4xl font-extrabold text-[#B17457] mb-4">
           Admin Dashboard
         </h1>
         <div className="inline-block bg-white p-6 shadow-lg rounded-lg">
