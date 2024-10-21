@@ -16,6 +16,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { DogsModule } from './modules/dogs/dogs.module';
 import { ApolloServerPluginLandingPageProductionDefault, ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { NODE_ENV } from './helpers/developmentEnv';
+import { AppointmentDetailsModule } from './modules/appointment_details/appointment_details.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { NODE_ENV } from './helpers/developmentEnv';
     SitterModule,
     AuthModule,
     DogsModule,
+    AppointmentDetailsModule
   ],
   providers: [UserService],
 })
