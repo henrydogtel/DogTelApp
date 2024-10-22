@@ -1,9 +1,9 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { ParseUUIDPipe, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, ParseUUIDPipe, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuardJwt } from '../auth/auth.guard';
 
@@ -11,10 +11,29 @@ import { AuthGuardJwt } from '../auth/auth.guard';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+
+
   @Mutation(() => User)
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput): Promise<User> {
-    return this.userService.create(createUserInput);
+  async createUser(
+    @Args('firstname') firstname: string,
+    @Args('lastname') lastname: string,
+    @Args('birthdate') birthdate: Date,
+    @Args('address') address: string,
+    @Args('role') role: UserRole | null,
+    @Args('password') password: string,
+    @Args('email') email: string,
+  ): Promise<User> {
+    try {
+      const userSaved:User = await this.userService.create({firstname,lastname,birthdate,address,role,password,email})
+      if(!userSaved) throw new BadRequestException('Hubo un error al crear el usuario')
+      return userSaved
+    } catch (error) {
+      return error
+    }
+
+    
   }
+  
 
   @Query(() => [User], { name: 'users' })
   findAll() {

@@ -3,8 +3,7 @@
 # ------------------------------------------------------
 
 type Credentials {
-  credentialId: String!
-  username: String!
+  id: String!
   password: String!
   passport: String!
   email: String!
@@ -18,7 +17,7 @@ type User {
   lastname: String!
   birthdate: DateTime!
   address: String!
-  role: String!
+  role: String
   userImg: String!
   credentials: Credentials!
 }
@@ -34,7 +33,7 @@ type Sitter {
   lastname: String!
   birthdate: DateTime!
   address: String!
-  role: String!
+  role: String
   userImg: String!
   credentials: Credentials!
   area: String!
@@ -44,8 +43,10 @@ type Sitter {
 }
 
 type ServicesSitter {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: String!
+  name: String!
+  description: String!
+  sitter: Sitter!
 }
 
 type Appointment {
@@ -79,19 +80,6 @@ enum typeStatus {
   FINISHED
 }
 
-type Credentials {
-  credentialId: String!
-  username: String!
-  password: String!
-  passport: String!
-  email: String!
-  verified: Boolean!
-  id: String!
-  name: String!
-  description: String!
-  sitter: Sitter!
-}
-
 type Dog {
   """Unique ID for the dog"""
   id: Int!
@@ -116,8 +104,6 @@ type Query {
   servicesSitter(id: Int!): ServicesSitter!
   appointments: [Appointment!]!
   appointment(id: Int!): Appointment!
-  user(id: Int!): User!
-
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
@@ -134,7 +120,7 @@ type Mutation {
   createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
   updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
   removeAppointment(id: Int!): Appointment!
-  createUser(createUserInput: CreateUserInput!): User!
+  createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
   uploadProfilePicture(userId: String!): User!
@@ -202,47 +188,31 @@ input UpdateAppointmentInput {
   id: Int!
 }
 
-input CreateUserInput {
-  firstname: String!
-  lastname: String!
-  birthdate: DateTime!
-  address: String!
-  role: String!
-  credentialsId: String!
-  password: String!
-  passport: String!
-  email: String!
-  paymentDataIds: [String!]
-}
-
 input UpdateUserInput {
   firstname: String
   lastname: String
   birthdate: DateTime
   address: String
   role: String
-  credentialsId: String
   password: String
-  passport: String
   email: String
-  paymentDataIds: [String!]
   id: String!
 }
 
 input CreateCredentialInput {
-  username: String!
+  """Esta es la contrasena del usuario"""
   password: String!
+
+  """Email del usuario"""
   email: String!
-  passport: String
-  verified: Boolean! = false
 }
 
 input UpdateCredentialInput {
-  username: String
+  """Esta es la contrasena del usuario"""
   password: String
+
+  """Email del usuario"""
   email: String
-  passport: String
-  verified: Boolean = false
   credentialId: String!
 }
 
@@ -251,12 +221,9 @@ input CreateSitterInput {
   lastname: String!
   birthdate: DateTime!
   address: String!
-  role: String!
-  credentialsId: String!
+  role: String
   password: String!
-  passport: String!
   email: String!
-  paymentDataIds: [String!]
   area: String!
   rate: Float!
   fee: Float!

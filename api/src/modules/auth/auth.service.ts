@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   async login(user: Partial<Credentials>) {
-    const payload = { username: user.username, sub: user.credentialId };
+    const payload = { email: user.email, sub: user.id };
     return {
       access_token: await this.authRepository.generateToken(payload),
     };
