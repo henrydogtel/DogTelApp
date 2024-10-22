@@ -1,35 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CredentialsRepository } from './credentials.repository';
 import { CreateCredentialInput } from './dto/create-credential.input';
-import { UpdateCredentialInput } from './dto/update-credential.input';
 import { Credentials } from './entities/credential.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CredentialsService {
-  constructor(private readonly credentialsRepository: CredentialsRepository) { }
+  constructor(
+    @InjectRepository(Credentials)
+    private readonly credentialsRepository: Repository<Credentials>,
+    private readonly credentialsRepositor: CredentialsRepository) { }
 
   async create(createCredentialInput: CreateCredentialInput): Promise<Credentials> {
     return this.credentialsRepository.create(createCredentialInput);
   }
 
   async findAll(): Promise<Credentials[]> {
-    return this.credentialsRepository.findAll();
+    return this.credentialsRepositor.findAll();
   }
 
-  async findOne(id: string): Promise<Credentials> {
-    return this.credentialsRepository.findOne(id);
-  }
-
-  async update(id: string, updateCredentialInput: UpdateCredentialInput): Promise<Credentials> {
-    return this.credentialsRepository.update(id, updateCredentialInput);
-  }
-
-  async remove(id: string): Promise<Credentials> {
-    return this.credentialsRepository.remove(id);
-  }
-  async findOneByEmail(email: string): Promise<Credentials> {
-    return this.credentialsRepository.findOne(email);
-  }
-
+  async findOneByEmail(email: string): Promise<Credentials | null> {
+    return this.credentialsRepository.findOneBy({ email }); 
+}
 
 }

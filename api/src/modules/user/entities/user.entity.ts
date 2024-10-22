@@ -33,9 +33,12 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   address: string;
 
-  @Field(() => String)
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
-  role: UserRole;
+  @Field(() => String,{nullable:true
+  })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER, nullable:true })
+  role?: UserRole;
+
+  
 
   @Field(()=> String)
   @Column({ default: 'https://thumbs.dreamstime.com/b/perfil-de-usuario-vectorial-avatar-predeterminado-179376714.jpg' })

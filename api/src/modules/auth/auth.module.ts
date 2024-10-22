@@ -5,7 +5,8 @@ import { AuthResolver } from './auth.resolver';
 import { CredentialsModule } from '../credentials/credentials.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { User } from '../user/entities/user.entity';
+
+
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { User } from '../user/entities/user.entity';
 
   ],
   providers: [AuthService, AuthRepository, AuthResolver],
-  exports: [AuthService],
+  exports: [AuthService, AuthRepository],
 })
-export class AuthModule { }
+export class AuthModule { };

@@ -2,18 +2,11 @@ import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCredentialInput {
-  @Field()
-  username: string;
 
-  @Field()
+  @Field(() => String, {description:'Esta es la contrasena del usuario'})
   password: string;
 
-  @Field()
+  @Field(() => String, {description:'Email del usuario'})
   email: string;
 
-  @Field({ nullable: true })
-  passport?: string;
-
-  @Field({ defaultValue: false }) 
-  verified?: boolean;
 }

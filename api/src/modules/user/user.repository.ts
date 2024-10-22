@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -13,8 +13,13 @@ export class UserRepository {
   ) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-    const newUser = this.userRepository.create(createUserInput);
-    return await this.userRepository.save(newUser);
+    try {
+      const userSaved = await this.userRepository.save(createUserInput);
+      if(!userSaved) throw new BadRequestException('Hubo un error al guardar usuario')
+      return userSaved
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   async findAll(): Promise<User[]> {

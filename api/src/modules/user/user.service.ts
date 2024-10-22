@@ -1,42 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { Credentials } from '../credentials/entities/credential.entity';
-import {v2 as cloudinary}from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
+import { CredentialsRepository } from '../credentials/credentials.repository';
+import { AuthRepository } from '../auth/auth.repository';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Credentials)
-    private readonly credentialsRepository: Repository<Credentials>,
-  ) {}
+    private readonly credentialRepository: CredentialsRepository,
+    private readonly authRepository: AuthRepository
+  ) { }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-    const credentials = this.credentialsRepository.create({
-      username: createUserInput.credentialsId,
-      password: createUserInput.password, 
-      passport: createUserInput.passport,
-      email: createUserInput.email,
-    });
+    const hashedPassword = await this.authRepository.hashPassword(createUserInput.password)
+    const { firstname, lastname, birthdate, role, address, password, email } = createUserInput
 
-    await this.credentialsRepository.save(credentials);
+    try {
+      const credentials: Credentials = await this.credentialRepository.create({ password: hashedPassword, email })
+      if (!credentials) throw new BadRequestException('Hubo un error al crear las credenciales')
+      const newUser = this.userRepository.create({
+        firstname,
+        lastname,
+        birthdate,
+        address,
+        role,
+        credentials
+      });
+      const userSaved = await this.userRepository.save(newUser);
+      if (!userSaved) throw new BadRequestException('Hubo un error al guardar el usuario')
+      return userSaved
+    } catch (error) {
+      throw error
+    }
 
-    
-    const newUser = this.userRepository.create({
-      firstname: createUserInput.firstname,
-      lastname: createUserInput.lastname,
-      birthdate: createUserInput.birthdate,
-      address: createUserInput.address,
-      role: createUserInput.role,
-      credentials, 
-    });
-
-    return await this.userRepository.save(newUser);
   }
 
   async findAll(): Promise<User[]> {

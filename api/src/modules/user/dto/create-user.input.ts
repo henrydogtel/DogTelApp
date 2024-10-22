@@ -20,26 +20,17 @@ export class CreateUserInput {
   @IsString()
   address: string;
 
-  @Field(() => String)
+  @Field(() => String,{nullable:true})
   @IsEnum(UserRole)
-  role: UserRole;
+  role?: UserRole;
 
   @Field(() => String)
-  @IsString() // Se supone que credentialsId es un username, así que lo cambie a String.
-  credentialsId: string;
-
-  @Field(() => String)
-  @IsString() // Cambia esto según tus requerimientos.
+  @IsString() 
   password: string;
 
   @Field(() => String)
-  @IsString() // Cambia esto según tus requerimientos.
-  passport: string;
-
-  @Field(() => String)
-  @IsString() // Cambia esto según tus requerimientos.
+  @IsString() 
   email: string;
 
-  @Field(() => [String], { nullable: true })
-  paymentDataIds?: string[];
+
 }
