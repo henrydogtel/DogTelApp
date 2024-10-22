@@ -1,19 +1,17 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { Credentials } from '../credentials/entities/credential.entity';
-import { User } from '../user/entities/user.entity';
-import { CreateUserInput } from '../user/dto/create-user.input';
-import { UserService } from '../user/user.service';
+import { LoginResponse } from './dto/login-response.dto';
 
 @Resolver(() => Credentials)
 export class AuthResolver {
   constructor(private authService: AuthService) { }
 
-  @Mutation(() => String)
+  @Mutation(() => LoginResponse)
   async login(
     @Args('email') email: string,
     @Args('password') password: string
-  ) {
+  ): Promise<LoginResponse> {
 
     try {
       const user = await this.authService.validateUser(email, password);
@@ -24,16 +22,6 @@ export class AuthResolver {
     } catch (error) {
       throw error
     }
-  
-  }
 
-  // @Mutation(() => Credentials)
-  // async register(
-  //   @Args('email') email: string,
-  //   @Args('username') username: string,
-  //   @Args('password') password: string
-  // ) {
-  //   return this.authService.register(email, username, password);
-  // }
- 
+  }
 }
