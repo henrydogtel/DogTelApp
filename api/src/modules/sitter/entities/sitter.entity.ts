@@ -20,6 +20,10 @@ export class Sitter extends User {
   @Column({ type: 'int' })
   fee: number;
 
+  @Field(() => String)
+  @Column({ type: 'varchar' })
+  descripcion: string
+
   @OneToMany(() => ServicesSitter, (services) => services.sitter)
   @Field(() => [ServicesSitter])
   services: ServicesSitter[];

@@ -30,6 +30,7 @@ scalar DateTime
 type LoginResponse {
   access_token: String!
   email: String!
+  role: String!
 }
 
 type Sitter {
@@ -44,6 +45,7 @@ type Sitter {
   area: String!
   rate: Int!
   fee: Int!
+  descripcion: String!
   services: [ServicesSitter!]!
 }
 
@@ -220,6 +222,7 @@ input CreateSitterInput {
   area: String!
   rate: Float!
   fee: Float!
+  descripcion: String!
 }
 
 input UpdateSitterInput {

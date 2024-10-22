@@ -20,7 +20,7 @@ export class AuthResolver {
       }
       return this.authService.login(user);
     } catch (error) {
-      throw error
+      return error
     }
 
   }

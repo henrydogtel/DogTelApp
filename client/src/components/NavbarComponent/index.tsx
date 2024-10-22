@@ -42,6 +42,15 @@ const NavbarComponent = () => {
               </li>
               <li className="">
                 <Link
+                  href="/sittersPricesDetail"
+                  className="block p-2 px-3 text-black bg-white rounded-2xl"
+                  aria-current="page"
+                >
+                  Sitters
+                </Link>
+              </li>
+              <li className="">
+                <Link
                   href="/login"
                   className="block p-2 px-3 text-black bg-white rounded-2xl"
                   aria-current="page"

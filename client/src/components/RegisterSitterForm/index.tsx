@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, {  } from "react";
 import { validateSignup } from "@/app/utils/validation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { UserContext } from "@/context/user";
+//import { UserContext } from "@/context/user";
 import SignUpWithGoogle from "../SignUpGoogle";
 import Link from "next/link";
+import {  postSignUpSitter } from "@/app/lib/server/fetchUsers";
 
 const RegisterSitterForm = () => {
   const router = useRouter();
-  const { signUpSitter } = useContext(UserContext);
+ // const { signUpSitter } = useContext(UserContext);
   const [signupValues, setSignupValues] = useState({
     email: "",
     password: "",
@@ -41,8 +42,9 @@ const RegisterSitterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+     console.log(signupValues);
 
-    const success = await signUpSitter(signupValues);
+    const success = await postSignUpSitter(signupValues);
     if (success) {
       const Toast = Swal.mixin({
         toast: true,

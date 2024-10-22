@@ -22,7 +22,7 @@ const OwnerDashboard = () => {
     {
       id: 1,
       name: "Fluffy",
-      type: "Cat",
+      type: "Dog",
       image:
         "https://www.shutterstock.com/image-vector/wild-animal-veterinary-clinic-animals-260nw-2471930359.jpg",
     },
@@ -39,7 +39,7 @@ const OwnerDashboard = () => {
     <div className="p-8 bg-[#FAF7F0] min-h-screen">
       {/* Información del usuario */}
       <section className="mb-12 text-center">
-        <h1 className="text-3xl font-bold text-[#B17457] mb-4">
+        <h1 className="text-4xl font-extrabold text-[#B17457] mb-4">
           Owner Dashboard
         </h1>
         <div className="inline-block bg-white p-6 shadow-lg rounded-lg">
