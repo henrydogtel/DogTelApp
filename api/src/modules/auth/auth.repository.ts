@@ -3,9 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { CredentialsService } from '../credentials/credentials.service';
 import { JwtService } from '@nestjs/jwt';
 import { Credentials } from '../credentials/entities/credential.entity';
-import { CreateCredentialInput } from '../credentials/dto/create-credential.input';
-import { CreateUserInput } from '../user/dto/create-user.input';
-import { User } from '../user/entities/user.entity';
+
 
 @Injectable()
 export class AuthRepository {
@@ -14,7 +12,7 @@ export class AuthRepository {
         private readonly jwtService: JwtService,
     ) { }
 
-    async findOneByEmail(email: string): Promise<Credentials> {
+    async findOneByEmail(email: string): Promise<Credentials | null> {
         return this.credentialsService.findOneByEmail(email);
     }
 
@@ -22,16 +20,16 @@ export class AuthRepository {
         return bcrypt.compare(plainPassword, hashedPassword);
     }
 
+
     async hashPassword(password: string): Promise<string> {
         return bcrypt.hash(password, 10);
     }
 
-    async generateToken(payload): Promise<string> {
+    generateToken(payload: { email: string; sub: string }) {
         return this.jwtService.sign(payload);
-    }
+        console.log('Payload:', payload);
+      }
 
-    // async register(credentials: CreateCredentialInput): Promise<Credentials> {
-    //     return this.credentialsService.create(credentials);
-    // }
+    
 
 }

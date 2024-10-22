@@ -27,6 +27,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type LoginResponse {
+  access_token: String!
+  email: String!
+}
+
 type Sitter {
   id: String!
   firstname: String!
@@ -107,7 +112,6 @@ type Query {
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
-  credential(id: String!): Credentials!
   sitter(id: String!): Sitter!
   dogs: [Dog!]!
   dog(id: Int!): Dog!
@@ -124,13 +128,11 @@ type Mutation {
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
   uploadProfilePicture(userId: String!): User!
+  login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
-  updateCredential(updateCredentialInput: UpdateCredentialInput!): Credentials!
-  removeCredential(id: String!): Credentials!
   createSitter(createSitterInput: CreateSitterInput!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   removeSitter(id: String!): Sitter!
-  login(email: String!, password: String!): String!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: Int!): Dog!
@@ -205,15 +207,6 @@ input CreateCredentialInput {
 
   """Email del usuario"""
   email: String!
-}
-
-input UpdateCredentialInput {
-  """Esta es la contrasena del usuario"""
-  password: String
-
-  """Email del usuario"""
-  email: String
-  credentialId: String!
 }
 
 input CreateSitterInput {

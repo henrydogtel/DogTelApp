@@ -5,8 +5,9 @@ import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { Credentials } from '../credentials/entities/credential.entity';
-import {v2 as cloudinary}from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 import { CredentialsRepository } from '../credentials/credentials.repository';
+import { AuthRepository } from '../auth/auth.repository';
 
 @Injectable()
 export class UserService {
@@ -14,15 +15,16 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly credentialRepository: CredentialsRepository,
-  ) {}
+    private readonly authRepository: AuthRepository
+  ) { }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-  
-    const {firstname,lastname,birthdate,role,address,password,email} = createUserInput
+    const hashedPassword = await this.authRepository.hashPassword(createUserInput.password)
+    const { firstname, lastname, birthdate, role, address, password, email } = createUserInput
 
     try {
-      const credentials:Credentials = await this.credentialRepository.create({password,email})
-      if(!credentials) throw new BadRequestException('Hubo un error al crear las credenciales')
+      const credentials: Credentials = await this.credentialRepository.create({ password: hashedPassword, email })
+      if (!credentials) throw new BadRequestException('Hubo un error al crear las credenciales')
       const newUser = this.userRepository.create({
         firstname,
         lastname,
@@ -32,7 +34,7 @@ export class UserService {
         credentials
       });
       const userSaved = await this.userRepository.save(newUser);
-      if(!userSaved) throw new BadRequestException('Hubo un error al guardar el usuario')
+      if (!userSaved) throw new BadRequestException('Hubo un error al guardar el usuario')
       return userSaved
     } catch (error) {
       throw error

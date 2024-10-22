@@ -9,28 +9,29 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<Partial<Credentials>> {
     const credentials = await this.authRepository.findOneByEmail(email);
-    if (credentials && await this.authRepository.validatePassword(password, credentials.password)) {
-      const { password, ...result } = credentials;
-      return result;
+    if (credentials) {
+      console.log('Found credentials:', credentials);
+      const isValidPassword = await this.authRepository.validatePassword(password, credentials.password);
+      console.log('Password valid:', isValidPassword);
+      if (isValidPassword) {
+        const { password, ...result } = credentials;
+        return result;
+      }
     }
     return null;
   }
 
   async login(user: Partial<Credentials>) {
     const payload = { email: user.email, sub: user.id };
-    return {
-      access_token: await this.authRepository.generateToken(payload),
-    };
+    try {
+      const access_token = await this.authRepository.generateToken(payload);
+      return {
+        access_token,
+        email: user.email,
+      };
+    } catch (error) {
+      console.error('Error generating token:', error.message)
+      throw new Error('Error generating token');
+    }
   }
-
-  // async register(email: string, username: string, password: string): Promise<Credentials> {
-  //   const hashedPassword = await this.authRepository.hashPassword(password);
-  //   return this.authRepository.register({
-  //     email,
-  //     username,
-  //     password: hashedPassword,
-  //   });
-  // }
-
- 
 }

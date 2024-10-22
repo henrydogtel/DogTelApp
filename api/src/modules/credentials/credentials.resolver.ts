@@ -18,18 +18,18 @@ export class CredentialsResolver {
     return this.credentialsService.findAll();
   }
 
-  @Query(() => Credentials, { name: 'credential' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.credentialsService.findOne(id);
-  }
+  // @Query(() => Credentials, { name: 'credential' })
+  // findOne(@Args('id', { type: () => String }) id: string) {
+  //   return this.credentialsService.findOne(id);
+  // }
 
-  @Mutation(() => Credentials)
-  updateCredential(@Args('updateCredentialInput') updateCredentialInput: UpdateCredentialInput) {
-    return this.credentialsService.update(updateCredentialInput.credentialId, updateCredentialInput);
-  }
+  // @Mutation(() => Credentials)
+  // updateCredential(@Args('updateCredentialInput') updateCredentialInput: UpdateCredentialInput) {
+  //   return this.credentialsService.update(updateCredentialInput.credentialId, updateCredentialInput);
+  // }
 
-  @Mutation(() => Credentials)
-  removeCredential(@Args('id', { type: () => String }) id: string) {
-    return this.credentialsService.remove(id);
-  }
+  // @Mutation(() => Credentials)
+  // removeCredential(@Args('id', { type: () => String }) id: string) {
+  //   return this.credentialsService.remove(id);
+  // }
 }
