@@ -4,6 +4,7 @@ import { CreateCredentialInput } from './dto/create-credential.input';
 import { Credentials } from './entities/credential.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ApiGatewayTimeoutResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class CredentialsService {
@@ -21,7 +22,14 @@ export class CredentialsService {
   }
 
   async findOneByEmail(email: string): Promise<Credentials | null> {
-    return this.credentialsRepository.findOneBy({ email }); 
+    
+    const credentials = await this.credentialsRepository.findOne({ where: {
+      email,
+    },relations:['user'] }); 
+    console.log("here");
+    console.log(credentials);
+    
+    return credentials
 }
 
 }

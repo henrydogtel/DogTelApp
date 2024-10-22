@@ -15,9 +15,11 @@ import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { DogsModule } from './modules/dogs/dogs.module';
 import { ApolloServerPluginLandingPageProductionDefault, ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { NODE_ENV } from './helpers/developmentEnv';
+import { JWT_SECRET, NODE_ENV } from './helpers/developmentEnv';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
+  
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -47,6 +49,13 @@ import { NODE_ENV } from './helpers/developmentEnv';
     SitterModule,
     AuthModule,
     DogsModule,
+    JwtModule.register({
+      global:true,
+      secret: JWT_SECRET,
+      signOptions:{
+        expiresIn:'1h'
+      }
+    })
   ],
   providers: [UserService],
 })

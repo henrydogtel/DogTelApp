@@ -10,7 +10,7 @@ export enum UserRole {
   SITTER = 'sitter',
 }
 
-@Entity()
+@Entity({name:'user'})
 @ObjectType()
 export class User {
   @Field(() => String)

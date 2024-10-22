@@ -1,29 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
-import { SitterRepository } from './sitter.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Sitter } from './entities/sitter.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SitterService {
-  constructor(private readonly sitterRepository: SitterRepository) {}
+  constructor(@InjectRepository(Sitter) private readonly sitterRepository:Repository<Sitter>) {}
 
   create(createSitterInput: CreateSitterInput) {
-    return this.sitterRepository.create(createSitterInput);
+    return ;
   }
 
   findAll() {
-    return this.sitterRepository.findAll();
+    return ;
   }
 
   findOne(id: string) {
-    return this.sitterRepository.findOne(id);
+    return ;
   }
 
   update(id: string, updateSitterInput: UpdateSitterInput) {
-    return this.sitterRepository.update(id, updateSitterInput);
+    return ;
   }
 
   remove(id: string) {
-    return this.sitterRepository.remove(id);
+    return ;
   }
 }
