@@ -14,11 +14,17 @@ export class AuthResolver {
     @Args('email') email: string,
     @Args('password') password: string
   ) {
-    const user = await this.authService.validateUser(email, password);
-    if (!user) {
-      throw new Error('Invalid credentials');
+
+    try {
+      const user = await this.authService.validateUser(email, password);
+      if (!user) {
+        throw new Error('Invalid credentials');
+      }
+      return this.authService.login(user);
+    } catch (error) {
+      throw error
     }
-    return this.authService.login(user);
+  
   }
 
   // @Mutation(() => Credentials)

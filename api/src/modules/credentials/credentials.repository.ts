@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Credentials } from './entities/credential.entity';
@@ -13,8 +13,19 @@ export class CredentialsRepository {
     ) { }
 
     async create(createCredentialInput: CreateCredentialInput): Promise<Credentials> {
-        const newCredential = this.repository.create(createCredentialInput);
-        return this.repository.save(newCredential);
+
+       const {password,email} = createCredentialInput
+
+        const newCredential = this.repository.create({password,email});
+
+        try {
+           const credentialSaved = await this.repository.save(newCredential);
+           if(!credentialSaved) throw new BadRequestException('Hubo un error al crear la credencial')
+            return credentialSaved
+        } catch (error) {
+            throw new error
+        }
+      
     }
 
     async findAll(): Promise<Credentials[]> {
@@ -22,7 +33,7 @@ export class CredentialsRepository {
     }
 
     async findOne(id: string): Promise<Credentials> {
-        const credential = await this.repository.findOne({ where: { credentialId: id } });
+        const credential = await this.repository.findOne({ where: { id: id } });
         if (!credential) {
             throw new NotFoundException(`Credential with ID "${id}" not found`);
         }

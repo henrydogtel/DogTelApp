@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {v4 as uuid} from "uuid"
 
 
 @Entity()
@@ -8,19 +9,15 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 export class Credentials {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')
-  credentialId: string;
-
-  @Field(()=> String)
-  @Column()
-  username: string;
+  id: string = uuid();
 
   @Field(()=> String)
   @Column()
   password: string;
 
   @Field(()=> String)
-  @Column()
-  passport: string;
+  @Column({nullable:true})
+  passport?: string;
 
   @Field(()=> String)
   @Column()
