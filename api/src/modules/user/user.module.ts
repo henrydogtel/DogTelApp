@@ -9,6 +9,8 @@ import { Credentials } from '../credentials/entities/credential.entity';
 import { CredentialsService } from '../credentials/credentials.service';
 import { CredentialsModule } from '../credentials/credentials.module';
 import { AuthModule } from '../auth/auth.module';
+import { SendMailsService } from '../send-mails/send-mails.service';
+import { SendMailsModule } from '../send-mails/send-mails.module';
 
 @Module({
   imports: [
@@ -17,7 +19,8 @@ import { AuthModule } from '../auth/auth.module';
     HttpModule,
     MulterModule.register(),
     CredentialsModule,
+    SendMailsModule
   ],
-  providers: [UserResolver, UserService, CredentialsService],
+  providers: [UserResolver, UserService, CredentialsService, SendMailsService],
 })
 export class UserModule { }
