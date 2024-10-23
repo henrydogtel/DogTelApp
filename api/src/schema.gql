@@ -1,0 +1,268 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Credentials {
+  id: String!
+  password: String!
+  passport: String!
+  email: String!
+  verified: Boolean!
+  user: User!
+}
+
+type User {
+  id: String!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String
+  userImg: String!
+  credentials: Credentials!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LoginResponse {
+  access_token: String!
+  email: String!
+  role: String!
+}
+
+type Sitter {
+  id: String!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String
+  userImg: String!
+  credentials: Credentials!
+  area: String!
+  rate: Int!
+  fee: Int!
+  descripcion: String!
+  services: [ServicesSitter!]!
+}
+
+type ServicesSitter {
+  id: String!
+  name: String!
+  description: String!
+  sitter: Sitter!
+}
+
+type Appointment {
+  """id unico para cada cita"""
+  id: String!
+
+  """Fecha de incio de la cita"""
+  entryDate: DateTime
+
+  """Fecha del final de la cita"""
+  departureDate: DateTime
+
+  """Hora de la cita"""
+  time: DateTime
+
+  """Estado de la cita"""
+  status: typeStatus
+
+  """total de la cita"""
+  total: Float
+
+  """Nota del cliente sobre la cita"""
+  note: String
+}
+
+"""Los estados de la cita soportados."""
+enum typeStatus {
+  PENDING
+  CANCELLED
+  ENDING
+  FINISHED
+}
+
+type Dog {
+  """Unique ID for the dog"""
+  id: Int!
+
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
+}
+
+type Query {
+  servicesSitter(id: Int!): ServicesSitter!
+  appointments: [Appointment!]!
+  appointment(id: Int!): Appointment!
+  users: [User!]!
+  user(id: String!): User!
+  credentials: [Credentials!]!
+  sitter(id: String!): Sitter!
+  dogs: [Dog!]!
+  dog(id: Int!): Dog!
+}
+
+type Mutation {
+  createServicesSitter(createServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
+  updateServicesSitter(updateServicesSitterInput: UpdateServicesSitterInput!): ServicesSitter!
+  removeServicesSitter(id: Int!): ServicesSitter!
+  createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
+  updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
+  removeAppointment(id: Int!): Appointment!
+  createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  uploadProfilePicture(userId: String!): User!
+  login(email: String!, password: String!): LoginResponse!
+  createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
+  createSitter(createSitterInput: CreateSitterInput!): Sitter!
+  updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
+  removeSitter(id: String!): Sitter!
+  createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
+  updateDog(updateDogInput: UpdateDogInput!): Dog!
+  removeDog(id: Int!): Dog!
+}
+
+input CreateServicesSitterInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateServicesSitterInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateAppointmentInput {
+  """Estado de la cita"""
+  status: String
+
+  """Fecha de inicio de la cita"""
+  entryDate: DateTime
+
+  """Fecha de finalización de la cita"""
+  departureDate: DateTime
+
+  """Hora de la cita"""
+  time: DateTime
+
+  """Total de la cita"""
+  total: Float
+
+  """Nota del cliente sobre la cita"""
+  note: String
+}
+
+input UpdateAppointmentInput {
+  """Estado de la cita"""
+  status: String
+
+  """Fecha de inicio de la cita"""
+  entryDate: DateTime
+
+  """Fecha de finalización de la cita"""
+  departureDate: DateTime
+
+  """Hora de la cita"""
+  time: DateTime
+
+  """Total de la cita"""
+  total: Float
+
+  """Nota del cliente sobre la cita"""
+  note: String
+  id: Int!
+}
+
+input UpdateUserInput {
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  address: String
+  role: String
+  password: String
+  email: String
+  id: String!
+}
+
+input CreateCredentialInput {
+  """Esta es la contrasena del usuario"""
+  password: String!
+
+  """Email del usuario"""
+  email: String!
+}
+
+input CreateSitterInput {
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String
+  password: String!
+  email: String!
+  area: String!
+  rate: Float!
+  fee: Float!
+  descripcion: String!
+}
+
+input UpdateSitterInput {
+  id: ID!
+  area: String!
+  rate: Float!
+  fee: Float!
+}
+
+input CreateDogInput {
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
+}
+
+input UpdateDogInput {
+  """The name of the pet"""
+  name: String
+
+  """The birthdate of the dog"""
+  birthdate: String
+
+  """List of image URLs for the dog"""
+  images: [String!]
+
+  """Race of the dog"""
+  race: String
+
+  """Size of the dog"""
+  size: String
+  id: Int!
+}
