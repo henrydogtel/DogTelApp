@@ -20,13 +20,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd api
-        npm install 
+        npm install --prefix api 
 
     - name: Build the project
       run: |
-        cd ./api  
-        npm run build  
+        npm run build --prefix api  
 
     - name: Deploy to Render
       env:
@@ -34,7 +32,6 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}  
         JWT_SECRET: ${{ secrets.JWT_SECRET }}  
       run: |
-        cd ./api  
         response=$(curl -X POST \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
@@ -43,4 +40,4 @@ jobs:
             "clearCache": true
           }' \
           https://api.render.com/v1/services/dpg-cscfr3d6l47c73e0k7c0-a/deploys)
-        echo "Response: $response"  
+        echo "Response: $response"
