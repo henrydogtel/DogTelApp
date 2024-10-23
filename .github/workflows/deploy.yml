@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm install --prefix api
+        npm install --prefix api --production=false
 
     - name: Build the project
       run: |
@@ -30,7 +30,7 @@ jobs:
       id: deploy_request
       run: |
         echo '{"serviceId": "dpg-cscfr3d6l47c73e0k7c0-a", "clearCache": true}' > deploy_request.json
-        cat deploy_request.json  # Verificar que el JSON esté bien formateado
+        cat deploy_request.json  
 
     - name: Deploy to Render
       env:
