@@ -13,10 +13,6 @@ export class DogsResolver {
   createDog(@Args('idUser', ParseUUIDPipe) isUser: String,@Args('createDogInput') createDogInput: CreateDogInput) {
     const {name,birthdate,race,size,images} = createDogInput    
   }
-
-
-
-
   @Query(() => [Dog], { name: 'dogs' })
   findAll() {
     return this.dogsService.findAll();
