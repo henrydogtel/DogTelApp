@@ -1,0 +1,40 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - dev-backend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 'latest'  
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the project
+      run: npm run build
+
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}  
+      run: |
+        curl -X POST \
+        -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "serviceId": "dpg-csc7sdogph6c73bnnvt0-a",  
+          "clearCache": true
+        }' \
+        https://api.render.com/v1/services/dpg-csc7sdogph6c73bnnvt0-a/deploys
