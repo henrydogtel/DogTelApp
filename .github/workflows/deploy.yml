@@ -22,9 +22,19 @@ jobs:
       run: |
         npm install --prefix api 
 
+    - name: Install Nest CLI
+      run: |
+        npm install -g @nestjs/cli
+
     - name: Build the project
       run: |
         npm run build --prefix api  
+
+    - name: Prepare deploy request
+      id: deploy_request
+      run: |
+        echo '{"serviceId": "dpg-cscfr3d6l47c73e0k7c0-a", "clearCache": true}' > deploy_request.json
+        cat deploy_request.json 
 
     - name: Deploy to Render
       env:
@@ -35,9 +45,6 @@ jobs:
         response=$(curl -X POST \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
-          -d '{
-            "serviceId": "dpg-cscfr3d6l47c73e0k7c0-a",  
-            "clearCache": true
-          }' \
+          -d @deploy_request.json \
           https://api.render.com/v1/services/dpg-cscfr3d6l47c73e0k7c0-a/deploys)
         echo "Response: $response"
