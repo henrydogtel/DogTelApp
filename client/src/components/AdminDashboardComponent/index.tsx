@@ -101,8 +101,8 @@ const AdminDashboard = () => {
     },
   ]);
 
-  const handleDeleteSitter = (id) => {
-    const updatedSitters = sitters.filter((sitter) => sitter.id !== id);
+  const handleDeleteSitter = () => {
+    const updatedSitters = sitters.filter((sitter) => sitter.id !== 1);
     setSitters(updatedSitters);
     // Aquí puedes agregar lógica para eliminar del backend también
   };
@@ -177,7 +177,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
               <button
-                onClick={() => handleDeleteSitter(sitter.id)}
+               
                 className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition-colors"
               >
                 Delete
