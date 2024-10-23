@@ -18,11 +18,13 @@ interface ILoginUser {
 }
 
 interface IRegisterUser {
-  name: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
   email: string;
   password: string;
   address: string;
-  phone: string;
+  role: string;
 }
 
 interface IUserResponse {
