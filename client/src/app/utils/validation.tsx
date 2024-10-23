@@ -1,8 +1,9 @@
 export const validateSignup = (signupValues: {
   email: string;
   password: string;
-  name: string;
-  phone: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
   address: string;
 }) => {
   let errors = {};
@@ -40,25 +41,28 @@ export const validateSignup = (signupValues: {
     }
   }
 
-  // Name validation
-  if (!signupValues.name) {
-    errors = { ...errors, name: "Name is required" };
-  } else if (signupValues.name.length > 20) {
-    errors = { ...errors, name: "Name must be 20 characters or less" };
+  // Firstame validation
+  if (!signupValues.firstname) {
+    errors = { ...errors, firstname: "Name is required" };
+  } else if (signupValues.firstname.length > 20) {
+    errors = { ...errors, firstname: "Name must be 20 characters or less" };
   }
 
-  // Phone validation
-  if (!signupValues.phone) {
-    errors = { ...errors, phone: "Phone is required" };
-  } else if (!/^\d+$/.test(signupValues.phone)) {
-    errors = { ...errors, phone: "Phone number must contain only numbers" };
-  }
 
   // Address validation
   if (!signupValues.address) {
     errors = { ...errors, address: "Address is required" };
   }
 
+  // Birthdate valitadion
+  if (!signupValues.birthdate) {
+    errors = { ...errors, birthdate: "Birthdate is required" };
+  }
+
+  // Lastname validation
+  if (!signupValues.lastname) {
+    errors = { ...errors, lastname: "Lastname is required" };
+  }
   return errors;
 };
 
