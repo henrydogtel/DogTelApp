@@ -1,6 +1,6 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsDateString, IsArray, ArrayNotEmpty } from 'class-validator';
-import { typeRace } from '../entities/dog.entity'; // Ajusta la ruta según tu estructura de carpetas
+import { typeRace } from '../entities/dog.entity'; 
 
 @InputType()
 export class CreateDogInput {
