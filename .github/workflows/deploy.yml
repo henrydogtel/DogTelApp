@@ -34,11 +34,12 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}  
       run: |
-        curl -X POST \
-        -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-        -H "Content-Type: application/json" \
-        -d '{
-          "serviceId": "dpg-csc7sdogph6c73bnnvt0-a",  
-          "clearCache": true
-        }' \
-        https://api.render.com/v1/services/dpg-csc7sdogph6c73bnnvt0-a/deploys
+        response=$(curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "serviceId": "dpg-csc7sdogph6c73bnnvt0-a",  
+            "clearCache": true
+          }' \
+          https://api.render.com/v1/services/dpg-csc7sdogph6c73bnnvt0-a/deploys)
+        echo "Response: $response"
