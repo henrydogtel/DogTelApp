@@ -46,11 +46,14 @@ const OwnerDashboard = () => {
     setIsModalOpen(false);
   };
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === "modalOverlay") {
-      closeModal();
-    }
-  };
+const handleOutsideClick = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>
+) => {
+  if ((e.target as HTMLElement).id === "modalOverlay") {
+    closeModal();
+  }
+};
+
 
   return (
     <div className="p-8 bg-[#FAF7F0] min-h-screen">
