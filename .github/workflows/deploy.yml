@@ -16,15 +16,11 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 'latest'  
+        node-version: '20'  
 
     - name: Install dependencies
       run: |
-        npm install --prefix api 
-
-    - name: Install Nest CLI
-      run: |
-        npm install -g @nestjs/cli
+        npm install --prefix api
 
     - name: Build the project
       run: |
@@ -34,7 +30,7 @@ jobs:
       id: deploy_request
       run: |
         echo '{"serviceId": "dpg-cscfr3d6l47c73e0k7c0-a", "clearCache": true}' > deploy_request.json
-        cat deploy_request.json 
+        cat deploy_request.json  # Verificar que el JSON esté bien formateado
 
     - name: Deploy to Render
       env:
