@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd /api
+        cd api
         npm install 
 
     - name: Build the project
