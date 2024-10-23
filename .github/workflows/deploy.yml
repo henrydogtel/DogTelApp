@@ -39,8 +39,8 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
           -d '{
-            "serviceId": "dpg-csc7sdogph6c73bnnvt0-a",  
+            "serviceId": "dpg-cscfr3d6l47c73e0k7c0-a",  
             "clearCache": true
           }' \
-          https://api.render.com/v1/services/dpg-csc7sdogph6c73bnnvt0-a/deploys)
+          https://api.render.com/v1/services/dpg-cscfr3d6l47c73e0k7c0-a/deploys)
         echo "Response: $response"  
