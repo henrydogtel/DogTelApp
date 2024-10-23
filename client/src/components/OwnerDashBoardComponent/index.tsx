@@ -1,14 +1,18 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import DogForm from "../DogForm";
 
 const OwnerDashboard = () => {
-  // Información del usuario
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const userInfo = {
     name: "User Name",
     email: "user@example.com",
     address: "123 Main St, City, Country",
   };
 
-  // Array de órdenes
   const orders = [
     { id: 1, date: "2024-09-10", status: "Completed" },
     { id: 2, date: "2024-09-15", status: "Pending" },
@@ -17,7 +21,6 @@ const OwnerDashboard = () => {
     { id: 5, date: "2024-09-15", status: "Pending" },
   ];
 
-  // Array de mascotas con imagen
   const pets = [
     {
       id: 1,
@@ -34,6 +37,23 @@ const OwnerDashboard = () => {
         "https://www.shutterstock.com/image-vector/wild-animal-veterinary-clinic-animals-260nw-2471930359.jpg",
     },
   ];
+
+  const handleAddPet = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+const handleOutsideClick = (
+  e: React.MouseEvent<HTMLDivElement, MouseEvent>
+) => {
+  if ((e.target as HTMLElement).id === "modalOverlay") {
+    closeModal();
+  }
+};
+
 
   return (
     <div className="p-8 bg-[#FAF7F0] min-h-screen">
@@ -102,14 +122,38 @@ const OwnerDashboard = () => {
           ) : (
             <p className="text-gray-600">No pets found.</p>
           )}
+          <div className="flex items-center ">
+            <button
+              className="bg-[#B17457] text-white py-2 px-4 rounded-lg hover:bg-[#a0644f]"
+              onClick={handleAddPet}
+            >
+              Add Pet +
+            </button>
+          </div>
         </div>
       </section>
 
+      {/* Modal */}
+      {isModalOpen && (
+        <div
+          id="modalOverlay"
+          className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center"
+          onClick={handleOutsideClick}
+        >
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md overflow-y-auto max-h-[80vh]">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded mb-4"
+              onClick={closeModal}
+            >
+              X
+            </button>
+            <DogForm />
+          </div>
+        </div>
+      )}
+
       {/* Botones de acciones */}
       <section className="text-center">
-        <button className="bg-[#FA7070] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#FA5050] transition-colors mr-4">
-          Edit Profile
-        </button>
         <button className="bg-[#B17457] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#9b5e47] transition-colors">
           Log Out
         </button>

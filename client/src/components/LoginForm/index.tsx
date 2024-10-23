@@ -44,10 +44,10 @@ function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(signinValues)
-
+    console.log(signinValues);
+  
     const success = await postSignIn(signinValues);
-
+  
     if (success) {
       Swal.fire({
         icon: "success",
@@ -58,6 +58,10 @@ function SignInForm() {
         timer: 3000,
         timerProgressBar: true,
       });
+      
+      // Si necesitas almacenar el token o el rol, hazlo aquí
+      // localStorage.setItem('accessToken', result.accessToken);
+      
       router.push("/home");
     } else {
       Swal.fire({
