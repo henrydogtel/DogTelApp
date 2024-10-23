@@ -12,8 +12,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        path: DogTelApp/api
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -21,10 +19,14 @@ jobs:
         node-version: 'latest'  
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd api  
+        npm install
 
     - name: Build the project
-      run: npm run build
+      run: |
+        cd api  
+        npm run build
 
     - name: Deploy to Render
       env:
