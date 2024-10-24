@@ -4,22 +4,29 @@ import { Dog } from './entities/dog.entity';
 import { CreateDogInput } from './dto/create-dog.input';
 import { UpdateDogInput } from './dto/update-dog.input';
 import { ParseUUIDPipe } from '@nestjs/common';
+import { RemoveDogResponse } from './dto/remove-dog.input';
 
 @Resolver(() => Dog)
 export class DogsResolver {
   constructor(private readonly dogsService: DogsService) {}
 
   @Mutation(() => Dog)
-  createDog(@Args('idUser', ParseUUIDPipe) isUser: String,@Args('createDogInput') createDogInput: CreateDogInput) {
-    const {name,birthdate,race,size,images} = createDogInput    
-  }
+
+async createDog(
+  @Args('idUser', ParseUUIDPipe) idUser: string,
+  @Args('createDogInput') createDogInput: CreateDogInput,
+): Promise<Dog> {
+  const { name, birthdate, race, size, images } = createDogInput;
+  return await this.dogsService.createDog(idUser, createDogInput);
+}
+
   @Query(() => [Dog], { name: 'dogs' })
   findAll() {
     return this.dogsService.findAll();
   }
 
   @Query(() => Dog, { name: 'dog' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.dogsService.findOne(id);
   }
 
@@ -28,8 +35,13 @@ export class DogsResolver {
     return this.dogsService.update(updateDogInput.id, updateDogInput);
   }
 
-  @Mutation(() => Dog)
-  removeDog(@Args('id', { type: () => Int }) id: number) {
-    return this.dogsService.remove(id);
+  @Mutation(() => RemoveDogResponse) // Corregido el nombre
+  async removeDog(@Args('id') id: string): Promise<RemoveDogResponse> {
+    const success = await this.dogsService.removeDog(id);
+    return {
+      success,
+      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
+    };
   }
+  
 }

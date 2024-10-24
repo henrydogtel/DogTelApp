@@ -10,7 +10,7 @@ export class DogsService {
   constructor(private readonly dogRepository:DogsRepository){}
 
 
-  async createDog(idUser:String, createDogInput: CreateDogInput):Promise<Dog> {
+  async createDog(idUser:string, createDogInput: CreateDogInput):Promise<Dog> {
    
     try {
       return await this.dogRepository.createDog(idUser,createDogInput)
@@ -21,19 +21,26 @@ export class DogsService {
 
   }
 
-  findAll() {
-    return `This action returns all dogs`;
+  findAll(): Promise<Dog[]> {
+    return this.dogRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dog`;
+  findOne(id: string): Promise<Dog> {
+    return this.dogRepository.findOne(id);
   }
 
-  update(id: number, updateDogInput: UpdateDogInput) {
-    return `This action updates a #${id} dog`;
+  async update(id: string, updateDogInput: UpdateDogInput): Promise<Dog> {
+    return await this.dogRepository.updateDog(id, updateDogInput);
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} dog`;
+  async removeDog(id: string): Promise<boolean> {
+    try {
+      const dog = await this.findOne(id); // Busca la mascota o lanza excepción
+      await this.dogRepository.removeDog(id);
+      return true; 
+    } catch (error) {
+      console.error(error); // Puedes usar un logger en lugar de console.error en producción
+      return false; 
+    }
   }
+ 
 }
