@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
@@ -12,6 +12,8 @@ import { AuthModule } from '../auth/auth.module';
 import { SendMailsService } from '../send-mails/send-mails.service';
 import { SendMailsModule } from '../send-mails/send-mails.module';
 
+
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Credentials]),
@@ -21,6 +23,12 @@ import { SendMailsModule } from '../send-mails/send-mails.module';
     CredentialsModule,
     SendMailsModule
   ],
+
   providers: [UserResolver, UserService, CredentialsService, SendMailsService],
+
+  providers: [UserResolver, UserService, CredentialsService],
+  exports: [TypeOrmModule], 
+
+
 })
 export class UserModule { }

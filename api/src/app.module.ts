@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLModule,  } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -20,6 +20,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SendMailsModule } from './modules/send-mails/send-mails.module';
 import { SendMailsService } from './modules/send-mails/send-mails.service';
+import { AppointmentDetailsModule } from './modules/appointment_details/appointment_details.module';
+
 
 @Module({
   
@@ -57,7 +59,7 @@ import { SendMailsService } from './modules/send-mails/send-mails.service';
     }),
     ServicesSitterModule,
     AppointmentsModule,
-    TypeOrmModule.forFeature([User]),
+    AppointmentDetailsModule,
     UserModule,
     CredentialsModule,
     SitterModule,
@@ -72,6 +74,10 @@ import { SendMailsService } from './modules/send-mails/send-mails.service';
       }
     }),
   ],
+
   providers: [UserService, SendMailsService],
+
+  providers: [],
+
 })
 export class AppModule {}

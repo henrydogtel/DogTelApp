@@ -49,7 +49,7 @@ const SitterDashboard = () => {
           {/* Contenedor para centrar el calendario */}
           <div className="flex justify-center">
             <Calendar
-              onChange={setDate}
+             
               value={date}
               className="border border-gray-300 rounded-lg shadow-md"
             />

@@ -89,7 +89,7 @@ enum typeStatus {
 
 type Dog {
   """Unique ID for the dog"""
-  id: Int!
+  id: String!
 
   """The name of the pet"""
   name: String!
@@ -107,6 +107,11 @@ type Dog {
   size: String!
 }
 
+type RemoveDogResponse {
+  success: Boolean!
+  message: String
+}
+
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
   appointments: [Appointment!]!
@@ -116,7 +121,7 @@ type Query {
   credentials: [Credentials!]!
   sitter(id: String!): Sitter!
   dogs: [Dog!]!
-  dog(id: Int!): Dog!
+  dog(id: String!): Dog!
 }
 
 type Mutation {
@@ -137,7 +142,7 @@ type Mutation {
   removeSitter(id: String!): Sitter!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
-  removeDog(id: Int!): Dog!
+  removeDog(id: String!): RemoveDogResponse!
 }
 
 input CreateServicesSitterInput {
@@ -264,5 +269,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: Int!
+  id: String! = "bbc44029-70bc-435c-8525-3231f672f68d"
 }
