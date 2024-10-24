@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum typeRace {
   SMALL = 'small',
@@ -34,4 +35,10 @@ export class Dog {
   @Column({ type: 'enum', enum: typeRace }) // Use enum for size
   @Field(() => String, { description: 'Size of the dog' })
   size: typeRace;
+
+  @ManyToOne(() => User, (user) => user.dogs)
+  @Field(() => User)
+  user:User
+
+  
 }

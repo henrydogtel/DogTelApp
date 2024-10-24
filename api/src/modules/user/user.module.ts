@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
@@ -10,6 +10,8 @@ import { CredentialsService } from '../credentials/credentials.service';
 import { CredentialsModule } from '../credentials/credentials.module';
 import { AuthModule } from '../auth/auth.module';
 
+
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Credentials]),
@@ -19,5 +21,7 @@ import { AuthModule } from '../auth/auth.module';
     CredentialsModule,
   ],
   providers: [UserResolver, UserService, CredentialsService],
+  exports: [TypeOrmModule], 
+
 })
 export class UserModule { }
