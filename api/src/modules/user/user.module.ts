@@ -26,7 +26,6 @@ import { SendMailsModule } from '../send-mails/send-mails.module';
 
   providers: [UserResolver, UserService, CredentialsService, SendMailsService],
 
-  providers: [UserResolver, UserService, CredentialsService],
   exports: [TypeOrmModule], 
 
 

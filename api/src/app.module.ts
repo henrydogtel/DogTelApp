@@ -77,7 +77,6 @@ import { AppointmentDetailsModule } from './modules/appointment_details/appointm
 
   providers: [UserService, SendMailsService],
 
-  providers: [],
 
 })
 export class AppModule {}
