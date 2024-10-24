@@ -1,10 +1,11 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User, UserRole } from './entities/user.entity';
+import { User} from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
 import { BadRequestException, ParseUUIDPipe, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuardJwt } from '../auth/auth.guard';
+import { UserRole } from 'src/enums/user-role.enum';
 
 @Resolver(() => User)
 export class UserResolver {

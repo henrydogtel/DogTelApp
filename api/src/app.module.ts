@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLModule,  } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -17,6 +17,7 @@ import { DogsModule } from './modules/dogs/dogs.module';
 import { ApolloServerPluginLandingPageProductionDefault, ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { JWT_SECRET, NODE_ENV } from './helpers/developmentEnv';
 import { JwtModule } from '@nestjs/jwt';
+import { AppointmentDetailsModule } from './modules/appointment_details/appointment_details.module';
 
 @Module({
   
@@ -43,7 +44,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     ServicesSitterModule,
     AppointmentsModule,
-    TypeOrmModule.forFeature([User]),
+    AppointmentDetailsModule,
     UserModule,
     CredentialsModule,
     SitterModule,
@@ -57,6 +58,6 @@ import { JwtModule } from '@nestjs/jwt';
       }
     })
   ],
-  providers: [UserService],
+  providers: [],
 })
 export class AppModule {}
