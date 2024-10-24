@@ -37,7 +37,7 @@ export class UserService {
       });
       const userSaved = await this.userRepository.save(newUser);
       if (!userSaved) throw new BadRequestException('Hubo un error al guardar el usuario')
-      const response = this.sendMailService.sendMail({to:'villadiegoomar78@gmail.com',subject:'Hola como estas', text: 'Usuario ' + userSaved.firstname + ' creado con exito'})
+      const response = await this.sendMailService.sendMail({to:'villadiegoomar78@gmail.com',subject:'Hola como estas', text: 'Usuario ' + userSaved.firstname + ' creado con exito'})
     if(!response) throw new BadRequestException('Hubo un error al enviar el email de bienvenida')
       return userSaved
     } catch (error) {
