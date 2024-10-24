@@ -1,6 +1,12 @@
+"use client"
+
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 const NavbarComponent = () => {
   return (
@@ -31,24 +37,7 @@ const NavbarComponent = () => {
                   Take care of dogs!
                 </Link>
               </li>
-              <li className="">
-                <Link
-                  href="/home"
-                  className="block p-2 px-3 text-black bg-white rounded-2xl"
-                  aria-current="page"
-                >
-                  Home
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/sittersPricesDetail"
-                  className="block p-2 px-3 text-black bg-white rounded-2xl"
-                  aria-current="page"
-                >
-                  Sitters
-                </Link>
-              </li>
+
               <li className="">
                 <Link
                   href="/login"
@@ -67,33 +56,12 @@ const NavbarComponent = () => {
                   Sign Up
                 </Link>
               </li>
-              <li className="">
-                <Link
-                  href="/dashboardAdmin"
-                  className="block p-2 px-3 text-black bg-white rounded-2xl"
-                  aria-current="page"
-                >
-                  AdminDash
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/dashboardOwner"
-                  className="block p-2 px-3 text-black bg-white rounded-2xl"
-                  aria-current="page"
-                >
-                  OwnerDash
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="/dashboardSitter"
-                  className="block p-2 px-3 text-black bg-white rounded-2xl"
-                  aria-current="page"
-                >
-                  SitterDash
-                </Link>
-              </li>
+              <button
+                onClick={() => signOut()}
+                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} size="sm" />
+              </button>
             </ul>
           </div>
         </div>
