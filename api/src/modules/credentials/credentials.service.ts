@@ -4,7 +4,7 @@ import { CreateCredentialInput } from './dto/create-credential.input';
 import { Credentials } from './entities/credential.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiGatewayTimeoutResponse } from '@nestjs/swagger';
+
 
 @Injectable()
 export class CredentialsService {
