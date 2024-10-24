@@ -11,6 +11,7 @@ export class DogsResolver {
   constructor(private readonly dogsService: DogsService) {}
 
   @Mutation(() => Dog)
+
 async createDog(
   @Args('idUser', ParseUUIDPipe) idUser: string,
   @Args('createDogInput') createDogInput: CreateDogInput,
@@ -18,9 +19,6 @@ async createDog(
   const { name, birthdate, race, size, images } = createDogInput;
   return await this.dogsService.createDog(idUser, createDogInput);
 }
-
-
-
 
   @Query(() => [Dog], { name: 'dogs' })
   findAll() {
