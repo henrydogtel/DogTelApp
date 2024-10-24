@@ -207,7 +207,7 @@ const RegisterSitterForm = () => {
         <button
           type="submit"
           disabled={Object.keys(errors).length > 0}
-          className="w-full py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm font-medium transition"
+          className="w-full font-bold py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm transition"
         >
           Submit
         </button>
