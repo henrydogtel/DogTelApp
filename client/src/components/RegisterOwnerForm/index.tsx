@@ -97,7 +97,6 @@ const router = useRouter();
     <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
       <h1 className="text-2xl font-bold mb-6 text-center">Owner Register</h1>
       <form onSubmit={handleSubmit}>
-        
         {/* Campo de Email */}
         <div className="relative z-0 w-full mb-6 group">
           <input
@@ -107,7 +106,9 @@ const router = useRouter();
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.email && errors.email ? "border-red-500" : "border-gray-300"
+              touched.email && errors.email
+                ? "border-red-500"
+                : "border-gray-300"
             } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder="   "
             required
@@ -129,7 +130,9 @@ const router = useRouter();
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.password && errors.password ? "border-red-500" : "border-gray-300"
+              touched.password && errors.password
+                ? "border-red-500"
+                : "border-gray-300"
             } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder=" "
             required
@@ -151,7 +154,9 @@ const router = useRouter();
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.firstname && errors.firstname ? "border-red-500" : "border-gray-300"
+              touched.firstname && errors.firstname
+                ? "border-red-500"
+                : "border-gray-300"
             } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder=" "
             required
@@ -160,7 +165,9 @@ const router = useRouter();
             First Name
           </label>
           {touched.firstname && errors.firstname && (
-            <span className="text-red-500 text-xs mt-1">{errors.firstname}</span>
+            <span className="text-red-500 text-xs mt-1">
+              {errors.firstname}
+            </span>
           )}
         </div>
 
@@ -173,7 +180,9 @@ const router = useRouter();
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.lastname && errors.lastname ? "border-red-500" : "border-gray-300"
+              touched.lastname && errors.lastname
+                ? "border-red-500"
+                : "border-gray-300"
             } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder=" "
             required
@@ -195,7 +204,9 @@ const router = useRouter();
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.birthdate && errors.birthdate ? "border-red-500" : "border-gray-300"
+              touched.birthdate && errors.birthdate
+                ? "border-red-500"
+                : "border-gray-300"
             } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder=" "
             required
@@ -204,7 +215,9 @@ const router = useRouter();
             Birthdate
           </label>
           {touched.birthdate && errors.birthdate && (
-            <span className="text-red-500 text-xs mt-1">{errors.birthdate}</span>
+            <span className="text-red-500 text-xs mt-1">
+              {errors.birthdate}
+            </span>
           )}
         </div>
 
@@ -217,7 +230,9 @@ const router = useRouter();
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.address && errors.address ? "border-red-500" : "border-gray-300"
+              touched.address && errors.address
+                ? "border-red-500"
+                : "border-gray-300"
             } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
             placeholder=" "
             required
@@ -233,22 +248,26 @@ const router = useRouter();
         {/* Botón de Enviar */}
         <button
           type="submit"
-          className="w-full py-3 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          className="font-bold w-full py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm transition"
         >
-          Register
+          Submit
         </button>
+        <h2 className="font-bold p-3 text-center">Or</h2>
+        <div className="text-center">
+          <SignUpWithGoogle />
+        </div>
+        <div className="flex flex-col items-center mt-6">
+          <h1 className="text-xl font-semibold text-gray-700">
+            Have an account?
+            <Link
+              href="/login"
+              className="text-[#FA7070] hover:text-[#B94F4F] ml-2 transition-colors duration-300"
+            >
+              Log In
+            </Link>
+          </h1>
+        </div>
       </form>
-
-      {/* Enlace a Google Signup */}
-      <SignUpWithGoogle />
-
-     {/* Enlace a Login */}
-<p className="mt-4 text-sm text-center text-gray-600">
-  Already have an account?{" "}
-  <Link href="/auth/signin" className="text-blue-600 hover:underline">
-    Login
-  </Link>
-</p>
     </div>
   );
 };
