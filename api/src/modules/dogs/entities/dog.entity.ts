@@ -1,5 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+
 
 export enum typeRace {
   SMALL = 'small',
@@ -11,27 +14,33 @@ export enum typeRace {
 @ObjectType()
 export class Dog {
   
-  @Field(() => Int, { description: 'Unique ID for the dog' })
-  @PrimaryGeneratedColumn()
-  id: number; // Change to number
+  @Field(() => String, { description: 'Unique ID for the dog' })
+  @PrimaryGeneratedColumn('uuid')
+  id: string = uuid(); 
 
-  @Column({ type: 'varchar', name: 'name' }) // Use 'varchar' instead of 'string'
+  @Column({ type: 'varchar', name: 'name' }) 
   @Field(() => String, { description: 'The name of the pet' })
-  name: string; // Change to string
+  name: string; 
 
-  @Column({ type: 'date', name: 'birthdate' }) // Use 'date'
+  @Column({ type: 'date', name: 'birthdate' }) 
   @Field(() => String, { description: 'The birthdate of the dog' })
-  birthdate: Date; // Keep as Date
+  birthdate: Date; 
 
-  @Column('simple-array', { name: 'images' }) // Store images as a simple array
+  @Column('simple-array', { name: 'images' }) 
   @Field(() => [String], { description: 'List of image URLs for the dog' })
-  images: string[]; // Change to string[]
+  images: string[]; 
 
-  @Column({ type: 'varchar', name: 'race' }) // Use 'varchar'
+  @Column({ type: 'varchar', name: 'race' }) 
   @Field(() => String, { description: 'Race of the dog' })
-  race: string; // Change to string
+  race: string; 
 
-  @Column({ type: 'enum', enum: typeRace }) // Use enum for size
+  @Column({ type: 'enum', enum: typeRace }) 
   @Field(() => String, { description: 'Size of the dog' })
   size: typeRace;
+
+  @ManyToOne(() => User, (user) => user.dogs)
+  @Field(() => User)
+  user:User
+
+  
 }

@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CredentialsService } from './credentials.service';
 import { Credentials } from './entities/credential.entity';
 import { CreateCredentialInput } from './dto/create-credential.input';
-import { UpdateCredentialInput } from './dto/update-credential.input';
+
 
 @Resolver(() => Credentials)
 export class CredentialsResolver {

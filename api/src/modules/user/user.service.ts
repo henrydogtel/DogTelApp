@@ -8,6 +8,7 @@ import { Credentials } from '../credentials/entities/credential.entity';
 import { v2 as cloudinary } from 'cloudinary';
 import { CredentialsRepository } from '../credentials/credentials.repository';
 import { AuthRepository } from '../auth/auth.repository';
+import { SendMailsService } from '../send-mails/send-mails.service';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,8 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly credentialRepository: CredentialsRepository,
-    private readonly authRepository: AuthRepository
+    private readonly authRepository: AuthRepository,
+    private readonly sendMailService: SendMailsService
   ) { }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
@@ -35,6 +37,8 @@ export class UserService {
       });
       const userSaved = await this.userRepository.save(newUser);
       if (!userSaved) throw new BadRequestException('Hubo un error al guardar el usuario')
+      const response = await this.sendMailService.sendMail({to:'villadiegoomar78@gmail.com',subject:'Hola como estas', text: 'Usuario ' + userSaved.firstname + ' creado con exito'})
+    if(!response) throw new BadRequestException('Hubo un error al enviar el email de bienvenida')
       return userSaved
     } catch (error) {
       throw error

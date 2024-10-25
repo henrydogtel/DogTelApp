@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Link from "next/link";
-import { validateSignup } from "@/app/utils/validation";
+import { validateSignup } from "@/app/utils/validationOwner";
 import { postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import SignUpWithGoogle from "../SignUpGoogle";
 

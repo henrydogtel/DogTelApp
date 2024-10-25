@@ -27,6 +27,19 @@ interface IRegisterUser {
   role: string;
 }
 
+interface IRegisterSitter {
+  firstname: string;
+  lastname: string;
+  birthdate: Date;
+  email: string;
+  password: string;
+  address: string;
+  role: string;
+  fee: number;
+  descripcion: string;
+}
+
+
 interface IUserResponse {
   login: boolean;
   user: Partial<IUser> | null;
@@ -52,4 +65,5 @@ export type {
   IUserContextType,
   IUserResponse,
   IUser,
+  IRegisterSitter,
 };
