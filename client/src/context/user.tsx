@@ -3,8 +3,8 @@
 import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import {
   ILoginUser,
+  IRegisterSitter,
   IRegisterUser,
-  
   IUserContextType,
   IUserResponse,
 } from "@/interfaces/interfaces";
@@ -23,17 +23,17 @@ export const UserContext = createContext<IUserContextType>({
 
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<Partial<IUserResponse> | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [isLogged, setIsLogged] = useState(false);
  
 
   const signIn = async (credentials: ILoginUser) => {
-    try {
-      const data = await postSignIn(credentials);
 
+    
+    try {
+      const data: any = await postSignIn(credentials);
+      if(!data) return false
       setUser(data);
-      localStorage.setItem("user", JSON.stringify(data));
-      localStorage.setItem("token", data.token);
       return true;
     } catch (error) {
       console.log(error);
@@ -41,10 +41,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signUpSitter = async (user: IRegisterUser) => {
+  const signUpSitter = async (user: IRegisterSitter) => {
     try {
       const data = await postSignUpSitter(user);
-      if (data.id) {
+      if (data) {
         signIn({ email: user.email, password: user.password });
         return true;
       }
@@ -53,10 +53,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.error(error);
       return false;
     }
-  };const signUpOwner = async (user: IRegisterUser) => {
+  };
+  
+  const signUpOwner = async (user: IRegisterUser) => {
     try {
       const data = await postSignUpOwner(user);
-      if (data.id) {
+      if (data) {
         signIn({ email: user.email, password: user.password });
         return true;
       }
@@ -68,9 +70,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logOut = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+
     localStorage.removeItem("cartItems");
+    
     setUser(null);
     setIsLogged(false);
   };

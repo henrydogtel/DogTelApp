@@ -3,6 +3,13 @@ import { ILoginUser, IRegisterSitter, IRegisterUser } from "@/interfaces/interfa
 
 export const postSignUpSitter = async (user: IRegisterSitter) => {
 
+   // Garantizamos que el rol siempre sea "user"
+ const userWithRole = {
+  ...user,
+  fee:Number(user.fee),
+  role: "sitter",
+};
+
   const query = JSON.stringify({
     query: `mutation CreateSitter($firstname: String!, $lastname: String!, $birthdate: DateTime!, $address: String!, $role: String!, $password: String!, $email: String!, $fee: Float!, $descripcion: String!) {
     createSitter(firstname: $firstname, lastname: $lastname, birthdate: $birthdate, address: $address, role: $role, password: $password, email: $email, fee: $fee, descripcion: $descripcion) {
@@ -11,8 +18,10 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
       fee
       role
     }
-  }`,variables: user, 
+  }`,variables:userWithRole,
   });
+
+  console.log(userWithRole);
 
   const response = await fetch('http://localhost:3001/graphql', {
     headers: { 'Content-Type': 'application/json' },
@@ -20,7 +29,11 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
     body: query,
   });
 
-  return response;
+
+  const data = await response.json()
+  console.log(data);
+  
+  return data;
 }
 
 
@@ -32,9 +45,10 @@ export const postSignUpOwner = async (user: IRegisterUser) => {
  const userWithRole = {
   ...user,
   role: "user",
-};
+ };
+console.log(userWithRole);
 
-const query = JSON.stringify({
+ const query = JSON.stringify({
   query: `mutation CreateUser($firstname: String!, $lastname: String!, $birthdate: DateTime!, $address: String!, $role: String!, $password: String!, $email: String!) {
     createUser(
       firstname: $firstname,
@@ -57,15 +71,17 @@ const query = JSON.stringify({
     }
   }`,
   variables: userWithRole, // Aquí enviamos el usuario con el rol incluido
-});
+  });
 
-const response = await fetch('http://localhost:3001/graphql', {
-  headers: { 'Content-Type': 'application/json' },
-  method: 'POST',
-  body: query,
-});
+    const response = await fetch('http://localhost:3001/graphql', {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: query,
+    });
+    console.log(response);
 
-return response;
+    const data = await response.json()
+    return data;
 
 };
 
@@ -76,6 +92,10 @@ export const postSignIn = async (credentials: ILoginUser) => {
         email
         access_token
         role
+        user {
+          firstname
+          lastname
+        }
       }
     }`,
     variables: credentials,
@@ -87,24 +107,23 @@ export const postSignIn = async (credentials: ILoginUser) => {
       method: 'POST',
       body: query,
     });
-
-    // Verificar si la respuesta es exitosa
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
+    console.log(response);
+    
 
     const jsonResponse = await response.json();
-
+    console.log(jsonResponse);
+    
     // Comprobar si hay errores en la respuesta GraphQL
     if (jsonResponse.errors) {
       console.error('GraphQL errors:', jsonResponse.errors);
-      return false; // O puedes manejarlo de otra manera
+      return false;
     }
 
     // Comprobar si el login fue exitoso
     if (jsonResponse.data && jsonResponse.data.login) {
       // Aquí puedes devolver la información del usuario si lo necesitas
       return {
+        user:jsonResponse.data.login.user,
         email: jsonResponse.data.login.email,
         accessToken: jsonResponse.data.login.access_token,
         role: jsonResponse.data.login.role,
@@ -112,11 +131,11 @@ export const postSignIn = async (credentials: ILoginUser) => {
     }
 
     // En caso de credenciales inválidas
-    return false;
+    return false
 
   } catch (error) {
     console.error('Error during sign in:', error);
-    return false; // En caso de error, devuelve false
+    throw new Error('Error during sign in');
   }
 };
 

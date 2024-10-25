@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import { postSignUpSitter } from "@/app/lib/server/fetchUsers";
 import { validateSignup } from "@/app/utils/validationSitter";
+import { UserContext } from "@/context/user";
+import { postSignUpSitter } from "@/app/lib/server/fetchUsers";
 
 const RegisterSitterForm = () => {
+  const {signUpSitter} = useContext(UserContext)
   const router = useRouter();
   const [signupValues, setSignupValues] = useState({
     firstname: "",
@@ -41,8 +43,12 @@ const RegisterSitterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+   
+    const success = await signUpSitter(
+      signupValues
+      
+    )
 
-    const success = await postSignUpSitter(signupValues);
     if (success) {
       const Toast = Swal.mixin({
         toast: true,
@@ -278,7 +284,6 @@ const RegisterSitterForm = () => {
         <button
           type="submit"
 
-          className="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500"
 
           disabled={Object.keys(errors).length > 0}
           className="w-full font-bold py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm transition"

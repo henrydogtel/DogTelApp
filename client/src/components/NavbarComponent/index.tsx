@@ -1,14 +1,26 @@
 "use client"
 
-import { signOut } from "next-auth/react";
+
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "@/context/user";
+import { useRouter } from "next/navigation";
 
 
 const NavbarComponent = () => {
+  const {logOut} = useContext(UserContext)
+  const router = useRouter()
+
+
+  const logOutUser = () => {
+    router.push("/")
+    logOut()
+    
+  }
+
   return (
     <div>
       <nav className="bg-[#96CEB4] border-gray-200 relative z-10">
@@ -57,7 +69,7 @@ const NavbarComponent = () => {
                 </Link>
               </li>
               <button
-                onClick={() => signOut()}
+                onClick={() => logOutUser()}
                 className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
               >
                 <FontAwesomeIcon icon={faSignOutAlt} size="sm" />
