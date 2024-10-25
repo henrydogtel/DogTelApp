@@ -4,12 +4,13 @@ interface ICredential {
 }
 
 interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  address: string;
-  phone: string;
-  credential: Credential;
+    id: string,
+    firstname: string,
+    lastname: string,
+    birthdate: string,
+    address: string,
+    role: string,
+    userImg: string
 }
 
 interface ILoginUser {
@@ -52,7 +53,7 @@ interface IUserContextType {
   isLogged: boolean;
   setIsLogged: (isLogged: boolean) => void;
   signIn: (credentials: ILoginUser) => Promise<boolean>;
-  signUpSitter: (user: IRegisterUser) => Promise<boolean>;
+  signUpSitter: (user: IRegisterSitter) => Promise<boolean>;
   signUpOwner: (user: IRegisterUser) => Promise<boolean>;
   logOut: () => void;
 }

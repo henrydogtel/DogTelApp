@@ -44,9 +44,8 @@ function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(signinValues);
   
-    const success = await postSignIn(signinValues);
+    const success = await signIn(signinValues);
   
     if (success) {
       Swal.fire({

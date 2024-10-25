@@ -1,16 +1,18 @@
 "use client";
 import { useRouter } from "next/navigation"; 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { validateSignup } from "@/app/utils/validationOwner";
 import { postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import SignUpWithGoogle from "../SignUpGoogle";
+import { UserContext } from "@/context/user";
 
 
 const RegisterOwnerForm = () => {
 
 const router = useRouter();
+const {signUpOwner} = useContext(UserContext)
 
   // Manejamos los valores del formulario basados en la interfaz
   const [signupValues, setSignupValues] = useState({
@@ -52,7 +54,7 @@ const router = useRouter();
     }
 
     try {
-      const success = await postSignUpOwner({
+      const success = await signUpOwner({
         ...signupValues,
         birthdate: new Date(signupValues.birthdate).toISOString(), // Aseguramos formato correcto
       });
