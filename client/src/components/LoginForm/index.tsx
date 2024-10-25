@@ -2,7 +2,7 @@
 
 import { useState, useContext } from "react";
 import { UserContext } from "@/context/user";
-import { validateSignin } from "@/app/utils/validation";
+import { validateSignin } from "@/app/utils/validationOwner";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import SignUpWithGoogle from "../SignUpGoogle";
@@ -44,9 +44,8 @@ function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(signinValues);
   
-    const success = await postSignIn(signinValues);
+    const success = await signIn(signinValues);
   
     if (success) {
       Swal.fire({
@@ -127,7 +126,7 @@ function SignInForm() {
       <button
         type="submit"
         disabled={Object.keys(errors).length > 0}
-        className="w-full py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm font-medium transition"
+        className="font-bold w-full py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm transition"
       >
         Submit
       </button>

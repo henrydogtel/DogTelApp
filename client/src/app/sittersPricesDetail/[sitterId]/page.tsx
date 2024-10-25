@@ -4,6 +4,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { sitters } from "../../../../public/sitters"; // Asegúrate de que la ruta sea correcta
 import Image from "next/image";
+import Link from "next/link";
 
 const SitterDetail = () => {
   const { sitterId } = useParams(); // Obtener el ID del cuidador de la URL
@@ -52,9 +53,9 @@ const SitterDetail = () => {
           <p className="text-gray-600 mt-3 text-lg">
             {sitter.about || "Descripción no disponible."}
           </p>
-          <button className="mt-8 bg-[#FFEEAD] hover:bg-[#FA7070] text-[#B17457] py-3 px-8 rounded-lg transition duration-300 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#B17457] focus:ring-opacity-50 border border-[#B17457] hover:border-[#FA7070] transform hover:scale-105">
+          <Link href="/summary" className="mt-8 bg-[#FFEEAD] hover:bg-[#FA7070] text-[#B17457] py-3 px-8 rounded-lg transition duration-300 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#B17457] focus:ring-opacity-50 border border-[#B17457] hover:border-[#FA7070] transform hover:scale-105">
             Hire now!
-          </button>
+          </Link>
         </div>
       </div>
     </div>
