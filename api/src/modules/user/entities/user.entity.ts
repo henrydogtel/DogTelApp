@@ -25,6 +25,10 @@ export class User extends Person   {
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[]
 
+  @Field(() => Credentials)
+    @OneToOne(() => Credentials, (credentials) => credentials.user)
+    @JoinColumn({ name: 'credentials_id' })
+    credentials: Credentials;
   
 
 }
