@@ -50,9 +50,14 @@ const SummaryComponent = () => {
 
   const total = 150; // Total ficticio
 
-  const handleProceedToPayment = () => {
-    alert("Proceeding to payment...");
-    router.push("/home")
+  const handleProceedToPayment = async () => {
+    
+    const response = await fetch('api/checkout',{
+      method:'POST'
+    })
+    const data = await response.json()
+    console.log(response);
+    
     
   };
 

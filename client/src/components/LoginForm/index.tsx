@@ -132,7 +132,7 @@ function SignInForm() {
       </button>
       <h2 className="font-bold p-3 text-center">Or</h2>
       <div className="text-center">
-        <SignUpWithGoogle />
+        <SignUpWithGoogle role={'signin'} />
       </div>
       <div className="flex flex-col items-center mt-6">
         <h1 className="text-xl font-semibold text-gray-700">

@@ -1,17 +1,25 @@
 'use client'
 import { UserContext } from "@/context/user";
 import Image from "next/image";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const HomeComponent = () => {
-  const {user} = React.useContext(UserContext)
-  console.log(user);
+  const [firstname,setFirstname] = useState('')
+  const [lastname,setLastname] = useState('')
+
+  useEffect(() => {
+    const firstname = localStorage.getItem('firstname')
+    if(firstname ) setFirstname(firstname)
+
+    const lastname = localStorage.getItem('lastname')
+    if(lastname) setLastname(lastname)
+  },[])
   
   return ( 
     <div>
       <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-[#FAF7F0]">
         <div className="text-left md:w-1/2 space-y-6">
-    <h1  className="text-6xl font-bold text-[#B17457]">{"Welcome " + user?.user?.firstname + " " + user?.user?.lastname } </h1>
+    <h1  className="text-6xl font-bold text-[#B17457]">{"Welcome " + firstname + ' ' + lastname } </h1>
           <h2 style={{fontSize:'2rem'}} className="text-6xl font-bold text-[#B17457]">
             If you have dogs, we'll take care of it.
           </h2>

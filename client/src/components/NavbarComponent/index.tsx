@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "@/context/user";
 import { useRouter } from "next/navigation";
+import {signOut} from 'next-auth/react'
 
 
 const NavbarComponent = () => {
@@ -17,7 +18,12 @@ const NavbarComponent = () => {
 
   const logOutUser = () => {
     router.push("/")
+    localStorage.removeItem('firstname')
+    localStorage.removeItem('lastname')
+    localStorage.removeItem('data')
     logOut()
+    signOut()
+
     
   }
 

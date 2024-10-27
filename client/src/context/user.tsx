@@ -33,7 +33,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const data: any = await postSignIn(credentials);
       if(!data) return false
+      console.log(data.user);
+      
       setUser(data);
+      localStorage.setItem('firstname', data.user.firstname)
+      localStorage.setItem('lastname', data.user.lastname)
       return true;
     } catch (error) {
       console.log(error);
