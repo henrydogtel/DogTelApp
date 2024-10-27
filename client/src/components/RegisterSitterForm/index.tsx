@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { validateSignup } from "@/app/utils/validationSitter";
 import { UserContext } from "@/context/user";
 import { postSignUpSitter } from "@/app/lib/server/fetchUsers";
+import SignUpWithGoogle from "../SignUpGoogle";
 
 const RegisterSitterForm = () => {
   const {signUpSitter} = useContext(UserContext)
@@ -286,6 +287,10 @@ const RegisterSitterForm = () => {
         >
           Register
         </button>
+
+        <div className="text-center">
+          <SignUpWithGoogle role={'sitter'} />
+        </div>
       </form>
     </div>
   );
