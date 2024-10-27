@@ -251,6 +251,21 @@ const {signUpOwner} = useContext(UserContext)
         >
           Submit
         </button>
+        <h2 className="font-bold p-3 text-center">Or</h2>
+        <div className="text-center">
+          <SignUpWithGoogle role={'signin'} />
+        </div>
+        <div className="flex flex-col items-center mt-6">
+          <h1 className="text-xl font-semibold text-gray-700">
+            Have an account?
+            <Link
+              href="/login"
+              className="text-[#FA7070] hover:text-[#B94F4F] ml-2 transition-colors duration-300"
+            >
+              Log In
+            </Link>
+          </h1>
+        </div>
       </form>
     </div>
   );

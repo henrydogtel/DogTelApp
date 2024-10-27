@@ -1,7 +1,13 @@
+'use client'
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
 const RegisterAs = () => {
+
+  const {data:session} = useSession()
+  console.log(session);
+  
   return (
     <div>
       <div className="flex flex-col items-center justify-center h-screen bg-[#FAF7F0]">

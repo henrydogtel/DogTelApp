@@ -28,6 +28,16 @@ interface IRegisterUser {
   role: string;
 }
 
+interface IRegisterUserGoogle {
+  firstname: string | null;
+  lastname: string | null;
+  birthdate: string | null;
+  email: string | null | undefined;
+  password: string | null;
+  address: string | null;
+  role: string | null;
+}
+
 interface IRegisterSitter {
   firstname: string;
   lastname: string;
@@ -67,4 +77,5 @@ export type {
   IUserResponse,
   IUser,
   IRegisterSitter,
+  IRegisterUserGoogle
 };

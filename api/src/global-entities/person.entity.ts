@@ -36,8 +36,5 @@ export class Person {
     @Column({ default: 'https://thumbs.dreamstime.com/b/perfil-de-usuario-vectorial-avatar-predeterminado-179376714.jpg' })
     userImg: string
   
-    @Field(() => Credentials)
-    @OneToOne(() => Credentials, (credentials) => credentials.user)
-    @JoinColumn({ name: 'credentials_id' })
-    credentials: Credentials;
+    
 }
