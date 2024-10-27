@@ -29,7 +29,6 @@ const RegisterSitterForm = () => {
     const { name, value } = e.target;
     setSignupValues({ ...signupValues, [name]: value });
 
-    // Validar el campo actualizado
     setErrors(validateSignup({ ...signupValues, [name]: value }));
   };
 
@@ -37,7 +36,6 @@ const RegisterSitterForm = () => {
     const { name } = e.target;
     setTouched({ ...touched, [name]: true });
 
-    // Validar al perder el foco
     setErrors(validateSignup(signupValues));
   };
 
@@ -87,9 +85,8 @@ const RegisterSitterForm = () => {
 
   return (
     <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
-      <h1 className="text-2xl font-bold mb-6 text-center">Sitter Register</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center text-[#f68f53]">Sitter Register</h1>
       <form onSubmit={handleSubmit}>
-        {/** Email field */}
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="email"
@@ -99,21 +96,20 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.email && errors.email
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Email Address
           </label>
           {touched.email && errors.email && (
-            <span className="text-red-500 text-xs mt-1">{errors.email}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.email}</span>
           )}
         </div>
 
-        {/** Password field */}
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="password"
@@ -123,21 +119,20 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.password && errors.password
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Password
           </label>
           {touched.password && errors.password && (
-            <span className="text-red-500 text-xs mt-1">{errors.password}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.password}</span>
           )}
         </div>
 
-        {/** First Name field */}
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -147,21 +142,21 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.firstname && errors.firstname
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             First Name
           </label>
           {touched.firstname && errors.firstname && (
-            <span className="text-red-500 text-xs mt-1">{errors.firstname}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.firstname}</span>
           )}
         </div>
 
-        {/** Last Name field */}
+     
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -171,21 +166,21 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.lastname && errors.lastname
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Last Name
           </label>
           {touched.lastname && errors.lastname && (
-            <span className="text-red-500 text-xs mt-1">{errors.lastname}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.lastname}</span>
           )}
         </div>
 
-         {/** Birthdate field */}
+     
          <div className="relative z-0 w-full mb-6 group">
           <input
             type="date"
@@ -195,21 +190,21 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.birthdate && errors.birthdate
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e]`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Birthdate
           </label>
           {touched.birthdate && errors.birthdate && (
-            <span className="text-red-500 text-xs mt-1">{errors.birthdate}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.birthdate}</span>
           )}
         </div>
 
-        {/** Address field */}
+      
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -219,21 +214,21 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.address && errors.address
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e]`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Address
           </label>
           {touched.address && errors.address && (
-            <span className="text-red-500 text-xs mt-1">{errors.address}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.address}</span>
           )}
         </div>
 
-        {/** Fee field */}
+       
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="number"
@@ -243,21 +238,21 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.fee && errors.fee
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Fee
           </label>
           {touched.fee && errors.fee && (
-            <span className="text-red-500 text-xs mt-1">{errors.fee}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.fee}</span>
           )}
         </div>
 
-        {/** Description field */}
+        
         <div className="relative z-0 w-full mb-6 group">
           <textarea
             name="descripcion"
@@ -266,18 +261,18 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.descripcion && errors.descripcion
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             rows={4}
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
             Description
           </label>
           {touched.descripcion && errors.descripcion && (
-            <span className="text-red-500 text-xs mt-1">{errors.descripcion}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.descripcion}</span>
           )}
         </div>
 
@@ -286,7 +281,7 @@ const RegisterSitterForm = () => {
 
 
           disabled={Object.keys(errors).length > 0}
-          className="w-full font-bold py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm transition"
+          className="w-full font-bold py-3 px-5 text-white bg-[#ffa477] hover:bg-[#e6854d] focus:ring-4 focus:ring-[#ffb87e] rounded-lg text-sm transition"
 
         >
           Register
