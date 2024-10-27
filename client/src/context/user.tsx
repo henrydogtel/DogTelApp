@@ -34,6 +34,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const data: any = await postSignIn(credentials);
       if(!data) return false
       setUser(data);
+      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("token", data.accessToken);
       return true;
     } catch (error) {
       console.log(error);

@@ -11,7 +11,7 @@ interface Pet {
 }
 
 const SummaryComponent = () => {
-    const router = useRouter()
+  const router = useRouter();
   // Información ficticia
   const sitter = {
     name: "Jane Smith",
@@ -48,12 +48,15 @@ const SummaryComponent = () => {
     },
   ];
 
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [time, setTime] = useState("");
+  const [note, setNote] = useState("");
   const total = 150; // Total ficticio
 
   const handleProceedToPayment = () => {
     alert("Proceeding to payment...");
-    router.push("/home")
-    
+    router.push("/home");
   };
 
   // Define el tipo de parámetro como Pet
@@ -68,8 +71,6 @@ const SummaryComponent = () => {
       <div className="flex justify-between items-start mb-8">
         {/* Sección del Sitter */}
         <div className="w-1/2 p-6 border border-[#B17457] rounded-lg shadow-sm mr-4 bg-white min-h-[354px]">
-          {" "}
-          {/* Añadir min-h */}
           <h1 className="text-3xl font-bold text-center mb-6 text-[#B17457]">
             Sitter
           </h1>
@@ -90,8 +91,6 @@ const SummaryComponent = () => {
 
         {/* Sección de la Mascota */}
         <div className="w-1/2 p-6 border border-[#B17457] rounded-lg shadow-sm bg-white min-h-[300px]">
-          {" "}
-          {/* Añadir min-h */}
           <h1 className="text-3xl font-bold text-center mb-6 text-[#B17457]">
             Selected Pet
           </h1>
@@ -107,7 +106,6 @@ const SummaryComponent = () => {
               {selectedPet.name}
             </h3>
           </div>
-          {/* Botón para seleccionar otra mascota */}
           <div className="mt-4 flex justify-center">
             <button
               className="bg-[#FFEEAD] hover:bg-[#eedfa2] text-[#B17457] font-semibold py-2 px-4 rounded"
@@ -117,6 +115,45 @@ const SummaryComponent = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Campos de fecha, horario y nota */}
+      <div className="mb-4">
+        <label className="block text-[#B17457] font-semibold mb-2">
+          Start Date:
+        </label>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          className="w-full p-2 border border-[#B17457] rounded mb-4"
+        />
+
+        <label className="block text-[#B17457] font-semibold mb-2">
+          End Date:
+        </label>
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          className="w-full p-2 border border-[#B17457] rounded mb-4"
+        />
+
+        <label className="block text-[#B17457] font-semibold mb-2">Time:</label>
+        <input
+          type="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+          className="w-full p-2 border border-[#B17457] rounded mb-4"
+        />
+
+        <label className="block text-[#B17457] font-semibold mb-2">Note:</label>
+        <textarea
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          className="w-full p-2 border border-[#B17457] rounded"
+          placeholder="Add any special instructions or notes..."
+        />
       </div>
 
       {/* Sección del Total */}
