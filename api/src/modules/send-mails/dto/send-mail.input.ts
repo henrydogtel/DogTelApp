@@ -11,8 +11,5 @@ export class SendMailInput {
     
     @IsString()
     text:string
-    
-    @IsString()
-    html:string
 
 }

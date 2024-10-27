@@ -30,7 +30,7 @@ export class AuthService {
         access_token,
         email: user.email,
         role:user.sitter ? user.sitter && user.sitter.role : user.user.role,
-        user: user.sitter ? user.sitter : user.user && user.user
+        user: user.sitter ? user.sitter : user.user
       };
     } catch (error) {
       console.error('Error generating token:', error.message)

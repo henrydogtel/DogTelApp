@@ -8,14 +8,13 @@ export class SendMailsService {
     constructor(private readonly mailService: MailerService){}
 
     sendMail = async (messageObject: SendMailInput) => {
-        const {to,subject,text,html} = messageObject
+        const {to,subject,text} = messageObject
         try {
             const response = await this.mailService.sendMail({
                 from:"denebleo08@gmail.com",
                 to,
                 subject,
-                text,
-                html
+                text
             })
             if(!response) throw new BadRequestException('Hubo un error al enviar el mensaje')
             console.log(response);
