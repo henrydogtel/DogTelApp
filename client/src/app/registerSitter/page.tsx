@@ -4,7 +4,7 @@ import RegisterSitterForm from '@/components/RegisterSitterForm';
 const registerSitter = () => {
   return (
     <div>
-     <RegisterSitterForm/>
+     <RegisterSitterForm  />
     </div>
   );
 }
