@@ -1,27 +1,13 @@
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DogForm from '../DogForm';
+import { UserContext } from '@/context/user';
 
 const MyPetsComponent = () => {
 
       const [isModalOpen, setIsModalOpen] = useState(false);
-
-      const pets = [
-        {
-          id: 1,
-          name: "Fluffy",
-          type: "Dog",
-          image:
-            "https://www.shutterstock.com/image-vector/wild-animal-veterinary-clinic-animals-260nw-2471930359.jpg",
-        },
-        {
-          id: 2,
-          name: "Buddy",
-          type: "Dog",
-          image:
-            "https://www.shutterstock.com/image-vector/wild-animal-veterinary-clinic-animals-260nw-2471930359.jpg",
-        },
-      ];
+      const {dogs, getDogs} = useContext(UserContext)
+      const [idUser, setIdUser] = useState(localStorage.getItem('idUser'))
 
       const handleAddPet = () => {
         setIsModalOpen(true);
@@ -39,17 +25,25 @@ const MyPetsComponent = () => {
         }
       };
 
+      useEffect(() => {
+        
+        if(idUser) {
+          
+          const data = getDogs(idUser)
+        }
+      },[dogs])
+
   return (
     <div>
       {/* Mascotas */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-6 text-[#B17457]">My Pets</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pets.length > 0 ? (
-            pets.map((pet) => (
+          {dogs && dogs.length > 0 ? (
+            dogs.map((pet:any) => (
               <div key={pet.id} className="bg-white p-6 rounded-xl shadow-lg">
                 <Image
-                  src={pet.image}
+                  src='https://media.istockphoto.com/id/1387833234/es/vector/silueta-de-perro-sobre-fondo-blanco.jpg?s=612x612&w=0&k=20&c=H1XjkMuI6ZXi9sSgFfQH16zxRxblm3Z5LDk1ee7v-0M='
                   alt={pet.name}
                   className="w-full h-40 object-cover rounded-t-lg mb-4"
                   width={100}
@@ -58,7 +52,9 @@ const MyPetsComponent = () => {
                 <h3 className="text-xl font-semibold text-[#B17457]">
                   {pet.name}
                 </h3>
-                <p className="text-gray-500">Type: {pet.type}</p>
+                <p className="text-gray-500">Race: {pet.race}</p>
+                <p className="text-gray-500">Size: {pet.size}</p>
+
               </div>
             ))
           ) : (
