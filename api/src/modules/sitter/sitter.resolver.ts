@@ -1,10 +1,10 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { SitterService } from './sitter.service';
 import { Sitter } from './entities/sitter.entity';
-import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
 import { BadRequestException } from '@nestjs/common';
 import { UserRole } from 'src/enums/user-role.enum';
+import { RemoveSitterResponse } from './dto/remove-siterr.input';
 
 @Resolver(() => Sitter)
 export class SitterResolver {
@@ -41,23 +41,37 @@ export class SitterResolver {
     }
   }
 
-  @Query(() => [Sitter], { name: 'sitter' })
-  findAll() {
-    return this.sitterService.findAll();
+  @Query(() => [Sitter], { name: 'sitters' })
+  async findAll(): Promise<Sitter[]> {
+    try {
+      return await this.sitterService.findAll();
+    } catch (error) {
+      throw new BadRequestException('Error al obtener la lista de sitters');
+    }
   }
-
   @Query(() => Sitter, { name: 'sitter' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.sitterService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string): Promise<Sitter> {
+    try {
+      return await this.sitterService.findOne(id);
+    } catch (error) {
+      throw new BadRequestException(`Error al obtener el sitter con id: ${id}`);
+    }
   }
 
-  @Mutation(() => Sitter)
-  updateSitter(@Args('updateSitterInput') updateSitterInput: UpdateSitterInput) {
-    return this.sitterService.update(updateSitterInput.id, updateSitterInput);
+   @Mutation(() => Sitter)
+  async updateSitter(
+    @Args('updateSitterInput', { type: () => UpdateSitterInput }) updateSitterInput: Partial<UpdateSitterInput>,
+  ): Promise<Sitter> {
+    const { id, ...updateData } = updateSitterInput;
+    return this.sitterService.update(id, updateData);
   }
 
-  @Mutation(() => Sitter)
-  removeSitter(@Args('id', { type: () => String }) id: string) {
-    return this.sitterService.remove(id);
+  @Mutation(() => RemoveSitterResponse)
+  async removeSitter(@Args('id') id: string): Promise<RemoveSitterResponse> {
+    const success = await this.sitterService.removeSitter(id);
+    return {
+      success,
+      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
+    };
   }
 }

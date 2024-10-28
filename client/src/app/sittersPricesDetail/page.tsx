@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { sitters } from "../../../public/sitters"; // Asegúrate de que la ruta sea correcta
 import Image from "next/image";
+import { useContext } from "react";
+import { UserContext } from "@/context/user";
 
 const SittersPricesDetail = () => {
+
+
+
   return (
     <div className="flex">
       <div className="max-w-4xl w-1/2 mx-auto p-6">

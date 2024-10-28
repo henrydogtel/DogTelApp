@@ -60,6 +60,16 @@ const SummaryComponent = () => {
     router.push("/home");
 
   const handleProceedToPayment = async () => {
+    try {
+      const response = await fetch("api/checkout", {
+        method: "POST",
+      });
+      const data = await response.json();
+      console.log(data);
+      router.push("/home");
+    } catch (error) {
+      console.error("Error en el proceso de pago:", error);
+    }
     
     const response = await fetch('api/checkout',{
       method:'POST'
@@ -225,5 +235,5 @@ const SummaryComponent = () => {
     </div>
   );
 };
-}
+
 export default SummaryComponent;

@@ -21,8 +21,8 @@ export class DogsService {
 
   }
 
-  findAll(): Promise<Dog[]> {
-    return this.dogRepository.findAll();
+  findAll(idUser:string): Promise<Dog[]> {
+    return this.dogRepository.findAll(idUser);
   }
 
   findOne(id: string): Promise<Dog> {
@@ -34,11 +34,11 @@ export class DogsService {
   }
   async removeDog(id: string): Promise<boolean> {
     try {
-      const dog = await this.findOne(id); // Busca la mascota o lanza excepción
+      const dog = await this.findOne(id);
       await this.dogRepository.removeDog(id);
       return true; 
     } catch (error) {
-      console.error(error); // Puedes usar un logger en lugar de console.error en producción
+      console.error(error); 
       return false; 
     }
   }

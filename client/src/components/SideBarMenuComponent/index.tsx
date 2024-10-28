@@ -27,6 +27,11 @@ const SideBarComponent = () => {
   useEffect(() => {
     // Obtener el rol del usuario desde localStorage
     const storedData = localStorage.getItem("user");
+    console.log(storedData);
+
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setUserRole(parsedData.role);
@@ -123,3 +128,4 @@ const SideBarComponent = () => {
 };
 
 export default SideBarComponent;
+

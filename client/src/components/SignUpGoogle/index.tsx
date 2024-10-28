@@ -2,18 +2,20 @@
 
 import { UserContext } from "@/context/user";
 import { ILoginUser, IRegisterSitter, IRegisterUser, IRegisterUserGoogle, IUserResponse } from "@/interfaces/interfaces";
-import { signIn, useSession, UseSessionOptions,  } from "next-auth/react";
+import { signIn, useSession, UseSessionOptions, signOut } from "next-auth/react";
 import Image from "next/image";
 import {useRouter} from 'next/navigation'
 import { Router } from "next/router";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { isNull } from "util";
 
 const SignUpWithGoogle =  ({role}) => {
 
   const {data: session, status, update} = useSession()
   const {setUser, signUpSitter, signUpOwner} = useContext(UserContext)
   const { signIn: googleSignIn } = useContext(UserContext);
+  const [registered, setRegistered] = useState(false)
   
   const router = useRouter()
 
@@ -21,12 +23,26 @@ const SignUpWithGoogle =  ({role}) => {
   
   
   useEffect(() => {
+  
     console.log(role);
+    let email: any = session?.user?.email
+    console.log(status);
+    console.log(session);
+    
+
+    // setTimeout(() => {
+    //   console.log(userLocal);
+    //   console.log(userLocal === null);
+      
+    //   if(status === 'authenticated' && userLocal !== null) {
+    //     signOut()
+    //   }
+    // }, 4000);
+    
     
     if(status === 'authenticated') {
       let firstname = ''
       let lastname = ''
-      let email: any = session?.user?.email
     
       names?.forEach((element,index) => {
         if(index === 0) {
@@ -40,6 +56,7 @@ const SignUpWithGoogle =  ({role}) => {
         
        
         if(role === 'sitter') {
+         
 
           const userSave:IRegisterSitter = {
             firstname,
@@ -66,6 +83,7 @@ const SignUpWithGoogle =  ({role}) => {
                 timer: 3000,
                 timerProgressBar: true,
               });
+              setRegistered(true)
               setInterval(() => {
                 router.push('/home')
               }, 3000)
@@ -83,9 +101,11 @@ const SignUpWithGoogle =  ({role}) => {
             }
 
           }
+    
           signUpSitterAsync()
     
         } else if(role === 'user') {
+          
           const userSave:IRegisterUser = {
             firstname,
             lastname,
@@ -99,6 +119,7 @@ const SignUpWithGoogle =  ({role}) => {
 
           
           const signUpOwnerAsync = async () => {
+            
             const response = await signUpOwner(userSave)
             if(response) {
               Swal.fire({
@@ -127,11 +148,13 @@ const SignUpWithGoogle =  ({role}) => {
             }
 
           }
+
           signUpOwnerAsync()
     
       
          
         } else if (role === 'signin') {
+          
           const userLogin:ILoginUser = {
             email,
             password:email+'secret'
@@ -176,7 +199,10 @@ const SignUpWithGoogle =  ({role}) => {
              
     }
 
-    
+
+    return(() => {
+     if(status === 'authenticated' && localStorage.getItem('user') === null) signOut()
+    })
     
   },[status])
   

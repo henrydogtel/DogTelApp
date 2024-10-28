@@ -16,6 +16,13 @@ type Credentials {
   email: String!
   verified: Boolean!
   user: User!
+
+}
+
+type ServicesSitter {
+  id: String!
+  name: String!
+  description: String!
   sitter: Sitter!
 }
 
@@ -27,12 +34,14 @@ type Sitter {
   address: String!
   role: String
   userImg: String!
+  credentials: Credentials!
   rate: Int!
   fee: Int!
   descripcion: String!
   services: [ServicesSitter!]!
   appointments: [Appointment!]!
   credentials: Credentials!
+
 }
 
 """
@@ -102,6 +111,22 @@ type User {
   address: String!
   role: String
   userImg: String!
+
+  credentials: Credentials!
+  dogs: [Dog!]!
+  appointments: [Appointment!]!
+}
+
+type LoginResponse {
+  access_token: String!
+  email: String!
+  role: String!
+}
+
+type RemoveSitterResponse {
+  success: Boolean!
+  message: String
+
   dogs: [Dog!]!
   appointments: [Appointment!]!
   credentials: Credentials!
@@ -112,6 +137,7 @@ type LoginResponse {
   access_token: String!
   email: String!
   role: String!
+
 }
 
 type RemoveDogResponse {
@@ -136,6 +162,7 @@ type Query {
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
+  sitters: [Sitter!]!
   sitter(id: String!): Sitter!
   dogs: [Dog!]!
   dog(id: String!): Dog!
@@ -159,7 +186,7 @@ type Mutation {
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
-  removeSitter(id: String!): Sitter!
+  removeSitter(id: String!): RemoveSitterResponse!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
@@ -249,7 +276,6 @@ input CreateCredentialInput {
 
 input UpdateSitterInput {
   id: ID!
-  area: String!
   rate: Float!
   fee: Float!
 }
@@ -286,5 +312,9 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
+
+  id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
+
   id: String! = "78c050aa-ac47-4fc4-8537-f771b48f46d1"
+
 }

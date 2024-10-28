@@ -26,5 +26,5 @@ export async function POST() {
     })
     console.log(session);
     
-    return NextResponse.json('pagando')
+    return NextResponse.json(session.url)
 }
