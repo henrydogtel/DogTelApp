@@ -32,6 +32,8 @@ const SideBarComponent = () => {
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
       setUserRole(parsedData.role);
     }
   }, []);
@@ -126,3 +128,4 @@ const SideBarComponent = () => {
 };
 
 export default SideBarComponent;
+
