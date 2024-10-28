@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -50,19 +50,54 @@ export class SitterService {
       throw new BadRequestException(error.message || 'Error desconocido');
     }
   }
-  findAll() {
-    return ;
+  async findAll(): Promise<Sitter[]> {
+    try {
+      return await this.sitterRepository.find({relations:['services','appointments']});
+    } catch (error) {
+      throw new BadRequestException('Error al obtener la lista de sitters');
+    }
   }
 
-  findOne(id: string) {
-    return ;
+
+  async findOne(id: string): Promise<Sitter> {
+    try {
+      const sitter = await this.sitterRepository.findOne({ where: { id } });
+      if (!sitter) {
+        throw new NotFoundException(`Sitter con id ${id} no encontrado`);
+      }
+      return sitter;
+    } catch (error) {
+      throw new NotFoundException(`Error al obtener el sitter con id ${id}`);
+    }
   }
 
-  update(id: string, updateSitterInput: UpdateSitterInput) {
-    return ;
+
+  async update(id: string, updateSitterInput: Partial<UpdateSitterInput>): Promise<Sitter> {
+    const sitter = await this.sitterRepository.findOne({ where: { id } });
+
+    if (!sitter) {
+      throw new NotFoundException(`Sitter with ID ${id} not found`);
+    }
+
+    Object.assign(sitter, updateSitterInput); 
+
+    return this.sitterRepository.save(sitter);
   }
 
-  remove(id: string) {
-    return ;
+  async removeSitter(id: string): Promise<boolean> {
+    try {
+      // Verifica si el sitter existe
+      const sitter = await this.findOne(id); // Lanzará NotFoundException si no existe
+      if (!sitter) {
+        throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
+      }
+  
+      // Elimina el sitter (cambia a la lógica específica de tu aplicación)
+      await this.sitterRepository.delete(id); // Usa tu método de eliminación aquí
+      return true;
+    } catch (error) {
+      console.error('Error al eliminar el sitter:', error);
+      return false;
+    }
   }
 }
