@@ -23,10 +23,12 @@ interface ISitter {
   firstname: string;
   lastname: string;
   birthdate: string;
-  email: string;
-  password: string;
   address: string;
   role: string;
+  userImg: string;
+  rate: number;
+  fee: number;
+  descripcion: string;
 }
 
 interface IRegisterUser {
@@ -70,6 +72,7 @@ interface IUserResponse {
 
 interface IUserContextType {
   user: Partial<IUserResponse> | null;
+  sitters: [] | null;
   dogs:[] | null;
   setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
   isLogged: boolean;
@@ -80,6 +83,8 @@ interface IUserContextType {
   logOut: () => void;
   createDog: (idUser:string,dog:IDogRegister) => Promise<boolean>;
   getDogs:(idUser:string) => Promise<boolean>
+  getSitters:() => Promise<boolean>;
+  getSittersById: (id: string) => void;
 }
 
 interface IDogRegister {
@@ -112,5 +117,6 @@ export type {
   IRegisterSitter,
   IRegisterUserGoogle,
   IDogRegister,
-  IDog
+  IDog,
+  ISitter,
 };
