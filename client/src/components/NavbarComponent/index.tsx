@@ -77,8 +77,10 @@ const NavbarComponent = () => {
                     </Link>
                   </li>
                 </>
-              ) : null}
 
+                
+              ) : null}
+           
 <button
                   onClick={() => router.push('home')}
                   className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"

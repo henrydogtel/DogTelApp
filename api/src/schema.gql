@@ -2,6 +2,45 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Dog {
+  """Unique ID for the dog"""
+  id: String!
+
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
+  user: User!
+  details: [AppointmentDetail!]!
+}
+
+type AppointmentDetail {
+  """id unico de el detalle de la cita"""
+  id: String!
+
+  """price de unnidad por perro"""
+  price: Float!
+  dog: Dog!
+  appointment: Appointment!
+}
+
+type ServicesSitter {
+  id: String!
+  name: String!
+  description: String!
+  sitter: Sitter!
+}
+
 type Credentials {
   id: String!
   password: String!
@@ -26,12 +65,12 @@ type Sitter {
   address: String!
   role: String
   userImg: String!
-  credentials: Credentials!
   rate: Int!
   fee: Int!
   descripcion: String!
   services: [ServicesSitter!]!
   appointments: [Appointment!]!
+  credentials: Credentials!
 }
 
 """
@@ -62,6 +101,7 @@ type Appointment {
   note: String
   sitter: Sitter!
   user: User!
+  detail: [AppointmentDetail!]!
 }
 
 """Los estados de la cita soportados."""
@@ -70,27 +110,6 @@ enum typeStatus {
   CANCELLED
   ENDING
   FINISHED
-}
-
-type Dog {
-  """Unique ID for the dog"""
-  id: String!
-
-  """The name of the pet"""
-  name: String!
-
-  """The birthdate of the dog"""
-  birthdate: String!
-
-  """List of image URLs for the dog"""
-  images: [String!]!
-
-  """Race of the dog"""
-  race: String!
-
-  """Size of the dog"""
-  size: String!
-  user: User!
 }
 
 type User {
@@ -107,6 +126,13 @@ type User {
 }
 
 type LoginResponse {
+  dogs: [Dog!]!
+  appointments: [Appointment!]!
+  credentials: Credentials!
+}
+
+type LoginResponse {
+  user: User!
   access_token: String!
   email: String!
   role: String!
@@ -122,14 +148,6 @@ type RemoveDogResponse {
   message: String
 }
 
-type AppointmentDetail {
-  """id unico de el detalle de la cita"""
-  id: String!
-
-  """price de unnidad por perro"""
-  price: Float!
-}
-
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
   appointments: [Appointment!]!
@@ -141,7 +159,7 @@ type Query {
   credentials: [Credentials!]!
   sitters: [Sitter!]!
   sitter(id: String!): Sitter!
-  dogs: [Dog!]!
+  dogs(idUser: String!): [Dog!]!
   dog(id: String!): Dog!
 }
 
@@ -290,4 +308,5 @@ input UpdateDogInput {
   """Size of the dog"""
   size: String
   id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
+  id: String! = "d8613cc1-41e9-425f-bf83-1ed2b7600ac3"
 }
