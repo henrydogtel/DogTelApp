@@ -7,9 +7,9 @@ import { IsInt, IsString } from 'class-validator';
 @InputType()
 export class CreateSitterInput extends CreateUserInput {
 
-  // @Field(() => Number)
-  // @IsInt()
-  // rate: number;
+  @Field(() => Number)
+  @IsInt()
+  rate: number;
 
   @Field(() => Number)
   @IsInt()
