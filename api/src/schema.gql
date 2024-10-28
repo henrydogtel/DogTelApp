@@ -11,44 +11,6 @@ type Credentials {
   user: User!
 }
 
-type User {
-  id: String!
-  firstname: String!
-  lastname: String!
-  birthdate: DateTime!
-  address: String!
-  role: String
-  userImg: String!
-  credentials: Credentials!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type LoginResponse {
-  access_token: String!
-  email: String!
-  role: String!
-}
-
-type Sitter {
-  id: String!
-  firstname: String!
-  lastname: String!
-  birthdate: DateTime!
-  address: String!
-  role: String
-  userImg: String!
-  credentials: Credentials!
-  area: String!
-  rate: Int!
-  fee: Int!
-  descripcion: String!
-  services: [ServicesSitter!]!
-}
-
 type ServicesSitter {
   id: String!
   name: String!
@@ -56,9 +18,30 @@ type ServicesSitter {
   sitter: Sitter!
 }
 
+type Sitter {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String
+  userImg: String!
+  credentials: Credentials!
+  rate: Int!
+  fee: Int!
+  descripcion: String!
+  services: [ServicesSitter!]!
+  appointments: [Appointment!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Appointment {
   """id unico para cada cita"""
-  id: String!
+  id: ID!
 
   """Fecha de incio de la cita"""
   entryDate: DateTime
@@ -77,6 +60,8 @@ type Appointment {
 
   """Nota del cliente sobre la cita"""
   note: String
+  sitter: Sitter!
+  user: User!
 }
 
 """Los estados de la cita soportados."""
@@ -105,6 +90,31 @@ type Dog {
 
   """Size of the dog"""
   size: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String
+  userImg: String!
+  credentials: Credentials!
+  dogs: [Dog!]!
+  appointments: [Appointment!]!
+}
+
+type LoginResponse {
+  access_token: String!
+  email: String!
+  role: String!
+}
+
+type RemoveSitterResponse {
+  success: Boolean!
+  message: String
 }
 
 type RemoveDogResponse {
@@ -112,13 +122,24 @@ type RemoveDogResponse {
   message: String
 }
 
+type AppointmentDetail {
+  """id unico de el detalle de la cita"""
+  id: String!
+
+  """price de unnidad por perro"""
+  price: Float!
+}
+
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
   appointments: [Appointment!]!
   appointment(id: Int!): Appointment!
+  appointmentDetails: [AppointmentDetail!]!
+  appointmentDetail(id: Int!): AppointmentDetail!
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
+  sitters: [Sitter!]!
   sitter(id: String!): Sitter!
   dogs: [Dog!]!
   dog(id: String!): Dog!
@@ -131,15 +152,18 @@ type Mutation {
   createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
   updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
   removeAppointment(id: Int!): Appointment!
+  createAppointmentDetail(createAppointmentDetailInput: CreateAppointmentDetailInput!): AppointmentDetail!
+  updateAppointmentDetail(updateAppointmentDetailInput: UpdateAppointmentDetailInput!): AppointmentDetail!
+  removeAppointmentDetail(id: Int!): AppointmentDetail!
   createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
   uploadProfilePicture(userId: String!): User!
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
-  createSitter(createSitterInput: CreateSitterInput!): Sitter!
+  createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
-  removeSitter(id: String!): Sitter!
+  removeSitter(id: String!): RemoveSitterResponse!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
@@ -197,6 +221,17 @@ input UpdateAppointmentInput {
   id: Int!
 }
 
+input CreateAppointmentDetailInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAppointmentDetailInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input UpdateUserInput {
   firstname: String
   lastname: String
@@ -216,23 +251,8 @@ input CreateCredentialInput {
   email: String!
 }
 
-input CreateSitterInput {
-  firstname: String!
-  lastname: String!
-  birthdate: DateTime!
-  address: String!
-  role: String
-  password: String!
-  email: String!
-  area: String!
-  rate: Float!
-  fee: Float!
-  descripcion: String!
-}
-
 input UpdateSitterInput {
   id: ID!
-  area: String!
   rate: Float!
   fee: Float!
 }
@@ -269,5 +289,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "bbc44029-70bc-435c-8525-3231f672f68d"
+  id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
 }
