@@ -52,7 +52,10 @@ export class SitterService {
   }
   async findAll(): Promise<Sitter[]> {
     try {
+
       return await this.sitterRepository.find({relations:['services','appointments']});
+
+      return await this.sitterRepository.find();
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
     }
