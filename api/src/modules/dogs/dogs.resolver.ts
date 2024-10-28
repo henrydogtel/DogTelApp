@@ -21,8 +21,8 @@ async createDog(
 }
 
   @Query(() => [Dog], { name: 'dogs' })
-  findAll() {
-    return this.dogsService.findAll();
+  findAll(@Args('idUser', { type: () => String }) id: string) {
+    return this.dogsService.findAll(id);
   }
 
   @Query(() => Dog, { name: 'dog' })

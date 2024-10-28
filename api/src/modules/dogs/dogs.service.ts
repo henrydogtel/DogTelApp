@@ -21,8 +21,8 @@ export class DogsService {
 
   }
 
-  findAll(): Promise<Dog[]> {
-    return this.dogRepository.findAll();
+  findAll(idUser:string): Promise<Dog[]> {
+    return this.dogRepository.findAll(idUser);
   }
 
   findOne(id: string): Promise<Dog> {
