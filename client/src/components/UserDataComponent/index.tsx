@@ -53,5 +53,3 @@ const UserDataComponent: React.FC = () => {
 };
 
 export default UserDataComponent;
-
-

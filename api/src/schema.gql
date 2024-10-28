@@ -2,13 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ServicesSitter {
-  id: String!
-  name: String!
-  description: String!
-  sitter: Sitter!
-}
-
 type Credentials {
   id: String!
   password: String!
@@ -16,7 +9,6 @@ type Credentials {
   email: String!
   verified: Boolean!
   user: User!
-
 }
 
 type ServicesSitter {
@@ -40,8 +32,6 @@ type Sitter {
   descripcion: String!
   services: [ServicesSitter!]!
   appointments: [Appointment!]!
-  credentials: Credentials!
-
 }
 
 """
@@ -111,7 +101,6 @@ type User {
   address: String!
   role: String
   userImg: String!
-
   credentials: Credentials!
   dogs: [Dog!]!
   appointments: [Appointment!]!
@@ -126,18 +115,6 @@ type LoginResponse {
 type RemoveSitterResponse {
   success: Boolean!
   message: String
-
-  dogs: [Dog!]!
-  appointments: [Appointment!]!
-  credentials: Credentials!
-}
-
-type LoginResponse {
-  user: User!
-  access_token: String!
-  email: String!
-  role: String!
-
 }
 
 type RemoveDogResponse {
@@ -312,9 +289,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-
   id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
-
-  id: String! = "78c050aa-ac47-4fc4-8537-f771b48f46d1"
-
 }
