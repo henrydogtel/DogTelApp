@@ -36,8 +36,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(data.user);
       
       setUser(data);
+
+      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("token", data.accessToken);
+
       localStorage.setItem('firstname', data.user.firstname)
       localStorage.setItem('lastname', data.user.lastname)
+
       return true;
     } catch (error) {
       console.log(error);
