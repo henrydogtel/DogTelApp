@@ -1,7 +1,7 @@
 import { ISitter } from "@/interfaces/interfaces";
 
 
-export const getSittersFetch = async (): Promise<ISitter[] | null> => {
+export const getSittersFetch = async () => {
     const query = JSON.stringify({
         query: `
         query Sitters {
