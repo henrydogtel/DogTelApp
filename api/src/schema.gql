@@ -56,6 +56,11 @@ type ServicesSitter {
   sitter: Sitter!
 }
 
+type RemoveServicesSitter {
+  success: Boolean!
+  message: String!
+}
+
 type Appointment {
   """id unico para cada cita"""
   id: String!
@@ -113,7 +118,7 @@ type RemoveDogResponse {
 }
 
 type Query {
-  servicesSitter(id: Int!): ServicesSitter!
+  servicesSitter(id: String!): ServicesSitter!
   appointments: [Appointment!]!
   appointment(id: Int!): Appointment!
   users: [User!]!
@@ -125,9 +130,9 @@ type Query {
 }
 
 type Mutation {
-  createServicesSitter(createServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
+  createServicesSitter(sitter_id: String!, CreateServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
   updateServicesSitter(updateServicesSitterInput: UpdateServicesSitterInput!): ServicesSitter!
-  removeServicesSitter(id: Int!): ServicesSitter!
+  removeServicesSitter(id: String!): RemoveServicesSitter!
   createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
   updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
   removeAppointment(id: Int!): Appointment!
@@ -146,14 +151,14 @@ type Mutation {
 }
 
 input CreateServicesSitterInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  description: String!
 }
 
 input UpdateServicesSitterInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  description: String
+  id: String! = "6ae7c73d-4d41-47bc-8c3a-aa568ad973aa"
 }
 
 input CreateAppointmentInput {
@@ -269,5 +274,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "bbc44029-70bc-435c-8525-3231f672f68d"
+  id: String! = "bf40ca0a-ecdd-45f1-b6c7-1306fa66ec2c"
 }
