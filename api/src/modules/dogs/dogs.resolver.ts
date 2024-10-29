@@ -21,8 +21,8 @@ async createDog(
 }
 
   @Query(() => [Dog], { name: 'dogs' })
-  findAll() {
-    return this.dogsService.findAll();
+  findAll(@Args('idUser', { type: () => String }) id: string) {
+    return this.dogsService.findAll(id);
   }
 
   @Query(() => Dog, { name: 'dog' })
@@ -36,6 +36,8 @@ async createDog(
   }
 
   @Mutation(() => RemoveDogResponse) 
+
+  @Mutation(() => RemoveDogResponse)
   async removeDog(@Args('id') id: string): Promise<RemoveDogResponse> {
     const success = await this.dogsService.removeDog(id);
     return {

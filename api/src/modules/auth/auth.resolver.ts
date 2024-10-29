@@ -15,10 +15,12 @@ export class AuthResolver {
 
     try {
       const user = await this.authService.validateUser(email, password);
+      console.log(user);
+      
       if (!user) {
         throw new Error('Invalid credentials');
       }
-      return this.authService.login(user);
+      return await this.authService.login(user);
     } catch (error) {
       return error
     }

@@ -1,50 +1,54 @@
 "use client";
 
-import React, {  } from "react";
-import { validateSignup } from "@/app/utils/validation";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import Swal from "sweetalert2";
-//import { UserContext } from "@/context/user";
+import { validateSignup } from "@/app/utils/validationSitter";
+import { UserContext } from "@/context/user";
+import { postSignUpSitter } from "@/app/lib/server/fetchUsers";
 import SignUpWithGoogle from "../SignUpGoogle";
-import Link from "next/link";
-import {  postSignUpSitter } from "@/app/lib/server/fetchUsers";
+import {neucha, concertOne} from "@/app/lib/server/fonts" 
 
 const RegisterSitterForm = () => {
+  const {signUpSitter} = useContext(UserContext)
   const router = useRouter();
- // const { signUpSitter } = useContext(UserContext);
   const [signupValues, setSignupValues] = useState({
+    firstname: "",
+    lastname: "",
+    birthdate: new Date(),
     email: "",
     password: "",
-    name: "",
-    phone: "",
     address: "",
+    role: "sitter",
+    fee: 0,
+    descripcion: "",
   });
 
   const [errors, setErrors] = useState({} as { [key: string]: string });
   const [touched, setTouched] = useState({} as { [key: string]: boolean });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setSignupValues({ ...signupValues, [name]: value });
 
-    // Validar el campo actualizado
     setErrors(validateSignup({ ...signupValues, [name]: value }));
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name } = e.target;
     setTouched({ ...touched, [name]: true });
 
-    // Validar al perder el foco
     setErrors(validateSignup(signupValues));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-     console.log(signupValues);
+   
+    const success = await signUpSitter(
+      signupValues
+      
+    )
 
-    const success = await postSignUpSitter(signupValues);
     if (success) {
       const Toast = Swal.mixin({
         toast: true,
@@ -83,9 +87,8 @@ const RegisterSitterForm = () => {
 
   return (
     <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
-      <h1 className="text-2xl font-bold mb-6 text-center">Sitter Register</h1>
+      <h1 className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}>Sitter Register</h1>
       <form onSubmit={handleSubmit}>
-        {/** Email field */}
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="email"
@@ -95,21 +98,20 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.email && errors.email
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Email Address
           </label>
           {touched.email && errors.email && (
-            <span className="text-red-500 text-xs mt-1">{errors.email}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.email}</span>
           )}
         </div>
 
-        {/** Password field */}
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="password"
@@ -119,67 +121,92 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.password && errors.password
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Password
           </label>
           {touched.password && errors.password && (
-            <span className="text-red-500 text-xs mt-1">{errors.password}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.password}</span>
           )}
         </div>
 
-        {/** Name field */}
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
-            name="name"
-            id="name"
+            name="firstname"
+            id="firstname"
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.name && errors.name ? "border-red-500" : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+              touched.firstname && errors.firstname
+                ? "border-[#FA7070]"
+                : "border-gray-300"
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
-            Name
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6 `}>
+            First Name
           </label>
-          {touched.name && errors.name && (
-            <span className="text-red-500 text-xs mt-1">{errors.name}</span>
+          {touched.firstname && errors.firstname && (
+            <span className="text-[#FA7070] text-xs mt-1">{errors.firstname}</span>
           )}
         </div>
 
-        {/** Phone field */}
+     
         <div className="relative z-0 w-full mb-6 group">
           <input
-            type="tel"
-            name="phone"
-            id="phone"
+            type="text"
+            name="lastname"
+            id="lastname"
             onChange={handleChange}
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
-              touched.address && errors.address
-                ? "border-red-500"
+              touched.lastname && errors.lastname
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
-            Phone Number
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
+            Last Name
           </label>
-          {touched.phone && errors.phone && (
-            <span className="text-red-500 text-xs mt-1">{errors.phone}</span>
+          {touched.lastname && errors.lastname && (
+            <span className="text-[#FA7070] text-xs mt-1">{errors.lastname}</span>
           )}
         </div>
 
-        {/** Address field */}
+     
+         <div className="relative z-0 w-full mb-6 group">
+          <input
+            type="date"
+            name="birthdate"
+            id="birthdate"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
+              touched.birthdate && errors.birthdate
+                ? "border-[#FA7070]"
+                : "border-gray-300"
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e]`}
+            placeholder=" "
+            required
+          />
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
+            Birthdate
+          </label>
+          {touched.birthdate && errors.birthdate && (
+            <span className="text-[#FA7070] text-xs mt-1">{errors.birthdate}</span>
+          )}
+        </div>
+
+      
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -189,42 +216,81 @@ const RegisterSitterForm = () => {
             onBlur={handleBlur}
             className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
               touched.address && errors.address
-                ? "border-red-500"
+                ? "border-[#FA7070]"
                 : "border-gray-300"
-            } appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e]`}
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-blue-600 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Address
           </label>
           {touched.address && errors.address && (
-            <span className="text-red-500 text-xs mt-1">{errors.address}</span>
+            <span className="text-[#FA7070] text-xs mt-1">{errors.address}</span>
           )}
         </div>
 
-        {/** Submit button */}
+       
+        <div className="relative z-0 w-full mb-6 group">
+          <input
+            type="number"
+            name="fee"
+            id="fee"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
+              touched.fee && errors.fee
+                ? "border-[#FA7070]"
+                : "border-gray-300"
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
+            placeholder=" "
+            required
+          />
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
+            Fee
+          </label>
+          {touched.fee && errors.fee && (
+            <span className="text-[#FA7070] text-xs mt-1">{errors.fee}</span>
+          )}
+        </div>
+
+        
+        <div className="relative z-0 w-full mb-6 group">
+          <textarea
+            name="descripcion"
+            id="descripcion"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 ${
+              touched.descripcion && errors.descripcion
+                ? "border-[#FA7070]"
+                : "border-gray-300"
+            } appearance-none focus:outline-none focus:ring-0 focus:border-[#ffb87e] peer`}
+            placeholder=" "
+            rows={4}
+            required
+          />
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
+            Description
+          </label>
+          {touched.descripcion && errors.descripcion && (
+            <span className="text-[#FA7070] text-xs mt-1">{errors.descripcion}</span>
+          )}
+        </div>
+
         <button
           type="submit"
+
+
           disabled={Object.keys(errors).length > 0}
-          className="w-full py-3 px-5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm font-medium transition"
+          className={`${concertOne.className} w-full font-bold py-3 px-5 text-white bg-[#ffa477] hover:bg-[#e6854d] focus:ring-4 focus:ring-[#ffb87e] rounded-lg text-sm transition`}
+
         >
-          Submit
+          Register
         </button>
-        <h2 className="font-bold p-3 text-center">Or</h2>
+
         <div className="text-center">
-          <SignUpWithGoogle />
-        </div>
-        <div className="flex flex-col items-center mt-6">
-          <h1 className="text-xl font-semibold text-gray-700">
-            Have an account?
-            <Link
-              href="/login"
-              className="text-[#FA7070] hover:text-[#B94F4F] ml-2 transition-colors duration-300"
-            >
-              Log In
-            </Link>
-          </h1>
+          <SignUpWithGoogle role={'sitter'} />
         </div>
       </form>
     </div>
