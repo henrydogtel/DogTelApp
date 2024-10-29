@@ -35,6 +35,8 @@ async createDog(
     return this.dogsService.update(updateDogInput.id, updateDogInput);
   }
 
+  @Mutation(() => RemoveDogResponse) 
+
   @Mutation(() => RemoveDogResponse)
   async removeDog(@Args('id') id: string): Promise<RemoveDogResponse> {
     const success = await this.dogsService.removeDog(id);

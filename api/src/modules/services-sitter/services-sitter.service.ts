@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateServicesSitterInput } from './dto/create-services-sitter.input';
 import { UpdateServicesSitterInput } from './dto/update-services-sitter.input';
+import { SitterServiceRepository } from './sitter-repository';
+import { ServicesSitter } from './entities/services-sitter.entity';
 
 @Injectable()
 export class ServicesSitterService {
-  create(createServicesSitterInput: CreateServicesSitterInput) {
-    return 'This action adds a new servicesSitter';
+  constructor(private readonly sitterServiceRepository: SitterServiceRepository) { }
+
+  async create(sitter_id: string, createServicesSitterInput: CreateServicesSitterInput) {
+    try {
+      return await this.sitterServiceRepository.createService(sitter_id, createServicesSitterInput)
+    } catch (error) {
+      throw error
+    }
   }
 
-  findAll() {
-    return `This action returns all servicesSitter`;
+  findAll(): Promise<ServicesSitter[]> {
+    return this.sitterServiceRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} servicesSitter`;
+  findOne(id: string) {
+    return this.sitterServiceRepository.findOne(id);
   }
 
-  update(id: number, updateServicesSitterInput: UpdateServicesSitterInput) {
-    return `This action updates a #${id} servicesSitter`;
+  async update(id: string, updateServicesSitterInput: UpdateServicesSitterInput): Promise<ServicesSitter> {
+    return await this.sitterServiceRepository.updateService(id, updateServicesSitterInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} servicesSitter`;
+  async removeService(id: string): Promise<boolean> {
+    try {
+      const service = await this.sitterServiceRepository.findOne(id)
+      await this.sitterServiceRepository.removeService(id)
+      return true
+    } catch (error) {
+      return false
+    };
   }
 }
