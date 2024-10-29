@@ -74,20 +74,20 @@ const NavbarComponent = () => {
                 </>
               ) : null}
 
-              <button
-                onClick={() => router.push('home')}
+              <Link
+                  href="/home"
                 className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
               >
                 Home
-              </button>
+              </Link>
 
               {user && token && (
-                <button
-                  onClick={() => window.location.replace('/dashboard')}
+                <Link
+                  href="/dashboard"
                   className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
                 >
-                  Dashboard Admin
-                </button>
+                  Dashboard
+                </Link>
               )}
 
               {user && token && (
