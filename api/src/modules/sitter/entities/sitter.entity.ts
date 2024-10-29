@@ -1,8 +1,9 @@
 import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
-import { Column, Entity,OneToMany,} from 'typeorm';
+import { Column, Entity,JoinColumn,OneToMany, OneToOne,} from 'typeorm';
 import { ServicesSitter } from 'src/modules/services-sitter/entities/services-sitter.entity';
 import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
 import { Person } from 'src/global-entities/person.entity';
+import { Credentials } from 'src/modules/credentials/entities/credential.entity';
 
 
 
