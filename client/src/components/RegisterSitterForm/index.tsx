@@ -7,6 +7,7 @@ import { validateSignup } from "@/app/utils/validationSitter";
 import { UserContext } from "@/context/user";
 import { postSignUpSitter } from "@/app/lib/server/fetchUsers";
 import SignUpWithGoogle from "../SignUpGoogle";
+import {neucha, concertOne} from "@/app/lib/server/fonts" 
 
 const RegisterSitterForm = () => {
   const {signUpSitter} = useContext(UserContext)
@@ -86,7 +87,7 @@ const RegisterSitterForm = () => {
 
   return (
     <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
-      <h1 className="text-2xl font-bold mb-6 text-center text-[#f68f53]">Sitter Register</h1>
+      <h1 className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}>Sitter Register</h1>
       <form onSubmit={handleSubmit}>
         <div className="relative z-0 w-full mb-6 group">
           <input
@@ -103,7 +104,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Email Address
           </label>
           {touched.email && errors.email && (
@@ -126,7 +127,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Password
           </label>
           {touched.password && errors.password && (
@@ -149,7 +150,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6 `}>
             First Name
           </label>
           {touched.firstname && errors.firstname && (
@@ -173,7 +174,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Last Name
           </label>
           {touched.lastname && errors.lastname && (
@@ -197,7 +198,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Birthdate
           </label>
           {touched.birthdate && errors.birthdate && (
@@ -221,7 +222,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 focus:border-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Address
           </label>
           {touched.address && errors.address && (
@@ -245,7 +246,7 @@ const RegisterSitterForm = () => {
             placeholder=" "
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Fee
           </label>
           {touched.fee && errors.fee && (
@@ -269,7 +270,7 @@ const RegisterSitterForm = () => {
             rows={4}
             required
           />
-          <label className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className={`${neucha.className} absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6`}>
             Description
           </label>
           {touched.descripcion && errors.descripcion && (
@@ -282,7 +283,7 @@ const RegisterSitterForm = () => {
 
 
           disabled={Object.keys(errors).length > 0}
-          className="w-full font-bold py-3 px-5 text-white bg-[#ffa477] hover:bg-[#e6854d] focus:ring-4 focus:ring-[#ffb87e] rounded-lg text-sm transition"
+          className={`${concertOne.className} w-full font-bold py-3 px-5 text-white bg-[#ffa477] hover:bg-[#e6854d] focus:ring-4 focus:ring-[#ffb87e] rounded-lg text-sm transition`}
 
         >
           Register
