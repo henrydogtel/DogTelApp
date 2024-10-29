@@ -20,6 +20,7 @@ export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
   sitters:null,
+
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
@@ -31,6 +32,7 @@ export const UserContext = createContext<IUserContextType>({
   getDogs: async () => false,
   getSitters: async () => false,
   getSittersById: async () => false 
+  getDogs: async () => false
 });
 
 
@@ -183,6 +185,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         sitters,
         getSitters,
         getSittersById
+        getDogs
       }}
     >
       {children}

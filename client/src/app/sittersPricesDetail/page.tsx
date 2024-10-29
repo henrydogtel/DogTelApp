@@ -26,6 +26,13 @@ const SittersPricesDetail = () => {
     return <p className="text-center">Loading...</p>;
   }
 
+import { useContext } from "react";
+import { UserContext } from "@/context/user";
+
+const SittersPricesDetail = () => {
+
+
+
   return (
     <div className="flex">
       <div className="max-w-4xl w-1/2 mx-auto p-6">

@@ -29,6 +29,10 @@ interface ISitter {
   rate: number;
   fee: number;
   descripcion: string;
+  email: string;
+  password: string;
+  address: string;
+  role: string;
 }
 
 interface IRegisterUser {
@@ -119,4 +123,5 @@ export type {
   IDogRegister,
   IDog,
   ISitter,
+  IDog
 };
