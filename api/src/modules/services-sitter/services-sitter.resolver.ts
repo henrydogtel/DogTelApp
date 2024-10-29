@@ -3,14 +3,19 @@ import { ServicesSitterService } from './services-sitter.service';
 import { ServicesSitter } from './entities/services-sitter.entity';
 import { CreateServicesSitterInput } from './dto/create-services-sitter.input';
 import { UpdateServicesSitterInput } from './dto/update-services-sitter.input';
+import { RemoveServicesSitter } from './dto/remove-services-sitter';
 
 @Resolver(() => ServicesSitter)
 export class ServicesSitterResolver {
-  constructor(private readonly servicesSitterService: ServicesSitterService) {}
+  constructor(private readonly servicesSitterService: ServicesSitterService) { }
 
   @Mutation(() => ServicesSitter)
-  createServicesSitter(@Args('createServicesSitterInput') createServicesSitterInput: CreateServicesSitterInput) {
-    return this.servicesSitterService.create(createServicesSitterInput);
+  async createServicesSitter(
+    @Args('sitter_id') idSitter: string,
+    @Args('CreateServicesSitterInput') createServicesSitterInput: CreateServicesSitterInput
+  ): Promise<ServicesSitter> {
+    const { name, description } = createServicesSitterInput;
+    return await this.servicesSitterService.create(idSitter, createServicesSitterInput);
   }
 
   @Query(() => [ServicesSitter], { name: 'servicesSitter' })
@@ -19,7 +24,7 @@ export class ServicesSitterResolver {
   }
 
   @Query(() => ServicesSitter, { name: 'servicesSitter' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.servicesSitterService.findOne(id);
   }
 
@@ -28,8 +33,11 @@ export class ServicesSitterResolver {
     return this.servicesSitterService.update(updateServicesSitterInput.id, updateServicesSitterInput);
   }
 
-  @Mutation(() => ServicesSitter)
-  removeServicesSitter(@Args('id', { type: () => Int }) id: number) {
-    return this.servicesSitterService.remove(id);
+  @Mutation(() => RemoveServicesSitter)
+  async removeServicesSitter(@Args('id') id: string): Promise<RemoveServicesSitter> {
+    const success = await this.servicesSitterService.removeService(id);
+    return {
+      success, message: success ? 'the service was deleted' : 'error at deleting service '
+    }
   }
 }
