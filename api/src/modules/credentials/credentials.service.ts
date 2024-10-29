@@ -25,9 +25,7 @@ export class CredentialsService {
     
     const credentials = await this.credentialsRepository.findOne({ where: {
       email,
-    },relations:['user'] }); 
-    console.log("here");
-    console.log(credentials);
+    },relations:['user','sitter'] }); 
     
     return credentials
 }

@@ -13,7 +13,7 @@ const config = {
     username: DB_USERNAME,
     password: DB_PASSWORD,
     synchronize: true,
-    dropSchema: false,
+    dropSchema: true,
     logging: true,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}']
@@ -21,3 +21,10 @@ const config = {
 
 export default registerAs('typeorm', () => config)
 export const connectionSource = new DataSource(config as DataSourceOptions)
+
+
+    // database: DB_NAME,
+    // host: DB_HOST,
+    // port: DB_PORT,
+    // username: DB_USERNAME,
+    // password: DB_PASSWORD,

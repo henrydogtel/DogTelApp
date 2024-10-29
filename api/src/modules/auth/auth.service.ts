@@ -21,13 +21,16 @@ export class AuthService {
   }
 
   async login(user: Partial<Credentials>) {
-    const payload = { email: user.email, sub: user.id, role:user.user.role  };
+    const payload = { email: user.email, sub: user.id, role: user.sitter ? user.sitter && user.sitter.role : user.user.role };
+    console.log(user);
+    
     try {
       const access_token = this.authRepository.generateToken(payload);
       return {
         access_token,
         email: user.email,
-        role:user.user.role
+        role:user.sitter ? user.sitter && user.sitter.role : user.user.role,
+        user: user.sitter ? user.sitter : user.user && user.user
       };
     } catch (error) {
       console.error('Error generating token:', error.message)

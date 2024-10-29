@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLModule,  } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -15,8 +15,13 @@ import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { DogsModule } from './modules/dogs/dogs.module';
 import { ApolloServerPluginLandingPageProductionDefault, ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { JWT_SECRET, NODE_ENV } from './helpers/developmentEnv';
+import { EMAIL_HOST, EMAIL_PASSWORD, EMAIL_USERNAME, JWT_SECRET, NODE_ENV } from './helpers/developmentEnv';
 import { JwtModule } from '@nestjs/jwt';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { SendMailsModule } from './modules/send-mails/send-mails.module';
+import { SendMailsService } from './modules/send-mails/send-mails.service';
+import { AppointmentDetailsModule } from './modules/appointment_details/appointment_details.module';
+
 
 @Module({
   
@@ -24,6 +29,17 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [typeorm]
+    }),
+    MailerModule.forRoot({
+      transport:{
+        host:EMAIL_HOST,
+        port:465,
+        secure:true,
+        auth:{
+          user:EMAIL_USERNAME,
+          pass:EMAIL_PASSWORD
+        }
+      }
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -44,19 +60,24 @@ import { JwtModule } from '@nestjs/jwt';
     TypeOrmModule.forFeature([User]),
     ServicesSitterModule,
     AppointmentsModule,
+    AppointmentDetailsModule,
     UserModule,
     CredentialsModule,
     SitterModule,
     AuthModule,
     DogsModule,
+    SendMailsModule,
     JwtModule.register({
       global:true,
       secret: JWT_SECRET,
       signOptions:{
         expiresIn:'1h'
       }
-    })
+    }),
   ],
-  providers: [UserService],
+
+  providers: [UserService, SendMailsService],
+
+
 })
 export class AppModule {}

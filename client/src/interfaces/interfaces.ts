@@ -4,12 +4,13 @@ interface ICredential {
 }
 
 interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  address: string;
-  phone: string;
-  credential: Credential;
+    id: string,
+    firstname: string,
+    lastname: string,
+    birthdate: string,
+    address: string,
+    role: string,
+    userImg: string
 }
 
 interface ILoginUser {
@@ -17,13 +18,53 @@ interface ILoginUser {
   password: string;
 }
 
+interface ISitter {
+  id:string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
+  address: string;
+  role: string;
+  userImg: string;
+  rate: number;
+  fee: number;
+  descripcion: string;
+  email: string;
+  password: string;
+}
+
 interface IRegisterUser {
-  name: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
   email: string;
   password: string;
   address: string;
-  phone: string;
+  role: string;
 }
+
+interface IRegisterUserGoogle {
+  firstname: string | null;
+  lastname: string | null;
+  birthdate: string | null;
+  email: string | null | undefined;
+  password: string | null;
+  address: string | null;
+  role: string | null;
+}
+
+interface IRegisterSitter {
+  firstname: string;
+  lastname: string;
+  birthdate: Date;
+  email: string;
+  password: string;
+  address: string;
+  role: string;
+  fee: number;
+  descripcion: string;
+}
+
 
 interface IUserResponse {
   login: boolean;
@@ -33,14 +74,39 @@ interface IUserResponse {
 
 interface IUserContextType {
   user: Partial<IUserResponse> | null;
+  sitters: [] | null;
+  dogs:[] | null;
   setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
   isLogged: boolean;
   setIsLogged: (isLogged: boolean) => void;
   signIn: (credentials: ILoginUser) => Promise<boolean>;
-  signUpSitter: (user: IRegisterUser) => Promise<boolean>;
+  signUpSitter: (user: IRegisterSitter) => Promise<boolean>;
   signUpOwner: (user: IRegisterUser) => Promise<boolean>;
   logOut: () => void;
+  createDog: (idUser:string,dog:IDogRegister) => Promise<boolean>;
+  getDogs:(idUser:string) => Promise<boolean>
+  getSitters:() => Promise<boolean>;
+  getSittersById: (id: string) => void;
 }
+
+interface IDogRegister {
+  name: string;
+  birthdate:string;
+  images:[],
+  race:string;
+  size:string;
+}
+
+interface IDog {
+  id:string,
+  name: string;
+  birthdate:string;
+  images:[],
+  race:string;
+  size:string;
+}
+
+
 
 
 export type {
@@ -50,4 +116,9 @@ export type {
   IUserContextType,
   IUserResponse,
   IUser,
+  IRegisterSitter,
+  IRegisterUserGoogle,
+  IDogRegister,
+  IDog,
+  ISitter,
 };
