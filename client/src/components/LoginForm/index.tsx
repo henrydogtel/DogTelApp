@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import SignUpWithGoogle from "../SignUpGoogle";
 import Link from "next/link";
 import { postSignIn } from "@/app/lib/server/fetchUsers";
+import {neucha, concertOne} from "@/app/lib/server/fonts"
 
 function SignInForm() {
   const router = useRouter();
@@ -78,7 +79,7 @@ function SignInForm() {
       className="max-w-lg mx-auto m-10 p-6 bg-white rounded-lg shadow-lg"
       onSubmit={handleSubmit}
     >
-      <h1 className="text-2xl font-bold mb-6 text-center text-[#f68f53]">Login</h1>
+      <h1 className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}>Login</h1>
     
       <div className="relative z-0 w-full mb-6 group">
         <input
@@ -92,7 +93,7 @@ function SignInForm() {
           placeholder=" "
           required
         />
-        <label className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+        <label className={`${neucha.className} absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}>
           Email Address
         </label>
         {touched.email && errors.email && (
@@ -112,7 +113,7 @@ function SignInForm() {
           placeholder=" "
           required
         />
-        <label className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+        <label className={`${neucha.className} absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-[#ffb87e] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6`}>
           Password
         </label>
         {touched.password && errors.password && (
@@ -123,16 +124,16 @@ function SignInForm() {
       <button
         type="submit"
         disabled={Object.keys(errors).length > 0}
-        className="font-bold w-full py-3 px-5 text-white bg-[#ffa477] hover:bg-[#e6854d] focus:ring-4 focus:ring-[#ffb87e] rounded-lg text-sm transition" 
+        className={`${concertOne.className} font-bold w-full py-3 px-5 text-white bg-[#ffa477] hover:bg-[#e6854d] focus:ring-4 focus:ring-[#ffb87e] rounded-lg text-sm transition`} 
       >
         Submit
       </button>
-      <h2 className="font-bold p-3 text-center">Or</h2>
+      <h2 className={`${neucha.className} font-bold p-3 text-center`}>Or</h2>
       <div className="text-center">
         <SignUpWithGoogle role={'signin'} />
       </div>
       <div className="flex flex-col items-center mt-6">
-        <h1 className="text-xl font-semibold text-[#f68f53]">
+        <h1 className={`${concertOne.className} text-xl font-semibold text-[#f68f53]`}>
           You don't have an account?
           <Link
             href="/registerAs"

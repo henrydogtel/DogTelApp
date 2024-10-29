@@ -2,6 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+
 type Dog {
   """Unique ID for the dog"""
   id: String!
@@ -48,12 +49,6 @@ type Credentials {
   email: String!
   verified: Boolean!
   user: User!
-}
-
-type ServicesSitter {
-  id: String!
-  name: String!
-  description: String!
   sitter: Sitter!
 }
 
@@ -120,12 +115,13 @@ type User {
   address: String!
   role: String
   userImg: String!
-  credentials: Credentials!
   dogs: [Dog!]!
   appointments: [Appointment!]!
+  credentials: Credentials!
 }
 
 type LoginResponse {
+
   dogs: [Dog!]!
   appointments: [Appointment!]!
   credentials: Credentials!
@@ -136,11 +132,6 @@ type LoginResponse {
   access_token: String!
   email: String!
   role: String!
-}
-
-type RemoveSitterResponse {
-  success: Boolean!
-  message: String
 }
 
 type RemoveDogResponse {
@@ -157,7 +148,6 @@ type Query {
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
-  sitters: [Sitter!]!
   sitter(id: String!): Sitter!
   dogs(idUser: String!): [Dog!]!
   dog(id: String!): Dog!
@@ -181,7 +171,7 @@ type Mutation {
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
-  removeSitter(id: String!): RemoveSitterResponse!
+  removeSitter(id: String!): Sitter!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
@@ -271,6 +261,7 @@ input CreateCredentialInput {
 
 input UpdateSitterInput {
   id: ID!
+  area: String!
   rate: Float!
   fee: Float!
 }
@@ -307,6 +298,7 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
+  id: String! = "6551370f-937b-4d97-92c9-b6571db1dc1b"
   id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
   id: String! = "d8613cc1-41e9-425f-bf83-1ed2b7600ac3"
 }
