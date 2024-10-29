@@ -54,11 +54,6 @@ const SummaryComponent = () => {
   const [note, setNote] = useState("");
   const total = 150; // Total ficticio
 
-
-  const handleProceedToPayment = () => {
-    alert("Proceeding to payment...");
-    router.push("/home");
-
   const handleProceedToPayment = async () => {
     try {
       const response = await fetch("api/checkout", {
@@ -70,15 +65,6 @@ const SummaryComponent = () => {
     } catch (error) {
       console.error("Error en el proceso de pago:", error);
     }
-    
-    const response = await fetch('api/checkout',{
-      method:'POST'
-    })
-    const data = await response.json()
-    console.log(response);
-    
-    
-
   };
 
   // Define el tipo de parámetro como Pet

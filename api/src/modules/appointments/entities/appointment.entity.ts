@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int, Float, extend, registerEnumType, ID,} from '@nestjs/graphql';
+import { AppointmentDetail } from 'src/modules/appointment_details/entities/appointment_detail.entity';
 import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 import {v4 as uuid} from 'uuid'
 
 export enum typeStatus {
@@ -62,7 +63,9 @@ export class Appointment {
   @JoinColumn({name:'user'})
   user:User
 
-
+  @Field(() => [AppointmentDetail])
+  @OneToMany(() => AppointmentDetail, (detail) => detail.appointment)
+  detail: AppointmentDetail[]
  
 
 

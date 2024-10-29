@@ -1,6 +1,7 @@
 "use client";
 
 import { getDogsByUserId, postCreateDog } from "@/app/lib/server/fetchDog";
+import { getSittersFetch } from "@/app/lib/server/fetchSitter";
 import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import {
   IDogRegister,
@@ -18,6 +19,8 @@ import { createContext, useEffect, useState } from "react";
 export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
+  sitters:null,
+
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
@@ -26,13 +29,16 @@ export const UserContext = createContext<IUserContextType>({
   signUpSitter: async () => false,
   signUpOwner: async () => false,
   createDog: async () => false,
-  getDogs: async () => false
+  getDogs: async () => false,
+  getSitters: async () => false,
+  getSittersById: async () => false 
 });
 
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>();
   const [dogs,setDogs] = useState<any>([])
+  const [sitters, setSitters] = useState<any>([])
   const [isLogged, setIsLogged] = useState(false);
   const router = useRouter()
 
@@ -46,10 +52,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(data.user);
       
       setUser(data);
-
-      localStorage.setItem("user", JSON.stringify(data));
-      localStorage.setItem("token", data.accessToken);
-
       localStorage.setItem('firstname', data.user.firstname)
       localStorage.setItem('lastname', data.user.lastname)
       localStorage.setItem("user", JSON.stringify(data));
@@ -131,6 +133,24 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const getSitters = async () => {
+    const success = await getSittersFetch();
+    if (success && success.data && success.data.sitters) {
+      setSitters(success.data.sitters);
+      return true
+    } else { return false;
+    }
+  };
+
+  const getSittersById = async (id: string) => {
+    const response = await fetch(`/api/sitters/${id}`); // Asumiendo que tienes una API para obtener un cuidador
+    if (!response.ok) {
+      return null;
+    }
+    const sitter = await response.json();
+    return sitter;
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -160,7 +180,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         createDog,
         logOut,
         dogs,
-        getDogs
+        getDogs,
+        sitters,
+        getSitters,
+        getSittersById
+        
       }}
     >
       {children}

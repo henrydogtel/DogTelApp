@@ -12,8 +12,12 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        concertOne: ["var(--font-ConcertOne)", "sans-serif"],
+      },
     },
   },
   plugins: [],
 };
+
 export default config;
