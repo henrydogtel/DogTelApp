@@ -7,7 +7,6 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  console.log(JWT_SECRET);
   app.enableCors()
   await app.listen(PORT ?? 3001);
 }
