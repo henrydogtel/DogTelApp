@@ -58,6 +58,7 @@ import { CalificationsModule } from './modules/califications/califications.modul
           : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
       ],
     }),
+    TypeOrmModule.forFeature([User]),
     ServicesSitterModule,
     AppointmentsModule,
     AppointmentDetailsModule,
