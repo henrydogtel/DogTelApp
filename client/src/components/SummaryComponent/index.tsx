@@ -54,6 +54,11 @@ const SummaryComponent = () => {
   const [note, setNote] = useState("");
   const total = 150; // Total ficticio
 
+
+  const handleProceedToPayment = () => {
+    alert("Proceeding to payment...");
+    router.push("/home");
+
   const handleProceedToPayment = async () => {
     try {
       const response = await fetch("api/checkout", {
@@ -221,5 +226,5 @@ const SummaryComponent = () => {
     </div>
   );
 };
-
+}
 export default SummaryComponent;

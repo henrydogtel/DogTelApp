@@ -5,7 +5,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getSittersFetch } from "../lib/server/fetchSitter"; 
 import { ISitter } from "@/interfaces/interfaces";
-import { neucha, concertOne } from "../lib/server/fonts";
+import { useContext } from "react";
+import { UserContext } from "@/context/user";
+
 
 const SittersPricesDetail = () => {
   const [sitters, setSitters] = useState<ISitter[]>([]);
@@ -26,11 +28,6 @@ const SittersPricesDetail = () => {
   if (loading) {
     return <p className="text-center">Loading...</p>;
   }
-
-import { useContext } from "react";
-import { UserContext } from "@/context/user";
-
-const SittersPricesDetail = () => {
 
 
 

@@ -137,6 +137,14 @@ type RemoveDogResponse {
   message: String
 }
 
+type AppointmentDetail {
+  """id unico de el detalle de la cita"""
+  id: String!
+
+  """price de unnidad por perro"""
+  price: Float!
+}
+
 type Query {
   servicesSitter(id: Int!): ServicesSitter!
   appointments: [Appointment!]!

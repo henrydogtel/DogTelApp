@@ -32,7 +32,6 @@ export const UserContext = createContext<IUserContextType>({
   getDogs: async () => false,
   getSitters: async () => false,
   getSittersById: async () => false 
-  getDogs: async () => false
 });
 
 
@@ -53,6 +52,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(data.user);
       
       setUser(data);
+
+      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("token", data.accessToken);
+
       localStorage.setItem('firstname', data.user.firstname)
       localStorage.setItem('lastname', data.user.lastname)
       localStorage.setItem("user", JSON.stringify(data));
@@ -185,7 +188,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         sitters,
         getSitters,
         getSittersById
-        getDogs
+        
       }}
     >
       {children}
