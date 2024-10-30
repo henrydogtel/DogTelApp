@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { concertOne, dynaPuff, neucha } from "@/app/lib/server/fonts";
+import { concertOne, neucha } from "@/app/lib/server/fonts";
 
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="w-full mt-11">
+      <div className="w-full">
         <Image
-          src="/marron.png"
+          src="/landingpage.png"
           alt="Full Width Image"
           width={1200}
           height={600}
@@ -18,7 +18,7 @@ export default function LandingPage() {
       </div>
       <div className="flex justify-center items-start p-12">
         <div className="w-2/3 p-8 bg-[#fff9d4] shadow-lg rounded-lg">
-          <h2 className={`${concertOne.className} text-4xl font-bold mb-9 text-center text-[#b17457]`}>
+          <h2 className={`${concertOne.className} text-4xl font-bold mb-9 text-center text-[#d1702b]`}>
             WHAT DEFINES US?
           </h2>
           <ul className="space-y-4">
@@ -56,13 +56,13 @@ export default function LandingPage() {
         </div>
 
         <div className="w-full flex flex-col items-center">
-          <div className="relative w-1/2 flex flex-col items-center justify-center p-8 bg-[#f5ab88] shadow-lg rounded-lg mb-8">
+          <div className="relative w-1/2 flex flex-col items-center justify-center p-8 bg-[#ffa277] shadow-lg rounded-lg mb-8">
             <h2 className={`${concertOne.className} text-2xl font-bold mb-4 text-[#ffffff]`}>
               Do you want to be a dog sitter?
             </h2>
             <Link href="/registerSitter">
               <button className="px-6 py-3 bg-[#ffead] text-[#6c3f0f] font-semibold rounded-lg shadow-lg hover:bg-[#ffbc9f] transition duration-300">
-                <p className={`${neucha.className} text-[#774d39]`}>Click here</p>
+                <p className={`${neucha.className} text-[#ffffff]`}>Click here</p>
               </button>
             </Link>
 
@@ -77,13 +77,13 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="relative w-1/2 flex flex-col items-center justify-center p-8 bg-[#ffd08e] shadow-lg rounded-lg">
+          <div className="relative w-1/2 flex flex-col items-center justify-center p-8 bg-[#ffc97e] shadow-lg rounded-lg">
             <h2 className={`${concertOne.className} text-2xl font-bold mb-4 text-[#ffffff]`}>
               Do you need a sitter for your dog?
             </h2>
             <Link href="/registerOwner">
               <button className="px-6 py-3 bg-[#ffead] text-[#bf7451] font-semibold rounded-lg shadow-lg hover:bg-[#ffe0a3] transition duration-300">
-                <p className={`${neucha.className} text-[#774d39]`}>Click here</p>
+                <p className={`${neucha.className} text-[#ffffff]`}>Click here</p>
               </button>
             </Link>
 
@@ -101,7 +101,7 @@ export default function LandingPage() {
       </div>
 
       <div className="text-center py-12">
-        <h3 className={`${concertOne.className} text-4xl font-bold text-[#c46337]`}>
+        <h3 className={`${concertOne.className} text-4xl font-bold text-[#d1702b]`}>
           THESE ARE SOME OF OUR SITTERS
         </h3>
       </div>
@@ -117,7 +117,7 @@ export default function LandingPage() {
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
             <h4 className={`${concertOne.className} text-lg font-bold mb-2 text-[#ef5c3b]`}>{src.split('.')[0].toUpperCase()}</h4>
-            <p className={`${neucha.className} text-[#eaa238]`}>🌟 <span className="font-bold">Rating</span>: {Math.random().toFixed(1) * (5 - 4.7) + 4.7}/5</p>
+            <p className={`${neucha.className} text-[#0d5757cf]`}>🌟 <span className="font-bold">Rating</span>: {(Math.random() * (5 - 4.7) + 4.7).toFixed(1)}/5</p>
             <p className={`${neucha.className} text-[#774d39]`}>
               {idx === 0
                 ? "Animal lover and veterinary student, Carla has 3 years of experience walking dogs of all breeds and sizes..."

@@ -37,7 +37,7 @@ const MyPetsComponent = () => {
     <div>
       {/* Mascotas */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6 text-[#B17457]">My Pets</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-[#dc803f]">My Pets</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {dogs && dogs.length > 0 ? (
             dogs.map((pet:any) => (
@@ -62,7 +62,7 @@ const MyPetsComponent = () => {
           )}
           <div className="flex items-center ">
             <button
-              className="bg-[#B17457] text-white py-2 px-4 rounded-lg hover:bg-[#a0644f]"
+              className="bg-[#dc803f] text-white py-2 px-4 rounded-lg hover:bg-[#ad6c32]"
               onClick={handleAddPet}
             >
               Add Pet +

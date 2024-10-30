@@ -2,7 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-
 type Dog {
   """Unique ID for the dog"""
   id: String!
@@ -126,7 +125,6 @@ type User {
 }
 
 type LoginResponse {
-
   dogs: [Dog!]!
   appointments: [Appointment!]!
   credentials: Credentials!
@@ -311,8 +309,11 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
+<<<<<<< HEAD
   id: String! = "bf40ca0a-ecdd-45f1-b6c7-1306fa66ec2c"
   id: String! = "6551370f-937b-4d97-92c9-b6571db1dc1b"
+=======
+>>>>>>> faf6d4bf766956590925fd094fcfadb6d862b967
   id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
   id: String! = "d8613cc1-41e9-425f-bf83-1ed2b7600ac3"
 }
