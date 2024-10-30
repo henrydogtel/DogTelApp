@@ -53,7 +53,7 @@ const OwnersListComponent = () => {
     <div>
       {/* Lista de Owners */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6 text-[#B17457]">Owners</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-[#ddf0ff]">Owners</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {owners.map((owner) => (
             <div

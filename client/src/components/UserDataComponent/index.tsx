@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { neucha } from "@/app/lib/server/fonts";
 
 // Definimos la interfaz para la información del usuario
 interface User {
@@ -32,11 +33,11 @@ const UserDataComponent: React.FC = () => {
     <div>
       {/* Información del usuario */}
       <section className="mb-12 text-center">
-        <h2 className="text-3xl font-semibold text-[#B17457] mb-6">
+        <h2 className="text-3xl font-semibold text-[#dc803f] mb-6">
           {userInfo.role === "user" ? "User Profile" : "Sitter Profile"}
         </h2>
         <div className="inline-block bg-white p-6 shadow-lg rounded-lg">
-          <p className="text-lg font-semibold text-[#B17457]">
+          <p className={`${neucha.className}text-lg font-semibold text-[#ffb54fd0]`}>
             Name: {userInfo.user.firstname} {userInfo.user.lastname}
           </p>
           <p className="text-lg text-gray-600">Email: {userInfo.email}</p>
@@ -44,7 +45,7 @@ const UserDataComponent: React.FC = () => {
         </div>
       </section>
       <section className="text-center">
-        <button className="bg-[#B17457] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#9b5e47] transition-colors">
+        <button className="bg-[#dc803f] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#ad6c32] transition-colors">
           Log Out
         </button>
       </section>
