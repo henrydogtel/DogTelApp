@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { AppointmentDetail } from 'src/modules/appointment_details/entities/appointment_detail.entity';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 
@@ -41,6 +42,10 @@ export class Dog {
   @ManyToOne(() => User, (user) => user.dogs)
   @Field(() => User)
   user:User
+
+  @OneToMany(() => AppointmentDetail, (details) => details.dog)
+  @Field(() => [AppointmentDetail])
+  details:AppointmentDetail[]
 
   
 }

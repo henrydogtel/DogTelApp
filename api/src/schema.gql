@@ -2,6 +2,39 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+
+type Dog {
+  """Unique ID for the dog"""
+  id: String!
+
+  """The name of the pet"""
+  name: String!
+
+  """The birthdate of the dog"""
+  birthdate: String!
+
+  """List of image URLs for the dog"""
+  images: [String!]!
+
+  """Race of the dog"""
+  race: String!
+
+  """Size of the dog"""
+  size: String!
+  user: User!
+  details: [AppointmentDetail!]!
+}
+
+type AppointmentDetail {
+  """id unico de el detalle de la cita"""
+  id: String!
+
+  """price de unnidad por perro"""
+  price: Float!
+  dog: Dog!
+  appointment: Appointment!
+}
+
 type ServicesSitter {
   id: String!
   name: String!
@@ -63,6 +96,7 @@ type Appointment {
   note: String
   sitter: Sitter!
   user: User!
+  detail: [AppointmentDetail!]!
 }
 
 """Los estados de la cita soportados."""
@@ -73,27 +107,6 @@ enum typeStatus {
   FINISHED
 }
 
-type Dog {
-  """Unique ID for the dog"""
-  id: String!
-
-  """The name of the pet"""
-  name: String!
-
-  """The birthdate of the dog"""
-  birthdate: String!
-
-  """List of image URLs for the dog"""
-  images: [String!]!
-
-  """Race of the dog"""
-  race: String!
-
-  """Size of the dog"""
-  size: String!
-  user: User!
-}
-
 type User {
   id: ID!
   firstname: String!
@@ -102,6 +115,13 @@ type User {
   address: String!
   role: String
   userImg: String!
+  dogs: [Dog!]!
+  appointments: [Appointment!]!
+  credentials: Credentials!
+}
+
+type LoginResponse {
+
   dogs: [Dog!]!
   appointments: [Appointment!]!
   credentials: Credentials!
@@ -137,7 +157,7 @@ type Query {
   user(id: String!): User!
   credentials: [Credentials!]!
   sitter(id: String!): Sitter!
-  dogs: [Dog!]!
+  dogs(idUser: String!): [Dog!]!
   dog(id: String!): Dog!
 }
 
@@ -286,5 +306,7 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "78c050aa-ac47-4fc4-8537-f771b48f46d1"
+  id: String! = "6551370f-937b-4d97-92c9-b6571db1dc1b"
+  id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
+  id: String! = "d8613cc1-41e9-425f-bf83-1ed2b7600ac3"
 }

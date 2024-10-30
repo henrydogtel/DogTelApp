@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { UserContext } from "@/context/user";
+import { IDogRegister } from "@/interfaces/interfaces";
+import { useContext, useState } from "react";
+import Swal from "sweetalert2";
 
 export default function DogForm() {
+  const { createDog } = useContext(UserContext);
+  const [idUser, setIdUser] = useState(localStorage.getItem('idUser'));
   const [formValues, setFormValues] = useState({
     name: "",
     birthDate: "",
-    images: "",
+    images: null,
     race: "",
-    size: "SMALL",
+    size: "small",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -16,9 +21,50 @@ export default function DogForm() {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formValues);
+    
+    if (idUser) {
+      const dogSend: IDogRegister = {
+        name: formValues.name,
+        birthdate: formValues.birthDate,
+        images: [],
+        race: formValues.race,
+        size: formValues.size,
+      };
+
+      const data = await createDog(idUser, dogSend);
+      if(data) {
+        Swal.fire({
+          icon: "success",
+          title: "Dog created",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error while creating dog",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }  
+      // Restablecer el formulario a su estado inicial
+      setFormValues({
+        name: "",
+        birthDate: "",
+        images: null,
+        race: "",
+        size: "small",
+      });
+    }
   };
 
   return (
@@ -71,25 +117,6 @@ export default function DogForm() {
 
         <div className="mb-4">
           <label
-            htmlFor="images"
-            className="block text-lg font-semibold mb-2"
-            style={{ color: "#b17457" }}
-          >
-            Upload Dog Image
-          </label>
-          <input
-            type="file"
-            id="images"
-            name="images"
-            accept="image/*"
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
             htmlFor="race"
             className="block text-lg font-semibold mb-2"
             style={{ color: "#b17457" }}
@@ -122,9 +149,9 @@ export default function DogForm() {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
           >
-            <option value="SMALL">Small</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="LARGE">Large</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
           </select>
         </div>
 

@@ -19,6 +19,7 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
       rate
       fee
       role
+      id
     }
   }`,
     variables: userWithRole,
@@ -92,7 +93,7 @@ export const postSignIn = async (credentials: ILoginUser) => {
         user {
           firstname
           lastname
-          address
+          id
         }
       }
     }`,
@@ -134,6 +135,20 @@ export const postSignIn = async (credentials: ILoginUser) => {
     throw new Error("Error during sign in");
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // try {
 //   const response = await fetch("http://", {
