@@ -24,7 +24,7 @@ const NavbarComponent = () => {
 
   return (
     <div>
-      <nav className="bg-[#96CEB4] border-gray-200 relative z-10">
+      <nav className="bg-[#ffb54fd0] border-gray-200 relative z-10">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             href="/"
@@ -39,11 +39,13 @@ const NavbarComponent = () => {
           </Link>
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+
             <ul className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#D5E1DD] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#96CEB4]`}>
+
               <li>
                 <Link
                   href="registerOwner"
-                  className="block p-2 px-3 text-white bg-[#ffd965] hover:bg-[#ffbf52] rounded-2xl"
+                  className="block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl"
                   aria-current="page"
                 >
                   Take care of dogs!
