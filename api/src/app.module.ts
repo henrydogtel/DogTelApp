@@ -57,6 +57,7 @@ import { AppointmentDetailsModule } from './modules/appointment_details/appointm
           : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
       ],
     }),
+    TypeOrmModule.forFeature([User]),
     ServicesSitterModule,
     AppointmentsModule,
     AppointmentDetailsModule,
