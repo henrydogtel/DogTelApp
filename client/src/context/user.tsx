@@ -21,7 +21,6 @@ export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
   sitters:[],
-
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
