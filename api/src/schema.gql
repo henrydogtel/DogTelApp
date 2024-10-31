@@ -2,7 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-
 type Dog {
   """Unique ID for the dog"""
   id: String!
@@ -121,17 +120,20 @@ type User {
 }
 
 type LoginResponse {
-
-  dogs: [Dog!]!
-  appointments: [Appointment!]!
-  credentials: Credentials!
-}
-
-type LoginResponse {
   user: User!
   access_token: String!
   email: String!
   role: String!
+}
+
+type RemoveServicesSitter {
+  success: Boolean!
+  message: String!
+}
+
+type RemoveSitterResponse {
+  success: Boolean!
+  message: String
 }
 
 type RemoveDogResponse {
@@ -140,7 +142,7 @@ type RemoveDogResponse {
 }
 
 type Query {
-  servicesSitter(id: Int!): ServicesSitter!
+  servicesSitter(id: String!): ServicesSitter!
   appointments: [Appointment!]!
   appointment(id: Int!): Appointment!
   appointmentDetails: [AppointmentDetail!]!
@@ -148,15 +150,16 @@ type Query {
   users: [User!]!
   user(id: String!): User!
   credentials: [Credentials!]!
+  sitters: [Sitter!]!
   sitter(id: String!): Sitter!
   dogs(idUser: String!): [Dog!]!
   dog(id: String!): Dog!
 }
 
 type Mutation {
-  createServicesSitter(createServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
+  createServicesSitter(sitter_id: String!, CreateServicesSitterInput: CreateServicesSitterInput!): ServicesSitter!
   updateServicesSitter(updateServicesSitterInput: UpdateServicesSitterInput!): ServicesSitter!
-  removeServicesSitter(id: Int!): ServicesSitter!
+  removeServicesSitter(id: String!): RemoveServicesSitter!
   createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
   updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
   removeAppointment(id: Int!): Appointment!
@@ -171,21 +174,21 @@ type Mutation {
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
   updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
-  removeSitter(id: String!): Sitter!
+  removeSitter(id: String!): RemoveSitterResponse!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
 }
 
 input CreateServicesSitterInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  description: String!
 }
 
 input UpdateServicesSitterInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  description: String
+  id: String! = "edd7f10c-f9a0-4496-be96-03d1c49116b6"
 }
 
 input CreateAppointmentInput {
@@ -261,7 +264,6 @@ input CreateCredentialInput {
 
 input UpdateSitterInput {
   id: ID!
-  area: String!
   rate: Float!
   fee: Float!
 }
@@ -298,7 +300,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "6551370f-937b-4d97-92c9-b6571db1dc1b"
-  id: String! = "380b33e5-b805-4d89-8e8b-ba75e69983fe"
-  id: String! = "d8613cc1-41e9-425f-bf83-1ed2b7600ac3"
+  id: String! = "fe8420e3-90d9-42c7-a395-67289904b61d"
 }

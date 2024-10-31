@@ -4,9 +4,16 @@ import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USERNAME } from "src/helpers
 
 const config = {
     type: 'postgres',
-    url:'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb',
+    //deploy:
+    // url:'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb', 
+    //localhost:
+    database: DB_NAME,
+    host: DB_HOST,
+    port: DB_PORT,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
     synchronize: true,
-    dropSchema: true,
+    // dropSchema: true,
     logging: true,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}']
