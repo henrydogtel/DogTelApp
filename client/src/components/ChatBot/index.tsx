@@ -60,7 +60,7 @@ const Chatbot: React.FC = () => {
 
     setTimeout(() => {
       let currentText = "";
-      const typingSpeed = 50; 
+      const typingSpeed = 50;
       const typingInterval = setInterval(() => {
         currentText = botResponseText.slice(0, currentText.length + 1);
         setMessages((prevMessages) =>
@@ -120,12 +120,14 @@ const Chatbot: React.FC = () => {
 
   return (
     <div className="fixed bottom-4 right-4">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg hover:from-blue-600 hover:to-blue-700 transition transform hover:scale-105"
-      >
-        <FaComments size={24} />
-      </button>
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg hover:from-blue-600 hover:to-blue-700 transition transform hover:scale-105"
+        >
+          <FaComments size={24} />
+        </button>
+      )}
 
       {isOpen && (
         <div
