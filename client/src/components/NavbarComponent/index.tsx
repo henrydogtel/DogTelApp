@@ -13,14 +13,22 @@ import { signOut } from 'next-auth/react';
 const NavbarComponent = () => {
   const { logOut } = useContext(UserContext);
   const router = useRouter();
+  const [user,setUser] = useState<string | null>(null)
+  const [token,setToken] = useState<string | null>(null)
+
 
   const logOutUser = () => {
     logOut();
   };
 
   // Verifica si el usuario y el token existen en localStorage
-  const user = localStorage.getItem('user');
-  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    setUser(localStorage.getItem('user')) ;
+    setToken(localStorage.getItem('token')) ;
+  },[])
+  
+ 
 
   return (
     <div>
@@ -43,6 +51,7 @@ const NavbarComponent = () => {
             <ul className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#D5E1DD] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#ffb64f26]`}>
 
               <li>
+                
                 <Link
                   href="registerOwner"
                   className="block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl"

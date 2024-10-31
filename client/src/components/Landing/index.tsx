@@ -9,7 +9,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen">
       <div className="w-full">
         <Image
-          src="/landingpage.png"
+          src="/marron.png"
           alt="Full Width Image"
           width={1200}
           height={600}

@@ -10,7 +10,7 @@ interface Pet {
   image: string;
 }
 
-const SummaryComponent = () => {
+const SummaryComponent: React.FC = () => {
   const router = useRouter();
   // Información ficticia
   const sitter = {
@@ -53,11 +53,6 @@ const SummaryComponent = () => {
   const [time, setTime] = useState("");
   const [note, setNote] = useState("");
   const total = 150; // Total ficticio
-
-
-  const handleProceedToPayment = () => {
-    alert("Proceeding to payment...");
-    router.push("/home");
 
   const handleProceedToPayment = async () => {
     try {
@@ -226,5 +221,5 @@ const SummaryComponent = () => {
     </div>
   );
 };
-}
+
 export default SummaryComponent;
