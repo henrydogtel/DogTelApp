@@ -1,7 +1,6 @@
 import { ISitter } from "@/interfaces/interfaces";
 
-
-export const getSittersFetch = async () => {
+export const getSittersFetch = async (): Promise<ISitter[] | null> => {
     const query = JSON.stringify({
         query: `
         query Sitters {
@@ -36,7 +35,8 @@ export const getSittersFetch = async () => {
             }
           }
         }
-        `})
+        `
+    });
 
     try {
         const response = await fetch('http://localhost:3001/graphql', {
@@ -51,72 +51,76 @@ export const getSittersFetch = async () => {
 
         const data = await response.json();
         
+        // Devuelve los cuidadores o null si no hay
         return data?.data?.sitters || null; 
     } catch (error) {
         console.error('Error fetching sitters:', error);
         return null; 
     }
 };
-
-export const getSitterById = async (sitterId: string): Promise<ISitter | null> => {
-        const query = JSON.stringify({
-            query: `
-            query Sitters {
-              sitters {
-                address
-                role
-                userImg
-                firstname
-                lastname
-                id
-                rate
-                fee
-                descripcion
-                services {
-                  name
-                  description
-                }
-                appointments {
-                  id
-                  entryDate
-                  departureDate
-                  time
-                  status
-                  total
-                  note
-                  user {
-                    id
-                    firstname
-                    lastname
-                    address
-                  }
-                }
+export const getSitterByIdFetch = async (sitterId: string): Promise<ISitter | null> => {
+  const query = JSON.stringify({
+      query: `
+      query Sitter($sitterId: String!) {
+        sitter(id: $sitterId) {
+          id
+          firstname
+          lastname
+          address
+          role
+          userImg
+          rate
+          fee
+          descripcion
+          services {
+            name
+            description
+          }
+          appointments {
+            entryDate
+            departureDate
+            time
+            status
+            total
+            note
+            user {
+              firstname
+              lastname
+              id
+            }
+            detail {
+              price
+              dog {
+                name
+                birthdate
+                race
+                size
               }
             }
-            `, variables: { sitterId },
-        });
-
-    try {
-        const response = await fetch('http://localhost:3001/graphql', {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST',
-            body: query,
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
         }
+      }
+      `,
+      variables: { sitterId },
+  });
 
-        const data = await response.json();
+  try {
+      const response = await fetch('http://localhost:3001/graphql', {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          body: query,
+      });
 
-        if (data.errors) {
-            console.error('GraphQL errors:', data.errors);
-            return null; // Devuelve null si hay errores en la consulta
-        }
+      if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
 
-        return data?.data?.sitter || null; // Devuelve null si no hay datos
-    } catch (error) {
-        console.error('Error fetching sitter:', error);
-        return null; // Manejo de errores: devuelve null en caso de error
-    }
+      const data = await response.json();
+
+      // Devuelve el cuidador o null si no se encuentra
+      return data?.data?.sitter || null; 
+  } catch (error) {
+      console.error('Error fetching sitter:', error);
+      return null;
+  }
 };

@@ -13,7 +13,7 @@ const config = {
     username: DB_USERNAME,
     password: DB_PASSWORD,
     synchronize: true,
-    dropSchema: true,
+    // dropSchema: true,
     logging: true,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}']

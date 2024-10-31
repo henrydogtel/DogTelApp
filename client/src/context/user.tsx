@@ -1,7 +1,7 @@
 "use client";
 
 import { getDogsByUserId, postCreateDog } from "@/app/lib/server/fetchDog";
-import { getSittersFetch } from "@/app/lib/server/fetchSitter";
+import { getSittersFetch, getSitterByIdFetch } from "@/app/lib/server/fetchSitter";
 import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import {
   IDogRegister,
@@ -10,16 +10,17 @@ import {
   IRegisterUser,
   IUserContextType,
   IUserResponse,
-  IDog
+  IDog,
+  ISitter
 } from "@/interfaces/interfaces";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
-  sitters:null,
+  sitters:[],
 
   setUser: () => {},
   isLogged: false,
@@ -30,16 +31,17 @@ export const UserContext = createContext<IUserContextType>({
   signUpOwner: async () => false,
   createDog: async () => false,
   getDogs: async () => false,
-  getSitters: async () => false,
-  getSittersById: async () => false 
+  getSitters: async () => [],
+  getSitterById: async () => null
 });
 
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>();
   const [dogs,setDogs] = useState<any>([])
-  const [sitters, setSitters] = useState<any>([])
+  const [sitters, setSitters] = useState<ISitter[]>([]);
   const [isLogged, setIsLogged] = useState(false);
+  const [sitter, setSitter] = useState<ISitter | null>(null);
   const router = useRouter()
 
 
@@ -137,23 +139,121 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const getSitters = async () => {
-    const success = await getSittersFetch();
-    if (success && success.data && success.data.sitters) {
-      setSitters(success.data.sitters);
-      return true
-    } else { return false;
+  const getSitters = useCallback(async (): Promise<ISitter[]> => {
+    try {
+      const response = await fetch('http://localhost:3001/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `query Sitters { 
+            sitters { 
+              address 
+              role 
+              userImg 
+              firstname 
+              lastname 
+              id 
+              rate 
+              fee 
+              descripcion 
+              services { 
+                name 
+                description 
+              } 
+              appointments { 
+                id 
+                entryDate 
+                departureDate 
+                time 
+                status 
+                total 
+                note 
+                user { 
+                  id 
+                  firstname 
+                  lastname 
+                  address 
+                } 
+              } 
+            } 
+          }`
+        }),
+      });
+      const result = await response.json();
+      if (result.data && result.data.sitters) {
+        return result.data.sitters;
+      }
+      return []; 
+    } catch (error) {
+      console.error('Error fetching sitters:', error);
+      return [];
     }
-  };
+  }, []);
 
-  const getSittersById = async (id: string) => {
-    const response = await fetch(`/api/sitters/${id}`); // Asumiendo que tienes una API para obtener un cuidador
-    if (!response.ok) {
-      return null;
+  const getSitterById = async (id: string): Promise<ISitter | null> => {
+    try {
+
+        const response = await fetch('http://localhost:3001/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `
+                    query SitterById($id: String!) { 
+                        sitter(id: $id) { 
+                            address 
+                            role 
+                            userImg 
+                            firstname 
+                            lastname 
+                            id 
+                            rate 
+                            fee 
+                            descripcion 
+                            services { 
+                                name 
+                                description 
+                            } 
+                            appointments { 
+                                id 
+                                entryDate 
+                                departureDate 
+                                time 
+                                status 
+                                total 
+                                note 
+                                user { 
+                                    id 
+                                    firstname 
+                                    lastname 
+                                    address 
+                                } 
+                            } 
+                        } 
+                    }
+                `,
+                variables: { id },
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        const result = await response.json();
+        if (result.data && result.data.sitter) {
+            return result.data.sitter; 
+        }
+
+        return null;
+    } catch (error) {
+
+        console.error('Error fetching sitter by ID:', error);
+        return null; 
     }
-    const sitter = await response.json();
-    return sitter;
-  };
+};
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -187,7 +287,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         getDogs,
         sitters,
         getSitters,
-        getSittersById
+        getSitterById
         
       }}
     >
