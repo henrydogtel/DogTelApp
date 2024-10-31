@@ -33,9 +33,7 @@ export class AuthRepository {
             const token = this.jwtServiceRepository.sign(payload);
             if(!token) throw new BadRequestException('Hubo un error al generar el token')
             return token
-        } catch (error) {
-            console.log('yhere');
-            
+        } catch (error) {            
             throw new BadRequestException(error.message)
         }
        

@@ -6,9 +6,6 @@ import { IsInt, IsString } from 'class-validator';
 
 @InputType()
 export class CreateSitterInput extends CreateUserInput {
-  @Field()
-  @IsString()
-  area: string;
 
   @Field(() => Number)
   @IsInt()

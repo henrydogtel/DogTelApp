@@ -4,18 +4,22 @@ import { Dog } from './entities/dog.entity';
 import { Repository } from 'typeorm';
 import { CreateDogInput } from './dto/create-dog.input';
 import { UpdateDogInput } from './dto/update-dog.input';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class DogsRepository {
   constructor(
-    @InjectRepository(Dog) private readonly dogsRepository: Repository<Dog>,
+    @InjectRepository(Dog) private readonly dogsRepository: Repository<Dog>,private readonly userRepository:UserRepository
   ) {}
 
   async createDog(idUser: string, createDogInput: CreateDogInput): Promise<Dog> {
     const { name, birthdate, race, size, images } = createDogInput;
 
+    
     try {
-      const dogCreated = this.dogsRepository.create({ name, birthdate, race, size, images });
+      const userFound = await this.userRepository.findOne(idUser)
+      if(!userFound) throw new BadRequestException('No se encontro el usuario');
+      const dogCreated = this.dogsRepository.create({ name, birthdate, race, size, images, user:userFound });
       if (!dogCreated) throw new BadRequestException('Hubo un error al crear la mascota');
       
       const dogSaved = await this.dogsRepository.save(dogCreated);
@@ -27,9 +31,13 @@ export class DogsRepository {
     }
   }
 
-  async findAll(): Promise<Dog[]> {
+  async findAll(idUser:string): Promise<Dog[]> {
+    
+    
     try {
-      const dogs = await this.dogsRepository.find();
+      const dogs = await this.dogsRepository.find({where:{user:{
+        id:idUser
+      }}});
       if (!dogs.length) throw new NotFoundException('No se encontraron mascotas');
       return dogs;
     } catch (error) {

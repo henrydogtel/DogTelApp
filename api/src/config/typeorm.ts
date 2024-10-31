@@ -3,7 +3,7 @@ import { registerAs } from "@nestjs/config";
 import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USERNAME } from "src/helpers/developmentEnv";
 
 const config = {
-    type: 'postgres',
+    type: "postgres",
     //deploy:
     // url:'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb', 
     //localhost:
@@ -21,3 +21,10 @@ const config = {
 
 export default registerAs('typeorm', () => config)
 export const connectionSource = new DataSource(config as DataSourceOptions)
+
+
+// database: DB_NAME,
+// host: DB_HOST,
+// port: DB_PORT,
+// username: DB_USERNAME,
+// password: DB_PASSWORD,

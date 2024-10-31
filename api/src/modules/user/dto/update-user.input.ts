@@ -8,4 +8,7 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   @IsUUID()
   @IsOptional()
   id?: string;  
+
+  @Field()
+  userImg:string
 }

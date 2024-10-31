@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import {v4 as uuid} from "uuid"
@@ -30,4 +31,8 @@ export class Credentials {
   @Field(() => User) 
   @OneToOne(() => User, (user) => user.credentials)
   user: User;
+
+  @Field(() => Sitter) 
+  @OneToOne(() => Sitter, (sitter) => sitter.credentials)
+  sitter: User;
 }

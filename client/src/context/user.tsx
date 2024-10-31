@@ -1,17 +1,26 @@
 "use client";
 
+import { getDogsByUserId, postCreateDog } from "@/app/lib/server/fetchDog";
+import { getSittersFetch } from "@/app/lib/server/fetchSitter";
 import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import {
+  IDogRegister,
   ILoginUser,
+  IRegisterSitter,
   IRegisterUser,
-  
   IUserContextType,
   IUserResponse,
+  IDog
 } from "@/interfaces/interfaces";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
 export const UserContext = createContext<IUserContextType>({
   user: null,
+  dogs: null,
+  sitters: null,
+  userImg: null, 
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
@@ -19,21 +28,33 @@ export const UserContext = createContext<IUserContextType>({
   logOut: () => {},
   signUpSitter: async () => false,
   signUpOwner: async () => false,
+  createDog: async () => false,
+  getDogs: async () => false,
+  getSitters: async () => false,
+  getSittersById: async () => false
 });
 
-
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<Partial<IUserResponse> | null>(null);
+  const [user, setUser] = useState<any>({ userImg: null }); 
+  const [dogs, setDogs] = useState<any>([]);
+  const [sitters, setSitters] = useState<any>([]);
   const [isLogged, setIsLogged] = useState(false);
- 
+  const router = useRouter();
 
   const signIn = async (credentials: ILoginUser) => {
     try {
-      const data = await postSignIn(credentials);
+      const data: any = await postSignIn(credentials);
+      if (!data) return false;
 
-      setUser(data);
-      localStorage.setItem("user", JSON.stringify(data));
-      localStorage.setItem("token", data.token);
+      console.log(data.user);
+      
+      setUser(data); 
+      localStorage.setItem('firstname', data.user.firstname);
+      localStorage.setItem('lastname', data.user.lastname);
+      localStorage.setItem('user', JSON.stringify(data)); 
+      localStorage.setItem('token', data.accessToken);
+      localStorage.setItem('userId', data.user.id);
+
       return true;
     } catch (error) {
       console.log(error);
@@ -41,10 +62,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signUpSitter = async (user: IRegisterUser) => {
+  const signUpSitter = async (user: IRegisterSitter) => {
     try {
       const data = await postSignUpSitter(user);
-      if (data.id) {
+      if (data) {
         signIn({ email: user.email, password: user.password });
         return true;
       }
@@ -53,10 +74,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.error(error);
       return false;
     }
-  };const signUpOwner = async (user: IRegisterUser) => {
+  };
+  
+  const signUpOwner = async (user: IRegisterUser) => {
     try {
       const data = await postSignUpOwner(user);
-      if (data.id) {
+      if (data) {
         signIn({ email: user.email, password: user.password });
         return true;
       }
@@ -67,12 +90,57 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logOut = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+  const logOut = async () => {
     localStorage.removeItem("cartItems");
+    localStorage.removeItem('firstname');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('idUser');
+
+    await signOut();
+    window.location.href = 'http://localhost:3000';
+
     setUser(null);
     setIsLogged(false);
+  };
+
+  const createDog = async (idUser: string, dog: IDogRegister) => {
+    const success = await postCreateDog(idUser, dog);
+    if (success) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const getDogs = async (idUser: string) => {
+    const success = await getDogsByUserId(idUser);
+    if (success) {
+      success.data.dogs && setDogs(success.data.dogs);      
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const getSitters = async () => {
+    const success = await getSittersFetch();
+    if (success && success.data && success.data.sitters) {
+      setSitters(success.data.sitters);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const getSittersById = async (id: string) => {
+    const response = await fetch(`/api/sitters/${id}`); 
+    if (!response.ok) {
+      return null;
+    }
+    const sitter = await response.json();
+    return sitter;
   };
 
   useEffect(() => {
@@ -85,7 +153,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
-      setUser(JSON.parse(user));
+      setUser(JSON.parse(user)); 
       return;
     }
     setUser(null);
@@ -101,8 +169,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         signIn,
         signUpSitter,
         signUpOwner,
-
+        createDog,
         logOut,
+        dogs,
+        getDogs,
+        sitters,
+        getSitters,
+        getSittersById,
+        userImg: user?.userImg, 
       }}
     >
       {children}

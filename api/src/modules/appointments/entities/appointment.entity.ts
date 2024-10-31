@@ -1,5 +1,8 @@
-import { ObjectType, Field, Int, Float, extend, registerEnumType,} from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
+import { ObjectType, Field, Int, Float, extend, registerEnumType, ID,} from '@nestjs/graphql';
+import { AppointmentDetail } from 'src/modules/appointment_details/entities/appointment_detail.entity';
+import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 import {v4 as uuid} from 'uuid'
 
 export enum typeStatus {
@@ -18,7 +21,7 @@ registerEnumType(typeStatus, {
 @Entity({name:'appointments'})
 @ObjectType()
 export class Appointment {
-  @Field(() => String, { description: 'id unico para cada cita' })
+  @Field(() => ID, { description: 'id unico para cada cita' })
   @PrimaryGeneratedColumn()
   id: string = uuid();
 
@@ -48,6 +51,23 @@ export class Appointment {
   @Field(() => String, {description:'Nota del cliente sobre la cita', nullable:true })
   @Column({nullable:true})
   note?:string
+
+
+  @Field(() => Sitter)
+  @ManyToOne(() => Sitter, (sitter) => sitter.appointments)
+  @JoinColumn({name:'sitter'})
+  sitter:Sitter
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.appointments)
+  @JoinColumn({name:'user'})
+  user:User
+
+  @Field(() => [AppointmentDetail])
+  @OneToMany(() => AppointmentDetail, (detail) => detail.appointment)
+  detail: AppointmentDetail[]
+ 
+
 
 }
 
