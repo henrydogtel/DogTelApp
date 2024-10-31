@@ -3,38 +3,59 @@ import { AppointmentsService } from '../service/appointments.service';
 import { Appointment } from '../entities/appointment.entity';
 import { CreateAppointmentInput } from '../dto/create-appointment.input';
 import { UpdateAppointmentInput } from '../dto/update-appointment.input';
-import { Body } from '@nestjs/common';
 
 @Resolver(() => Appointment)
 export class AppointmentsResolver {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Mutation(() => Appointment)
-  createAppointment(@Args('createAppointment') createAppointment: CreateAppointmentInput) {
-    console.log(createAppointment);
-
-    
-    
-    return this.appointmentsService.create(createAppointment);
+  async createAppointment(@Args('createAppointment') createAppointment: CreateAppointmentInput) {
+    try {
+      console.log(createAppointment);
+      return await this.appointmentsService.create(createAppointment);
+    } catch (error) {
+      console.error('Error creating appointment:', error);
+      throw new Error('An error occurred while creating the appointment. Please try again.');
+    }
   }
 
   @Query(() => [Appointment], { name: 'appointments' })
-  findAll() {
-    return this.appointmentsService.findAll();
+  async findAll() {
+    try {
+      return await this.appointmentsService.findAll();
+    } catch (error) {
+      console.error('Error retrieving appointments:', error);
+      throw new Error('An error occurred while retrieving appointments. Please try again.');
+    }
   }
 
   @Query(() => Appointment, { name: 'appointment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.appointmentsService.findOne(id);
+  async findOne(@Args('id', { type: () => Int }) id: number) {
+    try {
+      return await this.appointmentsService.findOne(id);
+    } catch (error) {
+      console.error(`Error finding appointment with ID ${id}:`, error);
+      throw new Error('An error occurred while finding the appointment. Please try again.');
+    }
   }
 
   @Mutation(() => Appointment)
-  updateAppointment(@Args('updateAppointmentInput') updateAppointmentInput: UpdateAppointmentInput) {
-    return this.appointmentsService.update(updateAppointmentInput.id, updateAppointmentInput);
+  async updateAppointment(@Args('updateAppointmentInput') updateAppointmentInput: UpdateAppointmentInput) {
+    try {
+      return await this.appointmentsService.update(updateAppointmentInput.id, updateAppointmentInput);
+    } catch (error) {
+      console.error(`Error updating appointment with ID ${updateAppointmentInput.id}:`, error);
+      throw new Error('An error occurred while updating the appointment. Please try again.');
+    }
   }
 
   @Mutation(() => Appointment)
-  removeAppointment(@Args('id', { type: () => Int }) id: number) {
-    return this.appointmentsService.remove(id);
+  async removeAppointment(@Args('id', { type: () => Int }) id: number) {
+    try {
+      return await this.appointmentsService.remove(id);
+    } catch (error) {
+      console.error(`Error removing appointment with ID ${id}:`, error);
+      throw new Error('An error occurred while removing the appointment. Please try again.');
+    }
   }
 }

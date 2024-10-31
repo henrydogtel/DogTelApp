@@ -7,37 +7,63 @@ import { RemoveServicesSitter } from './dto/remove-services-sitter';
 
 @Resolver(() => ServicesSitter)
 export class ServicesSitterResolver {
-  constructor(private readonly servicesSitterService: ServicesSitterService) { }
+  constructor(private readonly servicesSitterService: ServicesSitterService) {}
 
   @Mutation(() => ServicesSitter)
   async createServicesSitter(
     @Args('sitter_id') idSitter: string,
     @Args('CreateServicesSitterInput') createServicesSitterInput: CreateServicesSitterInput
   ): Promise<ServicesSitter> {
-    const { name, description } = createServicesSitterInput;
-    return await this.servicesSitterService.create(idSitter, createServicesSitterInput);
+    try {
+      const { name, description } = createServicesSitterInput;
+      return await this.servicesSitterService.create(idSitter, createServicesSitterInput);
+    } catch (error) {
+      console.error('Error creating services sitter:', error);
+      throw new Error('An error occurred while creating the services sitter. Please try again.');
+    }
   }
 
   @Query(() => [ServicesSitter], { name: 'servicesSitter' })
-  findAll() {
-    return this.servicesSitterService.findAll();
+  async findAll() {
+    try {
+      return await this.servicesSitterService.findAll();
+    } catch (error) {
+      console.error('Error retrieving services sitters:', error);
+      throw new Error('An error occurred while retrieving the services sitters. Please try again.');
+    }
   }
 
   @Query(() => ServicesSitter, { name: 'servicesSitter' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.servicesSitterService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    try {
+      return await this.servicesSitterService.findOne(id);
+    } catch (error) {
+      console.error(`Error finding service sitter with ID ${id}:`, error);
+      throw new Error('An error occurred while finding the services sitter. Please try again.');
+    }
   }
 
   @Mutation(() => ServicesSitter)
-  updateServicesSitter(@Args('updateServicesSitterInput') updateServicesSitterInput: UpdateServicesSitterInput) {
-    return this.servicesSitterService.update(updateServicesSitterInput.id, updateServicesSitterInput);
+  async updateServicesSitter(@Args('updateServicesSitterInput') updateServicesSitterInput: UpdateServicesSitterInput) {
+    try {
+      return await this.servicesSitterService.update(updateServicesSitterInput.id, updateServicesSitterInput);
+    } catch (error) {
+      console.error(`Error updating services sitter with ID ${updateServicesSitterInput.id}:`, error);
+      throw new Error('An error occurred while updating the services sitter. Please try again.');
+    }
   }
 
   @Mutation(() => RemoveServicesSitter)
   async removeServicesSitter(@Args('id') id: string): Promise<RemoveServicesSitter> {
-    const success = await this.servicesSitterService.removeService(id);
-    return {
-      success, message: success ? 'the service was deleted' : 'error at deleting service '
+    try {
+      const success = await this.servicesSitterService.removeService(id);
+      return {
+        success,
+        message: success ? 'The service was deleted successfully' : 'Error deleting the service',
+      };
+    } catch (error) {
+      console.error(`Error removing service sitter with ID ${id}:`, error);
+      throw new Error('An error occurred while deleting the services sitter. Please try again.');
     }
   }
 }
