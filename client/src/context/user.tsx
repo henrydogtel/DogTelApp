@@ -124,7 +124,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getDogs = async (idUser:string) => {
     const success = await getDogsByUserId(idUser)
-    if(success) {
+    if(success && success.data && success.data.dogs) {
       
       success.data.dogs && setDogs(success.data.dogs)      
       return true
