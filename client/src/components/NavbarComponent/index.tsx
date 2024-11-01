@@ -22,7 +22,7 @@ const NavbarComponent = () => {
 
   return (
     <div>
-      <nav className="bg-[#96CEB4] border-gray-200 relative z-10">
+      <nav className="bg-[#e9d7a5] border-gray-200 relative z-10">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             href="/"
@@ -38,12 +38,12 @@ const NavbarComponent = () => {
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul
-              className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#D5E1DD] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#96CEB4]`}
+              className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 bg-[#e9d7a5]`}
             >
               <li>
                 <Link
                   href="registerOwner"
-                  className="block p-2 px-3 text-white bg-[#ffd965] hover:bg-[#ffbf52] rounded-2xl"
+                  className=" p-2 px-3 text-white bg-[#f0a328]  hover:bg-[#cd953b]  font-semibold py-2 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
                   aria-current="page"
                 >
                   Take care of dogs!
@@ -56,7 +56,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/login"
-                      className="block p-2 px-3 text-white bg-[#fc955e] hover:bg-[#d9865d] rounded-2xl"
+                      className="block p-2 px-3 text-white bg-[#e2a652] hover:bg-[#be9254] rounded-2xl"
                       aria-current="page"
                     >
                       Sign In
@@ -65,7 +65,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/registerAs"
-                      className="block p-2 px-3 text-white bg-[#fc955e] hover:bg-[#d9865d] rounded-2xl"
+                      className="block p-2 px-3 text-white bg-[#e2a652] hover:bg-[#be9254] rounded-2xl"
                       aria-current="page"
                     >
                       Sign Up
@@ -79,7 +79,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/sittersPricesDetail"
-                      className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
+                      className="bg-[#b96c1e] hover:bg-[#be9254] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
                     >
                       Find Sitters
                     </Link>
@@ -87,7 +87,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/home"
-                      className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
+                      className="bg-[#b96c1e] hover:bg-[#be9254] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
                     >
                       Home
                     </Link>
@@ -96,7 +96,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/dashboard"
-                      className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
+                      className="bg-[#b96c1e] hover:bg-[#be9254] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
                     >
                       Dashboard
                     </Link>

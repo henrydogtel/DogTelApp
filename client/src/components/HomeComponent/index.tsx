@@ -1,8 +1,8 @@
 "use client";
 
-import { UserContext } from "@/context/user";
+
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const HomeComponent = () => {
   const [firstname, setFirstname] = useState('');

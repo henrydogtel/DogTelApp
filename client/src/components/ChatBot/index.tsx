@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { FaComments } from "react-icons/fa";
 
 type Message = {
   text: string;
@@ -123,9 +122,15 @@ const Chatbot: React.FC = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg hover:from-blue-600 hover:to-blue-700 transition transform hover:scale-105"
+          className="bg-white shadow-xl rounded-full p-2 hover:bg-gray-100 hover:scale-105 transition-all duration-300"
         >
-          <FaComments size={24} />
+          <Image
+            src="/Dogbot1.jpg"
+            alt="icono"
+            className="rounded-full border-2 border-gray-300 transition-transform duration-300"
+            width={60}
+            height={60}
+          />
         </button>
       )}
 

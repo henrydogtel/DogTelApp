@@ -6,7 +6,7 @@ import { neucha, concertOne } from "@/app/lib/server/fonts";
 const FooterComponent = () => {
   return (
     <div>
-      <footer className="bg-[#96CEB4]">
+      <footer className="bg-[#edd79a]">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="flex flex-col items-center">
             <div className="mb-6 flex justify-start w-full">
@@ -24,41 +24,59 @@ const FooterComponent = () => {
             </div>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 text-center">
               <div>
-                <h2 className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}>
+                <h2
+                  className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}
+                >
                   Resources
                 </h2>
                 <ul className={`text-black font-medium ${neucha.className}`}>
                   <li className="mb-4">
-                    <Link href="https://flowbite.com/" className="hover:underline">
+                    <Link
+                      href="https://flowbite.com/"
+                      className="hover:underline"
+                    >
                       Flowbite
                     </Link>
                   </li>
                   <li>
-                    <Link href="https://tailwindcss.com/" className="hover:underline">
+                    <Link
+                      href="https://tailwindcss.com/"
+                      className="hover:underline"
+                    >
                       Tailwind CSS
                     </Link>
                   </li>
                 </ul>
               </div>
               <div>
-                <h2 className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}>
+                <h2
+                  className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}
+                >
                   Follow us
                 </h2>
                 <ul className={`text-black font-medium ${neucha.className}`}>
                   <li className="mb-4">
-                    <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
+                    <Link
+                      href="https://github.com/themesberg/flowbite"
+                      className="hover:underline"
+                    >
                       Github
                     </Link>
                   </li>
                   <li>
-                    <Link href="https://discord.gg/4eeurUVvTy" className="hover:underline">
+                    <Link
+                      href="https://discord.gg/4eeurUVvTy"
+                      className="hover:underline"
+                    >
                       Discord
                     </Link>
                   </li>
                 </ul>
               </div>
               <div>
-                <h2 className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}>
+                <h2
+                  className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}
+                >
                   Legal
                 </h2>
                 <ul className={`text-black font-medium ${neucha.className}`}>
