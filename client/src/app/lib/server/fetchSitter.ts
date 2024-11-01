@@ -1,5 +1,5 @@
 import { ISitter } from "@/interfaces/interfaces";
-const urlBack = process.env.BACKEND_URL as string
+const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
 export const getSittersFetch = async (): Promise<ISitter[] | null> => {
     const query = JSON.stringify({

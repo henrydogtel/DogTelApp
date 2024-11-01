@@ -1,5 +1,5 @@
 import { IDogRegister } from "@/interfaces/interfaces";
-const urlBack = process.env.BACKEND_URL as string
+const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
 export const postCreateDog = async (idUser: string, dog: IDogRegister) => {
     const query = JSON.stringify({
