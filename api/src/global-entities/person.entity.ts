@@ -25,7 +25,7 @@ export class Person {
 
     @Field(() => String)
     @Column({ type: 'varchar', length: 255 })
-    address: string;
+    address?: string;
 
     @Field(() => String, {
         nullable: true

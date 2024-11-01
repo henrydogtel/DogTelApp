@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CredentialsService } from './credentials.service';
 import { Credentials } from './entities/credential.entity';
 import { CreateCredentialInput } from './dto/create-credential.input';
+import { UpdateCredentialInput } from './dto/update-credential.input';
 
 
 @Resolver(() => Credentials)
@@ -23,10 +24,12 @@ export class CredentialsResolver {
   //   return this.credentialsService.findOne(id);
   // }
 
-  // @Mutation(() => Credentials)
-  // updateCredential(@Args('updateCredentialInput') updateCredentialInput: UpdateCredentialInput) {
-  //   return this.credentialsService.update(updateCredentialInput.credentialId, updateCredentialInput);
-  // }
+  @Mutation(() => Credentials)
+  async updateCredential
+  ( @Args('userId', { type: () => String }) userId: string,
+    @Args('updateCredentialInput') updateCredentialInput: UpdateCredentialInput):Promise<Credentials> {
+    return this.credentialsService.update(userId,updateCredentialInput);
+  }
 
   // @Mutation(() => Credentials)
   // removeCredential(@Args('id', { type: () => String }) id: string) {

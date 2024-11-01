@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CredentialsRepository } from './credentials.repository';
 import { CreateCredentialInput } from './dto/create-credential.input';
 import { Credentials } from './entities/credential.entity';
@@ -22,12 +22,26 @@ export class CredentialsService {
   }
 
   async findOneByEmail(email: string): Promise<Credentials | null> {
-    
-    const credentials = await this.credentialsRepository.findOne({ where: {
-      email,
-    },relations:['user','sitter'] }); 
-    
+
+    const credentials = await this.credentialsRepository.findOne({
+      where: {
+        email,
+      }, relations: ['user', 'sitter']
+    });
+
     return credentials
-}
+  }
+  async update(userId: string, createCredentialInput: CreateCredentialInput): Promise<Credentials> {
+    const credential = await this.credentialsRepository.findOne({
+      where: { user: { id: userId } }
+    });
+
+    if (!credential) {
+      throw new NotFoundException(`No se encontró la credencial para el usuario con ID ${userId}`);
+    }
+    Object.assign(credential, createCredentialInput);
+    return this.credentialsRepository.save(credential);
+  }
+
 
 }

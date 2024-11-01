@@ -12,7 +12,7 @@ import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class SitterService {
-  constructor(@InjectRepository(Sitter) private readonly sitterRepository:Repository<Sitter>, private readonly credentialRepository: CredentialsRepository, private readonly authService: AuthRepository) {}
+  constructor(@InjectRepository(Sitter) private readonly sitterRepository: Repository<Sitter>, private readonly credentialRepository: CredentialsRepository, private readonly authService: AuthRepository) { }
 
   async create(
     firstname: string,
@@ -52,7 +52,7 @@ export class SitterService {
   }
   async findAll(): Promise<Sitter[]> {
     try {
-      return await this.sitterRepository.find({relations:['services','appointments']});
+      return await this.sitterRepository.find({ relations: ['services', 'appointments'] });
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
     }
@@ -71,6 +71,29 @@ export class SitterService {
     }
   }
 
+  async findOneByEmail(email: string): Promise<Sitter> {
+    const sitter = await this.sitterRepository.findOne({
+      where: { credentials: { email } },
+      relations: ['credentials'],
+    });
+
+    if (!sitter) {
+      throw new NotFoundException('User not found');
+    }
+
+    return sitter;
+  }
+
+
+  async updateUserImage(id: string, userImg: string): Promise<Sitter> {
+    const user = await this.sitterRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.userImg = userImg;
+    return this.sitterRepository.save(user);
+  }
+
 
   async update(id: string, updateSitterInput: Partial<UpdateSitterInput>): Promise<Sitter> {
     const sitter = await this.sitterRepository.findOne({ where: { id } });
@@ -79,7 +102,7 @@ export class SitterService {
       throw new NotFoundException(`Sitter with ID ${id} not found`);
     }
 
-    Object.assign(sitter, updateSitterInput); 
+    Object.assign(sitter, updateSitterInput);
 
     return this.sitterRepository.save(sitter);
   }
@@ -91,7 +114,7 @@ export class SitterService {
       if (!sitter) {
         throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
       }
-  
+
       // Elimina el sitter (cambia a la lógica específica de tu aplicación)
       await this.sitterRepository.delete(id); // Usa tu método de eliminación aquí
       return true;

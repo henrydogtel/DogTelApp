@@ -2,6 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Person {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
+  address: String!
+  role: String
+  userImg: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Dog {
   """Unique ID for the dog"""
   id: String!
@@ -67,11 +82,6 @@ type Sitter {
   credentials: Credentials!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Appointment {
   """id unico para cada cita"""
   id: ID!
@@ -120,7 +130,7 @@ type User {
 }
 
 type LoginResponse {
-  user: User!
+  user: Person!
   access_token: String!
   email: String!
   role: String!
@@ -148,10 +158,12 @@ type Query {
   appointmentDetails: [AppointmentDetail!]!
   appointmentDetail(id: Int!): AppointmentDetail!
   users: [User!]!
-  user(id: String!): User!
+  userById(id: String!): User!
+  userByEmail(email: String!): User!
   credentials: [Credentials!]!
   sitters: [Sitter!]!
   sitter(id: String!): Sitter!
+  sitterByEmail(email: String!): Sitter!
   dogs(idUser: String!): [Dog!]!
   dog(id: String!): Dog!
 }
@@ -168,12 +180,14 @@ type Mutation {
   removeAppointmentDetail(id: Int!): AppointmentDetail!
   createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
   updateUserImage(id: String!, userImg: String!): User!
+  removeUser(id: String!): User!
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
+  updateCredential(userId: String!, updateCredentialInput: UpdateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
-  updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
+  updateSitter(id: String!, updateSitterInput: UpdateSitterInput!): Sitter!
+  updateSitterImage(id: String!, userImg: String!): Sitter!
   removeSitter(id: String!): RemoveSitterResponse!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
@@ -188,7 +202,7 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "223bf130-f619-4bac-b379-ed26fea5f3c5"
+  id: String! = "6cdd83ed-271f-40dc-9211-f984b513c08e"
 }
 
 input CreateAppointmentInput {
@@ -251,8 +265,6 @@ input UpdateUserInput {
   role: String
   password: String
   email: String
-  id: String!
-  userImg: String!
 }
 
 input CreateCredentialInput {
@@ -263,10 +275,23 @@ input CreateCredentialInput {
   email: String!
 }
 
+input UpdateCredentialInput {
+  """Esta es la contrasena del usuario"""
+  password: String!
+
+  """Email del usuario"""
+  email: String
+  credentialId: String
+}
+
 input UpdateSitterInput {
-  id: ID!
-  rate: Float!
-  fee: Float!
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  address: String
+  role: String
+  password: String
+  email: String
 }
 
 input CreateDogInput {
@@ -301,5 +326,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "01c37c99-8820-446f-9f25-a8d5bbc731da"
+  id: String! = "c72270a0-3010-4b0b-862d-10f5ee09425c"
 }

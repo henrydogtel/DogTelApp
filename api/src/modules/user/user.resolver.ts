@@ -40,32 +40,36 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'userById' }) 
   async findOne(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.userService.findOne(id);
+  }
+
+  @Query(() => User, { name: 'userByEmail' }) 
+  async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<User> {
+    return this.userService.findOneByEmail(email); 
   }
 
   @Mutation(() => User)
   async updateUser(
     @Args('id', { type: () => String }) id: string,
-    //name,adress,email
     @Args('updateUserInput') updateUserInput: UpdateUserInput): Promise<User> {
-    return this.userService.update(id, updateUserInput);
+    return await this.userService.update(id, updateUserInput);
+  }
+
+
+  @Mutation(() => User)
+  async updateUserImage(
+    @Args('id') id: string,
+    @Args('userImg') userImg: string,
+  ): Promise<User> {
+    const userUpdated = await this.userService.updateUserImage(id, userImg);
+    return userUpdated;
   }
 
   @Mutation(() => User)
   async removeUser(@Args('id', { type: () => String }) id: string): Promise<void> {
     return this.userService.removeUser(id);
   }
-
-  @Mutation(() => User)
-  async updateUserImage(
-    @Args('id') id: string, 
-    @Args('userImg') userImg: string,
-  ): Promise<User> {
-    const userUpdated = await this.userService.updateUserImage(id, userImg); 
-    return userUpdated;
-  }
-
 
 }

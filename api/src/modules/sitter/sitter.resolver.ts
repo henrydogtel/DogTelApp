@@ -8,7 +8,7 @@ import { RemoveSitterResponse } from './dto/remove-siterr.input';
 
 @Resolver(() => Sitter)
 export class SitterResolver {
-  constructor(private readonly sitterService: SitterService) {}
+  constructor(private readonly sitterService: SitterService) { }
 
   @Mutation(() => Sitter)
   async createSitter(
@@ -58,12 +58,26 @@ export class SitterResolver {
     }
   }
 
-   @Mutation(() => Sitter)
+  @Query(() => Sitter, { name: 'sitterByEmail' })
+  async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<Sitter> {
+    return this.sitterService.findOneByEmail(email);
+  }
+
+  @Mutation(() => Sitter)
   async updateSitter(
+    @Args('id', { type: () => String }) id: string,
     @Args('updateSitterInput', { type: () => UpdateSitterInput }) updateSitterInput: Partial<UpdateSitterInput>,
   ): Promise<Sitter> {
-    const { id, ...updateData } = updateSitterInput;
-    return this.sitterService.update(id, updateData);
+    return await this.sitterService.update(id, updateSitterInput);
+  }
+
+  @Mutation(() => Sitter)
+  async updateSitterImage(
+    @Args('id') id: string,
+    @Args('userImg') userImg: string,
+  ): Promise<Sitter> {
+    const userUpdated = await this.sitterService.updateUserImage(id, userImg);
+    return userUpdated;
   }
 
   @Mutation(() => RemoveSitterResponse)

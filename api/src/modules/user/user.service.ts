@@ -82,15 +82,25 @@ export class UserService {
     }
     return user;
   }
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { credentials: { email } },
+      relations: ['credentials'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
 
   async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
-    const user = await this.userRepository.preload({
-      id,
-      ...updateUserInput,
-    });
+    const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException();
     }
+    Object.assign(user, updateUserInput);
     return this.userRepository.save(user);
   }
 
