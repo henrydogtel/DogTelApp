@@ -1,5 +1,5 @@
 import { IDogRegister } from "@/interfaces/interfaces";
-
+const urlBack = process.env.BACKEND_URL as string
 
 export const postCreateDog = async (idUser: string, dog: IDogRegister) => {
     const query = JSON.stringify({
@@ -19,7 +19,7 @@ export const postCreateDog = async (idUser: string, dog: IDogRegister) => {
         }
     });
 
-    const response = await fetch('http://localhost:3001/graphql', {
+    const response = await fetch(urlBack, {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
         body: query,
@@ -48,7 +48,7 @@ export const getDogsByUserId = async (idUser: string) => {
         variables: { idUser },
     });
 
-    const response = await fetch('http://localhost:3001/graphql', {
+    const response = await fetch(urlBack, {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
         body: query,

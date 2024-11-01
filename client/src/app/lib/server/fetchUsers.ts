@@ -3,6 +3,8 @@ import {
   IRegisterSitter,
   IRegisterUser,
 } from "@/interfaces/interfaces";
+const urlBack = process.env.BACKEND_URL as string
+
 
 export const postSignUpSitter = async (user: IRegisterSitter) => {
   // Garantizamos que el rol siempre sea "user"
@@ -27,7 +29,7 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
 
   console.log(userWithRole);
 
-  const response = await fetch("http://localhost:3001/graphql", {
+  const response = await fetch(urlBack, {
     headers: { "Content-Type": "application/json" },
     method: "POST",
     body: query,
@@ -72,7 +74,7 @@ export const postSignUpOwner = async (user: IRegisterUser) => {
     variables: userWithRole, // Aquí enviamos el usuario con el rol incluido
   });
 
-  const response = await fetch("http://localhost:3001/graphql", {
+  const response = await fetch(urlBack, {
     headers: { "Content-Type": "application/json" },
     method: "POST",
     body: query,
@@ -101,7 +103,7 @@ export const postSignIn = async (credentials: ILoginUser) => {
   });
 
   try {
-    const response = await fetch("http://localhost:3001/graphql", {
+    const response = await fetch(urlBack, {
       headers: { "Content-Type": "application/json" },
       method: "POST",
       body: query,
