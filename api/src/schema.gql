@@ -198,6 +198,7 @@ input UpdateServicesSitterInput {
   name: String
   description: String
   id: String! = "572c15b4-bec7-4a3b-a4e2-af50d5ca930b"
+  id: String! = "bde91ffa-346a-4b25-bc94-97c7c9f055d8"
 }
 
 input CreateAppointmentInput {
@@ -317,4 +318,5 @@ input CreateCalificationDto {
   sitterId: String!
   rate: Int!
   comment: String
+  id: String! = "6cfaef04-e745-411a-9c69-5342d49aee16"
 }
