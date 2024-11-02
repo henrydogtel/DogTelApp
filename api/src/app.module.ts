@@ -21,6 +21,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { SendMailsModule } from './modules/send-mails/send-mails.module';
 import { SendMailsService } from './modules/send-mails/send-mails.service';
 import { AppointmentDetailsModule } from './modules/appointment_details/appointment_details.module';
+import { CalificationsModule } from './modules/califications/califications.module';
 
 
 @Module({
@@ -67,6 +68,7 @@ import { AppointmentDetailsModule } from './modules/appointment_details/appointm
     AuthModule,
     DogsModule,
     SendMailsModule,
+    CalificationsModule,
     JwtModule.register({
       global:true,
       secret: JWT_SECRET,
@@ -74,6 +76,7 @@ import { AppointmentDetailsModule } from './modules/appointment_details/appointm
         expiresIn:'1h'
       }
     }),
+    CalificationsModule,
   ],
 
   providers: [UserService, SendMailsService],

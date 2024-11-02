@@ -9,6 +9,10 @@ export class AppointmentsResolver {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Mutation(() => Appointment)
+  createAppointment(@Args('createAppointment') createAppointment: CreateAppointmentInput) {
+    console.log(createAppointment);
+    return this.appointmentsService.create(createAppointment);
+
   async createAppointment(@Args('createAppointment') createAppointment: CreateAppointmentInput) {
     try {
       console.log(createAppointment);
