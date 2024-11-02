@@ -15,6 +15,7 @@ const NavbarComponent = () => {
   const router = useRouter();
   const [userLocal,setUser] = useState<string | null>(null)
   const [token,setToken] = useState<string | null>(null)
+  const [role, setRole] = useState<string | null>(null)
 
 
   const logOutUser = () => {
@@ -24,7 +25,9 @@ const NavbarComponent = () => {
   // Verifica si el usuario y el token existen en localStorage
 
   useEffect(() => {
-    setUser(localStorage.getItem('user')) ;
+    setUser(localStorage.getItem('user'));
+    let userParse = JSON.parse(String(localStorage.getItem('user')))
+    if(userParse) setRole(userParse.role);
     setToken(localStorage.getItem('token')) ;
   },[user])
   
@@ -50,16 +53,18 @@ const NavbarComponent = () => {
 
             <ul className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#D5E1DD] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#ffb64f26]`}>
 
-              <li>
+
+            {userLocal && role === 'user' && <li>
                 
                 <Link
-                  href="registerOwner"
-                  className="block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl"
-                  aria-current="page"
-                >
-                  Take care of dogs!
-                </Link>
-              </li>
+                     href="sittersPricesDetail"
+                     className=" block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl"
+                     aria-current="page"
+                   >
+                    <span style={{color:'black'}}>Find Sitters</span> 
+                   </Link>
+                 </li>} 
+              
 
               {/* Renderiza los botones de Sign In y Sign Up solo si no hay user y token */}
               {!userLocal || !token ? (
