@@ -25,13 +25,13 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   id: string = uuid();
 
-  @Field(() => Date, { description: 'Start date of the appointment', nullable: true })
+  @Field(() => String, { description: 'Start date of the appointment', nullable: true })
   @Column({ name: 'entry_date', nullable: true })
   @IsOptional()
   @IsDate({ message: 'The start date must be a valid date' })
   entryDate?: Date;
 
-  @Field(() => Date, { description: 'End date of the appointment', nullable: true })
+  @Field(() => String, { description: 'End date of the appointment', nullable: true })
   @Column({ name: 'departure_date', nullable: true })
   @IsOptional()
   @IsDate({ message: 'The end date must be a valid date' })
