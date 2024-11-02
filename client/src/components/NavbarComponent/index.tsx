@@ -11,9 +11,9 @@ import { neucha } from "@/app/lib/server/fonts";
 import { signOut } from 'next-auth/react';
 
 const NavbarComponent = () => {
-  const { logOut } = useContext(UserContext);
+  const { logOut, user } = useContext(UserContext);
   const router = useRouter();
-  const [user,setUser] = useState<string | null>(null)
+  const [userLocal,setUser] = useState<string | null>(null)
   const [token,setToken] = useState<string | null>(null)
 
 
@@ -26,7 +26,7 @@ const NavbarComponent = () => {
   useEffect(() => {
     setUser(localStorage.getItem('user')) ;
     setToken(localStorage.getItem('token')) ;
-  },[user,token])
+  },[user])
   
  
 
@@ -62,7 +62,7 @@ const NavbarComponent = () => {
               </li>
 
               {/* Renderiza los botones de Sign In y Sign Up solo si no hay user y token */}
-              {!user || !token ? (
+              {!userLocal || !token ? (
                 <>
                   <li>
                     <Link
@@ -92,7 +92,7 @@ const NavbarComponent = () => {
                 Home
               </Link>
 
-              {user && token && (
+              {userLocal && token && (
                 <Link
                   href="/dashboard"
                   className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
@@ -101,7 +101,7 @@ const NavbarComponent = () => {
                 </Link>
               )}
 
-              {user && token && (
+              {userLocal && token && (
                 <button
                   onClick={() => logOutUser()}
                   className="bg-[#f8503a] hover:bg-[#c54534] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
