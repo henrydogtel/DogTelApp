@@ -244,6 +244,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             throw new Error(`Error HTTP: ${response.status}`);
         }
         const result = await response.json();
+        console.log(result);
+        
         if (result.data && result.data.sitter) {
             return result.data.sitter; 
         }
