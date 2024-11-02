@@ -26,7 +26,7 @@ const NavbarComponent = () => {
   useEffect(() => {
     setUser(localStorage.getItem('user')) ;
     setToken(localStorage.getItem('token')) ;
-  },[])
+  },[user,token])
   
  
 
