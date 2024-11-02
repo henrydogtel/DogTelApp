@@ -15,8 +15,8 @@ export class DogsResolver {
 async createDog(
   @Args('idUser', ParseUUIDPipe) idUser: string,
   @Args('createDogInput') createDogInput: CreateDogInput,
-): Promise<Dog> {
-  const { name, birthdate, race, size, images } = createDogInput;
+): Promise<Partial<Dog>> {
+  const { name, birthdate, race, size } = createDogInput;
   return await this.dogsService.createDog(idUser, createDogInput);
 }
 

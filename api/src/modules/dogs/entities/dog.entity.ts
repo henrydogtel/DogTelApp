@@ -14,38 +14,38 @@ export enum typeRace {
 @Entity({ name: 'dogs' })
 @ObjectType()
 export class Dog {
-  
+
   @Field(() => String, { description: 'Unique ID for the dog' })
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid(); 
+  id: string = uuid();
 
-  @Column({ type: 'varchar', name: 'name' }) 
+  @Column({ type: 'varchar', name: 'name' })
   @Field(() => String, { description: 'The name of the pet' })
-  name: string; 
+  name: string;
 
-  @Column({ type: 'date', name: 'birthdate' }) 
+  @Column({ type: 'date', name: 'birthdate' })
   @Field(() => String, { description: 'The birthdate of the dog' })
-  birthdate: Date; 
+  birthdate: Date;
 
-  @Column('simple-array', { name: 'images' }) 
+  @Column('simple-array', { name: 'images', default: 'https://tr.rbxcdn.com/180DAY-042a92605c35f75c929ce7cc110d2755/420/420/Hat/Webp/noFilter' })
   @Field(() => [String], { description: 'List of image URLs for the dog' })
-  images: string[]; 
+  images?: string[];
 
-  @Column({ type: 'varchar', name: 'race' }) 
+  @Column({ type: 'varchar', name: 'race' })
   @Field(() => String, { description: 'Race of the dog' })
-  race: string; 
+  race: string;
 
-  @Column({ type: 'enum', enum: typeRace }) 
+  @Column({ type: 'enum', enum: typeRace })
   @Field(() => String, { description: 'Size of the dog' })
   size: typeRace;
 
   @ManyToOne(() => User, (user) => user.dogs)
   @Field(() => User)
-  user:User
+  user: User
 
   @OneToMany(() => AppointmentDetail, (details) => details.dog)
   @Field(() => [AppointmentDetail])
-  details:AppointmentDetail[]
+  details: AppointmentDetail[]
 
-  
+
 }

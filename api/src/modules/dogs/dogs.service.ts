@@ -10,15 +10,13 @@ export class DogsService {
   constructor(private readonly dogRepository:DogsRepository){}
 
 
-  async createDog(idUser:string, createDogInput: CreateDogInput):Promise<Dog> {
+  async createDog(idUser:string, createDogInput: CreateDogInput):Promise<Partial<Dog>>{
    
     try {
       return await this.dogRepository.createDog(idUser,createDogInput)
     } catch (error) {
       throw error
     }
-
-
   }
 
   findAll(idUser:string): Promise<Dog[]> {

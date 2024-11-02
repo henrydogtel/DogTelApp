@@ -76,7 +76,7 @@ interface IUserContextType {
   user: Partial<IUserResponse> | null;
   userImg: string | null;
   sitters: [] | null;
-  dogs: [] | null;
+  dogs:IDog[] | null;
   setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
   isLogged: boolean;
   setIsLogged: (isLogged: boolean) => void;

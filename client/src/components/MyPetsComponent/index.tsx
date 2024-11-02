@@ -71,7 +71,7 @@ const MyPetsComponent = () => {
         </div>
       </section>
 
-      {/* Modal */}
+      Modal
       {isModalOpen && (
         <div
           id="modalOverlay"

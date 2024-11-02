@@ -36,7 +36,7 @@ export const UserContext = createContext<IUserContextType>({
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>({ userImg: null }); 
-  const [dogs, setDogs] = useState<any>([]);
+  const [dogs, setDogs] = useState<IDog[]>([]);
   const [sitters, setSitters] = useState<any>([]);
   const [isLogged, setIsLogged] = useState(false);
   const router = useRouter();
@@ -105,14 +105,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLogged(false);
   };
 
-  const createDog = async (idUser: string, dog: IDogRegister) => {
-    const success = await postCreateDog(idUser, dog);
-    if (success) {
-      return true;
-    } else {
-      return false;
+  const createDog = async (idUser: string, dogData: IDogRegister) => {
+    try {
+      const response = await postCreateDog(idUser, dogData);
+      return response.data; 
+    } catch (error) {
+      console.error('Error en createDog:', error);
+      return null; 
     }
   };
+
 
   const getDogs = async (idUser: string) => {
     const success = await getDogsByUserId(idUser);

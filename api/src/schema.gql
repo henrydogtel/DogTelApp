@@ -202,7 +202,7 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "6cdd83ed-271f-40dc-9211-f984b513c08e"
+  id: String! = "4057c982-37a7-4ed2-a100-0f9875a92ca9"
 }
 
 input CreateAppointmentInput {
@@ -326,5 +326,5 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "c72270a0-3010-4b0b-862d-10f5ee09425c"
+  id: String! = "33ad2a9c-4792-4732-8934-47a7df907560"
 }

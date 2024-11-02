@@ -9,35 +9,37 @@ import { UserRepository } from '../user/user.repository';
 @Injectable()
 export class DogsRepository {
   constructor(
-    @InjectRepository(Dog) private readonly dogsRepository: Repository<Dog>,private readonly userRepository:UserRepository
-  ) {}
+    @InjectRepository(Dog) private readonly dogsRepository: Repository<Dog>, private readonly userRepository: UserRepository
+  ) { }
 
-  async createDog(idUser: string, createDogInput: CreateDogInput): Promise<Dog> {
-    const { name, birthdate, race, size, images } = createDogInput;
-
-    
+  async createDog(idUser: string, createDogInput: CreateDogInput): Promise<Partial<Dog>> {
+    const { name, birthdate, race, size } = createDogInput;
     try {
       const userFound = await this.userRepository.findOne(idUser)
-      if(!userFound) throw new BadRequestException('No se encontro el usuario');
-      const dogCreated = this.dogsRepository.create({ name, birthdate, race, size, images, user:userFound });
+      if (!userFound) throw new BadRequestException('No se encontro el usuario');
+      const dogCreated = this.dogsRepository.create({ name, birthdate, race, size, user: userFound });
       if (!dogCreated) throw new BadRequestException('Hubo un error al crear la mascota');
-      
+
       const dogSaved = await this.dogsRepository.save(dogCreated);
       if (!dogSaved) throw new BadRequestException('Hubo un error al guardar la mascota');
-      
+
       return dogSaved;
     } catch (error) {
       throw error;
     }
   }
 
-  async findAll(idUser:string): Promise<Dog[]> {
-    
-    
+  async findAll(idUser: string): Promise<Dog[]> {
+
+
     try {
-      const dogs = await this.dogsRepository.find({where:{user:{
-        id:idUser
-      }}});
+      const dogs = await this.dogsRepository.find({
+        where: {
+          user: {
+            id: idUser
+          }
+        }
+      });
       if (!dogs.length) throw new NotFoundException('No se encontraron mascotas');
       return dogs;
     } catch (error) {
@@ -72,12 +74,12 @@ export class DogsRepository {
       if (!dog) {
         throw new NotFoundException('Mascota no encontrada para eliminar');
       }
-  
+
       await this.dogsRepository.remove(dog);
-      return true; 
+      return true;
     } catch (error) {
-      console.error(error); 
-      return false; 
+      console.error(error);
+      return false;
     }
   }
 

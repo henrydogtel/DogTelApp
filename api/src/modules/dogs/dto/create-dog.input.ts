@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsEnum, IsNotEmpty,IsString, IsDateString, IsArray, ArrayNotEmpty, IsUUID } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsDateString, IsArray, ArrayNotEmpty, IsUUID } from 'class-validator';
 import { typeRace } from '../entities/dog.entity';
 
 
@@ -17,7 +17,7 @@ export class CreateDogInput {
   @Field(() => [String], { description: 'List of image URLs for the dog' })
   @IsArray()
   @ArrayNotEmpty()
-  images: string[];
+  images?: string[];
 
   @Field(() => String, { description: 'Race of the dog' })
   @IsNotEmpty()

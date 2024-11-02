@@ -2,7 +2,7 @@
 
 import { UserContext } from "@/context/user";
 import { IDogRegister } from "@/interfaces/interfaces";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function DogForm() {
@@ -15,6 +15,10 @@ export default function DogForm() {
     race: "",
     size: "small",
   });
+  useEffect(() => {
+    const userId = JSON.parse(localStorage.getItem("user") || '{}').user?.id;
+    setIdUser(userId);
+}, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -23,18 +27,21 @@ export default function DogForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValues);
+    console.log('Submitting form with values:', formValues);
     
     if (idUser) {
       const dogSend: IDogRegister = {
         name: formValues.name,
         birthdate: formValues.birthDate,
-        images: [],
+        images: [], 
         race: formValues.race,
         size: formValues.size,
       };
+      
+      console.log('Dog data to send:', dogSend); 
 
       const data = await createDog(idUser, dogSend);
+      console.log('Response from createDog:', data);
       if(data) {
         Swal.fire({
           icon: "success",
@@ -56,7 +63,7 @@ export default function DogForm() {
           timerProgressBar: true,
         });
       }  
-      // Restablecer el formulario a su estado inicial
+  
       setFormValues({
         name: "",
         birthDate: "",
@@ -66,7 +73,7 @@ export default function DogForm() {
       });
     }
   };
-
+  console.log('User ID:', idUser)
   return (
     <div className="flex justify-center items-center min-h-screen mt-16 mb-16">
       <form
