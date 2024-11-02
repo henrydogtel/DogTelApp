@@ -9,6 +9,7 @@ const HomeComponent = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [role, setRole] = useState('');
+  const {user} = useContext(UserContext)
 
   useEffect(() => {
     const firstname = localStorage.getItem('firstname');
@@ -23,7 +24,7 @@ const HomeComponent = () => {
       const user = JSON.parse(auser); // Asumiendo que `auser` es un JSON
       setRole(user.role);
     }
-  }, []);
+  }, [user]);
   
   return ( 
     <div>

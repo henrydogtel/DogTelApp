@@ -1,4 +1,5 @@
 import { ISitter } from "@/interfaces/interfaces";
+const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
 export const getSittersFetch = async (): Promise<ISitter[] | null> => {
     const query = JSON.stringify({
@@ -39,7 +40,7 @@ export const getSittersFetch = async (): Promise<ISitter[] | null> => {
     });
 
     try {
-        const response = await fetch('http://localhost:3001/graphql', {
+        const response = await fetch(urlBack, {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
             body: query,
@@ -105,7 +106,7 @@ export const getSitterByIdFetch = async (sitterId: string): Promise<ISitter | nu
   });
 
   try {
-      const response = await fetch('http://localhost:3001/graphql', {
+      const response = await fetch(urlBack, {
           headers: { 'Content-Type': 'application/json' },
           method: 'POST',
           body: query,

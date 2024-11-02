@@ -11,10 +11,11 @@ import { neucha } from "@/app/lib/server/fonts";
 import { signOut } from 'next-auth/react';
 
 const NavbarComponent = () => {
-  const { logOut } = useContext(UserContext);
+  const { logOut, user } = useContext(UserContext);
   const router = useRouter();
-  const [user,setUser] = useState<string | null>(null)
+  const [userLocal,setUser] = useState<string | null>(null)
   const [token,setToken] = useState<string | null>(null)
+  const [role, setRole] = useState<string | null>(null)
 
 
   const logOutUser = () => {
@@ -24,9 +25,11 @@ const NavbarComponent = () => {
   // Verifica si el usuario y el token existen en localStorage
 
   useEffect(() => {
-    setUser(localStorage.getItem('user')) ;
+    setUser(localStorage.getItem('user'));
+    let userParse = JSON.parse(String(localStorage.getItem('user')))
+    if(userParse) setRole(userParse.role);
     setToken(localStorage.getItem('token')) ;
-  },[])
+  },[user])
   
  
 
@@ -50,19 +53,21 @@ const NavbarComponent = () => {
 
             <ul className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#D5E1DD] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#ffb64f26]`}>
 
-              <li>
+
+            {userLocal && role === 'user' && <li>
                 
                 <Link
-                  href="registerOwner"
-                  className="block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl"
-                  aria-current="page"
-                >
-                  Take care of dogs!
-                </Link>
-              </li>
+                     href="sittersPricesDetail"
+                     className=" block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl"
+                     aria-current="page"
+                   >
+                    <span style={{color:'black'}}>Find Sitters</span> 
+                   </Link>
+                 </li>} 
+              
 
               {/* Renderiza los botones de Sign In y Sign Up solo si no hay user y token */}
-              {!user || !token ? (
+              {!userLocal || !token ? (
                 <>
                   <li>
                     <Link
@@ -92,7 +97,7 @@ const NavbarComponent = () => {
                 Home
               </Link>
 
-              {user && token && (
+              {userLocal && token && (
                 <Link
                   href="/dashboard"
                   className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"
@@ -101,7 +106,7 @@ const NavbarComponent = () => {
                 </Link>
               )}
 
-              {user && token && (
+              {userLocal && token && (
                 <button
                   onClick={() => logOutUser()}
                   className="bg-[#f8503a] hover:bg-[#c54534] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"

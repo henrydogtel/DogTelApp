@@ -16,6 +16,8 @@ import {
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useState } from "react";
+const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
+
 
 export const UserContext = createContext<IUserContextType>({
   user: null,
@@ -111,7 +113,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('idUser');
 
     await signOut();
-    window.location.href = 'http://localhost:3000'
 
     setUser(null);
     setIsLogged(false);
@@ -140,7 +141,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getSitters = useCallback(async (): Promise<ISitter[]> => {
     try {
-      const response = await fetch('http://localhost:3001/graphql', {
+      const response = await fetch(urlBack, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -194,7 +195,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const getSitterById = async (id: string): Promise<ISitter | null> => {
     try {
 
-        const response = await fetch('http://localhost:3001/graphql', {
+        const response = await fetch(urlBack, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -237,11 +238,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 variables: { id },
             }),
         });
-
+        console.log(response);
+        
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
         const result = await response.json();
+        console.log(result);
+        
         if (result.data && result.data.sitter) {
             return result.data.sitter; 
         }

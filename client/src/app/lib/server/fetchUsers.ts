@@ -3,6 +3,12 @@ import {
   IRegisterSitter,
   IRegisterUser,
 } from "@/interfaces/interfaces";
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig({ path: '.env' });
+
+const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
+
 
 export const postSignUpSitter = async (user: IRegisterSitter) => {
   // Garantizamos que el rol siempre sea "user"
@@ -11,7 +17,7 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
     fee: Number(user.fee),
     role: "sitter",
   };
-
+  
   const query = JSON.stringify({
     query: `mutation CreateSitter($firstname: String!, $lastname: String!, $birthdate: DateTime!, $address: String!, $role: String!, $password: String!, $email: String!, $fee: Float!, $descripcion: String!) {
     createSitter(firstname: $firstname, lastname: $lastname, birthdate: $birthdate, address: $address, role: $role, password: $password, email: $email, fee: $fee, descripcion: $descripcion) {
@@ -26,8 +32,8 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
   });
 
   console.log(userWithRole);
-
-  const response = await fetch("http://localhost:3001/graphql", {
+  
+  const response = await fetch(urlBack, {
     headers: { "Content-Type": "application/json" },
     method: "POST",
     body: query,
@@ -72,7 +78,7 @@ export const postSignUpOwner = async (user: IRegisterUser) => {
     variables: userWithRole, // Aquí enviamos el usuario con el rol incluido
   });
 
-  const response = await fetch("http://localhost:3001/graphql", {
+  const response = await fetch(urlBack, {
     headers: { "Content-Type": "application/json" },
     method: "POST",
     body: query,
@@ -101,7 +107,7 @@ export const postSignIn = async (credentials: ILoginUser) => {
   });
 
   try {
-    const response = await fetch("http://localhost:3001/graphql", {
+    const response = await fetch(urlBack, {
       headers: { "Content-Type": "application/json" },
       method: "POST",
       body: query,

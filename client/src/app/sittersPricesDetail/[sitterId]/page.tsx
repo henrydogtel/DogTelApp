@@ -26,7 +26,8 @@
 
         try {
           const found = await getSitterById(sitterId);
-
+          console.log(found);
+          
           if (!found) throw new Error("Sitter not found");
           setSitter(found);
         } catch (error) {
