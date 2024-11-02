@@ -238,7 +238,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 variables: { id },
             }),
         });
-
+        console.log(response);
+        
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
