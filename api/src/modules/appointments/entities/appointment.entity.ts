@@ -25,25 +25,26 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   id: string = uuid();
 
-  @Field(() => Date, {description:'Fecha de incio de la cita', nullable:true })
+  @Field(() => String, {description:'Fecha de incio de la cita', nullable:true })
   @Column({name:'entry_date', nullable:true })
   entryDate?: Date
 
-  @Field(() => Date, {description:'Fecha del final de la cita', nullable:true })
+  @Field(() => String, {description:'Fecha del final de la cita', nullable:true })
   @Column({name:'derpeture_date', nullable:true })
   departureDate?: Date
 
-  @Field(() => Date, {description:'Hora de la cita', nullable:true })
-  @Column({nullable:true})
-  time?:Date
+  @Field(() => String, {description:'Hora de la cita', nullable:true })
+  @Column({nullable:true, type:'timestamp with time zone'})
+  timeIn?:Timestamp
 
+  @Field(() => String, {description:'Hora de finalizacion de la cita', nullable:true })
+  @Column({nullable:true, type:'timestamp with time zone'})
+  timeOut?:Timestamp
 
   @Field(() => typeStatus, {description:'Estado de la cita', nullable:true })
   @Column({default:typeStatus.PENDING,nullable:true})
   status?:typeStatus
   
-
-
   @Field(() => Float, {description:'total de la cita', nullable:true })
   @Column({nullable:true})
   total?:number

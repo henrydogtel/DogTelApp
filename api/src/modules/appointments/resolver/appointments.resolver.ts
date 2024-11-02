@@ -12,9 +12,6 @@ export class AppointmentsResolver {
   @Mutation(() => Appointment)
   createAppointment(@Args('createAppointment') createAppointment: CreateAppointmentInput) {
     console.log(createAppointment);
-
-    
-    
     return this.appointmentsService.create(createAppointment);
   }
 
