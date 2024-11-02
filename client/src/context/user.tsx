@@ -111,7 +111,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('idUser');
 
     await signOut();
-    window.location.href = 'http://localhost:3000'
 
     setUser(null);
     setIsLogged(false);
