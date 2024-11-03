@@ -4,7 +4,8 @@ import Stripe from 'stripe'
 const stripe = new Stripe('sk_test_51QEJM0P0p4yyHMWvgkrsnnmPC5FKV25cnAmHvzh1tSzR2YJkF8vMIvRyJZUY5ueh7fkCqIQjmPIul2xvUQ4OGGsF009LLawD3J')
 
 export async function POST() {
-
+    console.log(stripe);
+    
     const session = await stripe.checkout.sessions.create({
         success_url:'http://localhost:3000/success',
         line_items:[
