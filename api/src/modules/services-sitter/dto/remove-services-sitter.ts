@@ -1,10 +1,10 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class RemoveServicesSitter {
-    @Field()
-    success: boolean;
+  @Field()
+  success: boolean;
 
-    @Field()
-    message?: string
+  @Field()
+  message?: string;
 }

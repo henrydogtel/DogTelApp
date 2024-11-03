@@ -7,5 +7,5 @@ export class UpdateCredentialInput extends PartialType(CreateCredentialInput) {
   @Field()
   @IsUUID()
   @IsOptional()
-  credentialId?: string; 
+  credentialId?: string;
 }

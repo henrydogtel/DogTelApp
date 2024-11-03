@@ -1,73 +1,128 @@
-import { ObjectType, Field, Int, Float, extend, registerEnumType, ID,} from '@nestjs/graphql';
+import {
+  ObjectType,
+  Field,
+  Int,
+  Float,
+  extend,
+  registerEnumType,
+  ID,
+} from '@nestjs/graphql';
+import {
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 import { AppointmentDetail } from 'src/modules/appointment_details/entities/appointment_detail.entity';
 import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
-import {v4 as uuid} from 'uuid'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Timestamp,
+} from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
 export enum typeStatus {
   PENDING = 'pending',
   CANCELLED = 'canceled',
   ENDING = 'ending',
-  FINISHED = 'finished'
+  FINISHED = 'finished',
 }
 
 registerEnumType(typeStatus, {
   name: 'typeStatus',
-  description: 'Los estados de la cita soportados.',
-})
+  description: 'Supported appointment statuses.',
+});
 
-
-@Entity({name:'appointments'})
+@Entity({ name: 'appointments' })
 @ObjectType()
 export class Appointment {
-  @Field(() => ID, { description: 'id unico para cada cita' })
+  @Field(() => ID, { description: 'Unique ID for each appointment' })
   @PrimaryGeneratedColumn()
   id: string = uuid();
 
-  @Field(() => Date, {description:'Fecha de incio de la cita', nullable:true })
-  @Column({name:'entry_date', nullable:true })
-  entryDate?: Date
+  @Field(() => String, {
+    description: 'Start date of the appointment',
+    nullable: true,
+  })
+  @Column({ name: 'entry_date', nullable: true })
+  @IsOptional()
+  @IsDate({ message: 'The start date must be a valid date' })
+  entryDate?: Date;
 
-  @Field(() => Date, {description:'Fecha del final de la cita', nullable:true })
-  @Column({name:'derpeture_date', nullable:true })
-  departureDate?: Date
+  @Field(() => String, {
+    description: 'End date of the appointment',
+    nullable: true,
+  })
+  @Column({ name: 'departure_date', nullable: true })
+  @IsOptional()
+  @IsDate({ message: 'The end date must be a valid date' })
+  departureDate?: Date;
 
-  @Field(() => Date, {description:'Hora de la cita', nullable:true })
-  @Column({nullable:true})
-  time?:Date
+  @Field(() => String, { description: 'Time of the appointment', nullable: true })
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsDate({ message: 'The appointment time must be a valid date' })
+  timeIn?: Date;
 
+  @Field(() => String, { description: 'Time of the appointment', nullable: true })
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsDate({ message: 'The appointment time must be a valid date' })
+  timeOut?: Date;
 
-  @Field(() => typeStatus, {description:'Estado de la cita', nullable:true })
-  @Column({default:typeStatus.PENDING,nullable:true})
-  status?:typeStatus
-  
+  @Field(() => typeStatus, {
+    description: 'Status of the appointment',
+    nullable: true,
+  })
+  @Column({ default: typeStatus.PENDING, nullable: true })
+  @IsOptional()
+  @IsEnum(typeStatus, {
+    message: 'The status must be one of the allowed values',
+  })
+  status?: typeStatus;
 
+  @Field(() => Float, {
+    description: 'Total cost of the appointment',
+    nullable: true,
+  })
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsNumber({}, { message: 'The total must be a valid number' })
+  total?: number;
 
-  @Field(() => Float, {description:'total de la cita', nullable:true })
-  @Column({nullable:true})
-  total?:number
-
-  @Field(() => String, {description:'Nota del cliente sobre la cita', nullable:true })
-  @Column({nullable:true})
-  note?:string
-
+  @Field(() => String, {
+    description: 'Customer note about the appointment',
+    nullable: true,
+  })
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsNotEmpty({ message: 'The note cannot be empty' })
+  note?: string;
 
   @Field(() => Sitter)
   @ManyToOne(() => Sitter, (sitter) => sitter.appointments)
-  @JoinColumn({name:'sitter'})
-  sitter:Sitter
+  @JoinColumn({ name: 'sitter' })
+  @IsNotEmpty({ message: 'The sitter cannot be empty' })
+  sitter: Sitter;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.appointments)
-  @JoinColumn({name:'user'})
-  user:User
+  @IsNotEmpty({ message: 'The user cannot be empty' })
+  @JoinColumn({ name: 'user' })
+  user: User;
 
   @Field(() => [AppointmentDetail])
   @OneToMany(() => AppointmentDetail, (detail) => detail.appointment)
-  detail: AppointmentDetail[]
- 
+  detail: AppointmentDetail[];
 
-
+  @Field(() => String, { description:'hour when appointment create was'})
+  @Column({nullable:true})
+  createdAt: Date
 }
-

@@ -5,14 +5,9 @@ import { AuthResolver } from './auth.resolver';
 import { CredentialsModule } from '../credentials/credentials.module';
 import { PassportModule } from '@nestjs/passport';
 
-
-
 @Module({
-  imports: [
-    CredentialsModule,
-    PassportModule,
-  ],
+  imports: [CredentialsModule, PassportModule],
   providers: [AuthService, AuthRepository, AuthResolver],
   exports: [AuthService, AuthRepository],
 })
-export class AuthModule { };
+export class AuthModule {}

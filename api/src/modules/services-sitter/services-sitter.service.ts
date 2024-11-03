@@ -6,13 +6,21 @@ import { ServicesSitter } from './entities/services-sitter.entity';
 
 @Injectable()
 export class ServicesSitterService {
-  constructor(private readonly sitterServiceRepository: SitterServiceRepository) { }
+  constructor(
+    private readonly sitterServiceRepository: SitterServiceRepository,
+  ) {}
 
-  async create(sitter_id: string, createServicesSitterInput: CreateServicesSitterInput) {
+  async create(
+    sitter_id: string,
+    createServicesSitterInput: CreateServicesSitterInput,
+  ) {
     try {
-      return await this.sitterServiceRepository.createService(sitter_id, createServicesSitterInput)
+      return await this.sitterServiceRepository.createService(
+        sitter_id,
+        createServicesSitterInput,
+      );
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
@@ -24,17 +32,23 @@ export class ServicesSitterService {
     return this.sitterServiceRepository.findOne(id);
   }
 
-  async update(id: string, updateServicesSitterInput: UpdateServicesSitterInput): Promise<ServicesSitter> {
-    return await this.sitterServiceRepository.updateService(id, updateServicesSitterInput);
+  async update(
+    id: string,
+    updateServicesSitterInput: UpdateServicesSitterInput,
+  ): Promise<ServicesSitter> {
+    return await this.sitterServiceRepository.updateService(
+      id,
+      updateServicesSitterInput,
+    );
   }
 
   async removeService(id: string): Promise<boolean> {
     try {
-      const service = await this.sitterServiceRepository.findOne(id)
-      await this.sitterServiceRepository.removeService(id)
-      return true
+      const service = await this.sitterServiceRepository.findOne(id);
+      await this.sitterServiceRepository.removeService(id);
+      return true;
     } catch (error) {
-      return false
-    };
+      return false;
+    }
   }
 }

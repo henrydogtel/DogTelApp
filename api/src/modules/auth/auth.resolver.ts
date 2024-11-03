@@ -5,25 +5,26 @@ import { LoginResponse } from './dto/login-response.dto';
 
 @Resolver(() => Credentials)
 export class AuthResolver {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Mutation(() => LoginResponse)
   async login(
     @Args('email') email: string,
-    @Args('password') password: string
+    @Args('password') password: string,
   ): Promise<LoginResponse> {
-
     try {
       const user = await this.authService.validateUser(email, password);
       console.log(user);
-      
+
       if (!user) {
         throw new Error('Invalid credentials');
       }
       return await this.authService.login(user);
     } catch (error) {
-      return error
+      console.error('Error during login:', error);
+      throw new Error(
+        'An error occurred during login. Please check your credentials and try again.',
+      );
     }
-
   }
 }

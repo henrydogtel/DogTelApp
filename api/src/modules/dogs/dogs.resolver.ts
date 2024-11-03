@@ -11,39 +11,72 @@ export class DogsResolver {
   constructor(private readonly dogsService: DogsService) {}
 
   @Mutation(() => Dog)
-
-async createDog(
-  @Args('idUser', ParseUUIDPipe) idUser: string,
-  @Args('createDogInput') createDogInput: CreateDogInput,
-): Promise<Dog> {
-  const { name, birthdate, race, size, images } = createDogInput;
-  return await this.dogsService.createDog(idUser, createDogInput);
-}
+  async createDog(
+    @Args('idUser', ParseUUIDPipe) idUser: string,
+    @Args('createDogInput') createDogInput: CreateDogInput,
+  ): Promise<Dog> {
+    try {
+      const { name, birthdate, race, size, images } = createDogInput;
+      return await this.dogsService.createDog(idUser, createDogInput);
+    } catch (error) {
+      console.error('Error creating dog:', error);
+      throw new Error(
+        'An error occurred while creating the dog. Please try again.',
+      );
+    }
+  }
 
   @Query(() => [Dog], { name: 'dogs' })
-  findAll(@Args('idUser', { type: () => String }) id: string) {
-    return this.dogsService.findAll(id);
+  async findAll(@Args('idUser', { type: () => String }) id: string) {
+    try {
+      return await this.dogsService.findAll(id);
+    } catch (error) {
+      console.error('Error retrieving dogs:', error);
+      throw new Error(
+        'An error occurred while retrieving the dogs. Please try again.',
+      );
+    }
   }
 
   @Query(() => Dog, { name: 'dog' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.dogsService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    try {
+      return await this.dogsService.findOne(id);
+    } catch (error) {
+      console.error(`Error finding dog with ID ${id}:`, error);
+      throw new Error(
+        'An error occurred while finding the dog. Please try again.',
+      );
+    }
   }
 
   @Mutation(() => Dog)
-  updateDog(@Args('updateDogInput') updateDogInput: UpdateDogInput) {
-    return this.dogsService.update(updateDogInput.id, updateDogInput);
+  async updateDog(@Args('updateDogInput') updateDogInput: UpdateDogInput) {
+    try {
+      return await this.dogsService.update(updateDogInput.id, updateDogInput);
+    } catch (error) {
+      console.error(`Error updating dog with ID ${updateDogInput.id}:`, error);
+      throw new Error(
+        'An error occurred while updating the dog. Please try again.',
+      );
+    }
   }
-
-  @Mutation(() => RemoveDogResponse) 
 
   @Mutation(() => RemoveDogResponse)
   async removeDog(@Args('id') id: string): Promise<RemoveDogResponse> {
-    const success = await this.dogsService.removeDog(id);
-    return {
-      success,
-      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
-    };
+    try {
+      const success = await this.dogsService.removeDog(id);
+      return {
+        success,
+        message: success
+          ? 'Dog removed successfully'
+          : 'Failed to remove the dog',
+      };
+    } catch (error) {
+      console.error(`Error removing dog with ID ${id}:`, error);
+      throw new Error(
+        'An error occurred while removing the dog. Please try again.',
+      );
+    }
   }
-  
 }
