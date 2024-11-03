@@ -43,11 +43,11 @@ registerEnumType(typeStatus, {
 @Entity({ name: 'appointments' })
 @ObjectType()
 export class Appointment {
-  @Field(() => ID, { description: 'Unique ID for each appointment' })
-  @PrimaryGeneratedColumn()
+  @Field(() => String, { description: 'Unique ID for each appointment' })
+  @PrimaryGeneratedColumn('uuid')
   id: string = uuid();
 
-  @Field(() => String, {
+  @Field(() => Date, {
     description: 'Start date of the appointment',
     nullable: true,
   })
@@ -56,7 +56,7 @@ export class Appointment {
   @IsDate({ message: 'The start date must be a valid date' })
   entryDate?: Date;
 
-  @Field(() => String, {
+  @Field(() => Date, {
     description: 'End date of the appointment',
     nullable: true,
   })
@@ -65,13 +65,13 @@ export class Appointment {
   @IsDate({ message: 'The end date must be a valid date' })
   departureDate?: Date;
 
-  @Field(() => String, { description: 'Time of the appointment', nullable: true })
+  @Field(() => Date, { description: 'Time of the appointment', nullable: true })
   @Column({ nullable: true })
   @IsOptional()
   @IsDate({ message: 'The appointment time must be a valid date' })
   timeIn?: Date;
 
-  @Field(() => String, { description: 'Time of the appointment', nullable: true })
+  @Field(() =>Date, { description: 'Time of the appointment', nullable: true })
   @Column({ nullable: true })
   @IsOptional()
   @IsDate({ message: 'The appointment time must be a valid date' })
@@ -122,7 +122,7 @@ export class Appointment {
   @OneToMany(() => AppointmentDetail, (detail) => detail.appointment)
   detail: AppointmentDetail[];
 
-  @Field(() => String, { description:'hour when appointment create was'})
+  @Field(() => Date, { description:'hour when appointment create was'})
   @Column({nullable:true})
   createdAt: Date
 }

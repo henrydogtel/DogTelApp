@@ -165,8 +165,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
               appointments { 
                 id 
                 entryDate 
-                departureDate 
-                time 
+                departureDate
                 status 
                 total 
                 note 
@@ -182,6 +181,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }),
       });
       const result = await response.json();
+      console.log(result);
+      
       if (result.data && result.data.sitters) {
         return result.data.sitters;
       }
@@ -221,7 +222,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                                 id 
                                 entryDate 
                                 departureDate 
-                                time 
                                 status 
                                 total 
                                 note 
@@ -238,7 +238,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 variables: { id },
             }),
         });
-        console.log(response);
         
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);

@@ -13,7 +13,7 @@ import {
 @ObjectType()
 @Entity({ name: 'appointment-detail' })
 export class AppointmentDetail {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => String, { description: 'Unique ID for the appointment detail' })
   id: String;
 
