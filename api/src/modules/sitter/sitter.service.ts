@@ -69,7 +69,7 @@ export class SitterService {
   async findAll(): Promise<Sitter[]> {
     try {
       return await this.sitterRepository.find({
-        relations: ['services', 'appointments'],
+        relations: ['services', 'appointments','appointments.user'],
       });
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
@@ -78,7 +78,7 @@ export class SitterService {
 
   async findOne(id: string): Promise<Sitter> {
     try {
-      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments']});
+      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments', 'appointments.user']});
       if (!sitter) {
         throw new NotFoundException(`Sitter con id ${id} no encontrado`);
       }
@@ -106,7 +106,7 @@ export class SitterService {
   async removeSitter(id: string): Promise<boolean> {
     try {
       // Verifica si el sitter existe
-      const sitter = await this.findOne(id); // Lanzará NotFoundException si no existe
+      const sitter = await this.sitterRepository.delete(id); // Lanzará NotFoundException si no existe
       if (!sitter) {
         throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
       }
