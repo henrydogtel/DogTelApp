@@ -16,7 +16,7 @@ export class Sitter extends Person {
   @Min(0, { message: 'Rate must be zero or greater' })
   rate: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   @Column({ type: 'int' })
   @IsInt({ message: 'Fee must be an integer' })
   @Min(0, { message: 'Fee must be zero or greater' })
