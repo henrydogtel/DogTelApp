@@ -5,7 +5,6 @@ import { Calification } from './entities/calification.entity';
 import { CreateCalificationDto } from './dto/create-calification.input';
 import { Sitter } from '../sitter/entities/sitter.entity';
 
-
 @Injectable()
 export class CalificationsService {
   constructor(
@@ -15,7 +14,9 @@ export class CalificationsService {
     private readonly sittersRepository: Repository<Sitter>,
   ) {}
 
-  async createCalification(createCalificationDto: CreateCalificationDto): Promise<Calification> {
+  async createCalification(
+    createCalificationDto: CreateCalificationDto,
+  ): Promise<Calification> {
     const { sitterId, userId, rate, comment } = createCalificationDto;
     const calification = this.calificationsRepository.create({
       sitter: { id: sitterId },
@@ -23,7 +24,7 @@ export class CalificationsService {
       rate,
       comment,
     });
-    
+
     await this.calificationsRepository.save(calification);
     await this.updateSitterRate(sitterId);
     return calification;
@@ -39,11 +40,12 @@ export class CalificationsService {
       throw new NotFoundException(`Sitter with ID ${sitterId} not found`);
     }
 
-    
-    const totalScore = sitter.califications.reduce((sum, calification) => sum + calification.rate, 0);
+    const totalScore = sitter.califications.reduce(
+      (sum, calification) => sum + calification.rate,
+      0,
+    );
     const rate = totalScore / sitter.califications.length;
 
-    
     sitter.rate = rate;
     await this.sittersRepository.save(sitter);
   }

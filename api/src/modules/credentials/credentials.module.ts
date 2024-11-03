@@ -10,5 +10,4 @@ import { Credentials } from './entities/credential.entity';
   providers: [CredentialsService, CredentialsRepository, CredentialsResolver],
   exports: [CredentialsService, CredentialsRepository, TypeOrmModule],
 })
-export class CredentialsModule { }
-
+export class CredentialsModule {}

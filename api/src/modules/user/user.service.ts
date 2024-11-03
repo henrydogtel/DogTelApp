@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -17,26 +21,36 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private readonly credentialRepository: CredentialsRepository,
     private readonly authRepository: AuthRepository,
-    private readonly sendMailService: SendMailsService
-  ) { }
+    private readonly sendMailService: SendMailsService,
+  ) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-    const hashedPassword = await this.authRepository.hashPassword(createUserInput.password)
-    const { firstname, lastname, birthdate, role, address, password, email } = createUserInput
+    const hashedPassword = await this.authRepository.hashPassword(
+      createUserInput.password,
+    );
+    const { firstname, lastname, birthdate, role, address, password, email } =
+      createUserInput;
 
     try {
-      const credentials: Credentials = await this.credentialRepository.create({ password: hashedPassword, email })
-      if (!credentials) throw new BadRequestException('Hubo un error al crear las credenciales')
+      const credentials: Credentials = await this.credentialRepository.create({
+        password: hashedPassword,
+        email,
+      });
+      if (!credentials)
+        throw new BadRequestException(
+          'Hubo un error al crear las credenciales',
+        );
       const newUser = this.userRepository.create({
         firstname,
         lastname,
         birthdate,
         address,
         role,
-        credentials
+        credentials,
       });
       const userSaved = await this.userRepository.save(newUser);
-      if (!userSaved) throw new BadRequestException('Hubo un error al guardar el usuario')
+      if (!userSaved)
+        throw new BadRequestException('Hubo un error al guardar el usuario');
       const response = await this.sendMailService.sendMail({
         to: userSaved.credentials.email,
         subject: '¡Bienvenido a nuestra comunidad de cuidadores de mascotas!',
@@ -60,16 +74,17 @@ export class UserService {
                 </div>
             </body>
             </html>
-        `
-    });
-    
-      
-    if(!response) throw new BadRequestException('Hubo un error al enviar el email de bienvenida')
-      return userSaved
-    } catch (error) {
-      throw error
-    }
+        `,
+      });
 
+      if (!response)
+        throw new BadRequestException(
+          'Hubo un error al enviar el email de bienvenida',
+        );
+      return userSaved;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findAll(): Promise<User[]> {
@@ -101,12 +116,17 @@ export class UserService {
   }
 
   // Subida de imágenes
-  async uploadProfilePicture(userId: string, file: Express.Multer.File): Promise<User> {
+  async uploadProfilePicture(
+    userId: string,
+    file: Express.Multer.File,
+  ): Promise<User> {
     const uploadResult = await cloudinary.uploader.upload(file.path, {
       public_id: file.originalname.split('.')[0],
     });
 
-    const user = await this.userRepository.findOne({ where: { id: String(userId) } });
+    const user = await this.userRepository.findOne({
+      where: { id: String(userId) },
+    });
     if (!user) {
       throw new NotFoundException('User not found');
     }

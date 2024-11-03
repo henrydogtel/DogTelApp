@@ -20,7 +20,9 @@ export class DogsResolver {
       return await this.dogsService.createDog(idUser, createDogInput);
     } catch (error) {
       console.error('Error creating dog:', error);
-      throw new Error('An error occurred while creating the dog. Please try again.');
+      throw new Error(
+        'An error occurred while creating the dog. Please try again.',
+      );
     }
   }
 
@@ -30,7 +32,9 @@ export class DogsResolver {
       return await this.dogsService.findAll(id);
     } catch (error) {
       console.error('Error retrieving dogs:', error);
-      throw new Error('An error occurred while retrieving the dogs. Please try again.');
+      throw new Error(
+        'An error occurred while retrieving the dogs. Please try again.',
+      );
     }
   }
 
@@ -40,7 +44,9 @@ export class DogsResolver {
       return await this.dogsService.findOne(id);
     } catch (error) {
       console.error(`Error finding dog with ID ${id}:`, error);
-      throw new Error('An error occurred while finding the dog. Please try again.');
+      throw new Error(
+        'An error occurred while finding the dog. Please try again.',
+      );
     }
   }
 
@@ -50,7 +56,9 @@ export class DogsResolver {
       return await this.dogsService.update(updateDogInput.id, updateDogInput);
     } catch (error) {
       console.error(`Error updating dog with ID ${updateDogInput.id}:`, error);
-      throw new Error('An error occurred while updating the dog. Please try again.');
+      throw new Error(
+        'An error occurred while updating the dog. Please try again.',
+      );
     }
   }
 
@@ -60,12 +68,15 @@ export class DogsResolver {
       const success = await this.dogsService.removeDog(id);
       return {
         success,
-        message: success ? 'Dog removed successfully' : 'Failed to remove the dog',
+        message: success
+          ? 'Dog removed successfully'
+          : 'Failed to remove the dog',
       };
     } catch (error) {
       console.error(`Error removing dog with ID ${id}:`, error);
-      throw new Error('An error occurred while removing the dog. Please try again.');
+      throw new Error(
+        'An error occurred while removing the dog. Please try again.',
+      );
     }
   }
 }
-

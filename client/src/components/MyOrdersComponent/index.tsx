@@ -15,7 +15,7 @@ const MyOrdersComponent = () => {
     <div>
       {/* Órdenes */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6 text-[#B17457]">
+        <h2 className="text-2xl font-semibold mb-6 text-[#dc803f]">
           My Orders
         </h2>
         <div className="bg-white p-6 rounded-xl shadow-lg">
@@ -23,9 +23,9 @@ const MyOrdersComponent = () => {
             <ul>
               {orders.map((order) => (
                 <li key={order.id} className="mb-4">
-                  <div className="flex justify-between items-center bg-[#FFEEAD] p-4 rounded-lg">
+                  <div className="flex justify-between items-center bg-[#fff7dd] p-4 rounded-lg">
                     <div>
-                      <h3 className="text-lg font-semibold text-[#B17457]">
+                      <h3 className="text-lg font-semibold text-[#fc955e]">
                         Order #{order.id}
                       </h3>
                       <p className="text-gray-500">Date: {order.date}</p>

@@ -20,17 +20,15 @@ export class CreateUserInput {
   @IsString()
   address: string;
 
-  @Field(() => String,{nullable:true})
+  @Field(() => String, { nullable: true })
   @IsEnum(UserRole)
   role?: UserRole;
 
   @Field(() => String)
-  @IsString() 
+  @IsString()
   password: string;
 
   @Field(() => String)
-  @IsString() 
+  @IsString()
   email: string;
-
-
 }

@@ -11,9 +11,13 @@ import { CredentialsModule } from '../credentials/credentials.module';
 import { UserModule } from '../user/user.module';
 import { User } from '../user/entities/user.entity';
 
-
 @Module({
-  imports:[TypeOrmModule.forFeature([Sitter, User]),AuthModule, CredentialsModule, UserModule],
+  imports: [
+    TypeOrmModule.forFeature([Sitter, User]),
+    AuthModule,
+    CredentialsModule,
+    UserModule,
+  ],
   providers: [SitterResolver, SitterService, CredentialsService],
 })
 export class SitterModule {}

@@ -3,7 +3,6 @@ import { IsNotEmpty, IsOptional, IsUUID, Max, Min } from 'class-validator';
 
 @InputType()
 export class CreateCalificationDto {
-
   @Field(() => String)
   @IsUUID()
   userId: string;
@@ -11,7 +10,7 @@ export class CreateCalificationDto {
   @Field(() => String)
   @IsUUID()
   sitterId: string;
-  
+
   @Field(() => Int)
   @Min(1)
   @Max(5)

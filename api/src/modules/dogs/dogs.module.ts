@@ -7,7 +7,7 @@ import { Dog } from './entities/dog.entity';
 import { UserRepository } from '../user/user.repository';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Dog])],
+  imports: [TypeOrmModule.forFeature([Dog])],
   providers: [DogsResolver, DogsService, DogsRepository, UserRepository],
 })
 export class DogsModule {}

@@ -1,8 +1,12 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User} from './entities/user.entity';
+import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
-import { BadRequestException,UploadedFile,UseInterceptors } from '@nestjs/common';
+import {
+  BadRequestException,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserRole } from 'src/enums/user-role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -30,11 +34,14 @@ export class UserResolver {
         password,
         email,
       });
-      if (!userSaved) throw new BadRequestException('There was an error creating the user');
+      if (!userSaved)
+        throw new BadRequestException('There was an error creating the user');
       return userSaved;
     } catch (error) {
       console.error('Error creating user:', error);
-      throw new BadRequestException(error.message || 'An error occurred while creating the user');
+      throw new BadRequestException(
+        error.message || 'An error occurred while creating the user',
+      );
     }
   }
 
@@ -54,7 +61,9 @@ export class UserResolver {
       return await this.userService.findOne(id);
     } catch (error) {
       console.error(`Error retrieving user with id ${id}:`, error);
-      throw new BadRequestException(`An error occurred while retrieving the user with id: ${id}`);
+      throw new BadRequestException(
+        `An error occurred while retrieving the user with id: ${id}`,
+      );
     }
   }
 
@@ -67,17 +76,23 @@ export class UserResolver {
       return await this.userService.update(id, updateUserInput);
     } catch (error) {
       console.error(`Error updating user with id ${id}:`, error);
-      throw new BadRequestException(`An error occurred while updating the user with id: ${id}`);
+      throw new BadRequestException(
+        `An error occurred while updating the user with id: ${id}`,
+      );
     }
   }
 
   @Mutation(() => User)
-  async removeUser(@Args('id', { type: () => String }) id: string): Promise<void> {
+  async removeUser(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<void> {
     try {
       await this.userService.removeUser(id);
     } catch (error) {
       console.error(`Error removing user with id ${id}:`, error);
-      throw new BadRequestException(`An error occurred while removing the user with id: ${id}`);
+      throw new BadRequestException(
+        `An error occurred while removing the user with id: ${id}`,
+      );
     }
   }
 

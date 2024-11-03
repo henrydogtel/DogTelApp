@@ -16,7 +16,10 @@ export class AppointmentDetailsService {
     return `This action returns a #${id} appointmentDetail`;
   }
 
-  update(id: number, updateAppointmentDetailInput: UpdateAppointmentDetailInput) {
+  update(
+    id: number,
+    updateAppointmentDetailInput: UpdateAppointmentDetailInput,
+  ) {
     return `This action updates a #${id} appointmentDetail`;
   }
 

@@ -4,7 +4,6 @@ import { Calification } from './entities/calification.entity';
 import { UpdateCalificationDto } from './dto/update-calification.input';
 import { CreateCalificationDto } from './dto/create-calification.input';
 
-
 @Resolver(() => Calification)
 export class CalificationsResolver {
   constructor(private readonly calificationsService: CalificationsService) {}
