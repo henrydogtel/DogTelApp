@@ -20,15 +20,15 @@ async createDog(
   return await this.dogsService.createDog(idUser, createDogInput);
 }
 
-  @Query(() => [Dog], { name: 'dogs' })
-  findAll(@Args('idUser', { type: () => String }) id: string) {
-    return this.dogsService.findAll(id);
-  }
+@Query(() => [Dog], { name: 'dogs' })
+findAll(@Args('idUser', { type: () => String }) id: string) {
+  return this.dogsService.findAll(id);
+}
 
-  @Query(() => Dog, { name: 'dog' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.dogsService.findOne(id);
-  }
+@Query(() => Dog, { name: 'dog' })
+findOne(@Args('id', { type: () => String }) id: string) {
+  return this.dogsService.findOne(id);
+}
 
   @Mutation(() => Dog)
   updateDog(@Args('updateDogInput') updateDogInput: UpdateDogInput) {

@@ -30,8 +30,6 @@ export class DogsRepository {
   }
 
   async findAll(idUser: string): Promise<Dog[]> {
-
-
     try {
       const dogs = await this.dogsRepository.find({
         where: {
