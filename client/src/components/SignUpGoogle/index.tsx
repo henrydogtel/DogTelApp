@@ -10,7 +10,11 @@ import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { isNull } from "util";
 
-const SignUpWithGoogle =  ({role}) => {
+interface ISignUpWithGoole {
+  role: string
+}
+
+const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
 
   const {data: session, status, update} = useSession()
   const {setUser, signUpSitter, signUpOwner} = useContext(UserContext)

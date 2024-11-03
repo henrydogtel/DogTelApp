@@ -10,7 +10,7 @@ interface Pet {
   image: string;
 }
 
-const SummaryComponent = () => {
+const SummaryComponent: React.FC = () => {
   const router = useRouter();
   // Información ficticia
   const sitter = {

@@ -1,11 +1,13 @@
-import SummaryComponent from '@/components/SummaryComponent'
-import React from 'react'
 
-const summary = () => {
+
+import SummaryComponent from '@/components/SummaryComponent';
+import React, { FC } from 'react'
+
+const summary:FC = () => {
   return (
     <div className="p-10 bg-[#FAF7F0]">
-      <SummaryComponent />
-    </div>
+        <SummaryComponent />
+      </div>
   );
 }
 

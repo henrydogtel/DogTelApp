@@ -15,6 +15,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
+    "@netlify/plugin-nextjs": "^5.8.1",
     "dotenv": "^16.4.5",
     "next": "14.2.15",
     "next-auth": "^4.24.8",

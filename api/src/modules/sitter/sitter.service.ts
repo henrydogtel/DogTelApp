@@ -78,10 +78,7 @@ export class SitterService {
 
   async findOne(id: string): Promise<Sitter> {
     try {
-      const sitter = await this.sitterRepository.findOne({
-        where: { id },
-        relations: ['services', 'appointments'],
-      });
+      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments']});
       if (!sitter) {
         throw new NotFoundException(`Sitter con id ${id} no encontrado`);
       }
