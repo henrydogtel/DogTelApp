@@ -6,22 +6,20 @@ import { Dog } from './entities/dog.entity';
 
 @Injectable()
 export class DogsService {
+  constructor(private readonly dogRepository: DogsRepository) {}
 
-  constructor(private readonly dogRepository:DogsRepository){}
-
-
-  async createDog(idUser:string, createDogInput: CreateDogInput):Promise<Dog> {
-   
+  async createDog(
+    idUser: string,
+    createDogInput: CreateDogInput,
+  ): Promise<Dog> {
     try {
-      return await this.dogRepository.createDog(idUser,createDogInput)
+      return await this.dogRepository.createDog(idUser, createDogInput);
     } catch (error) {
-      throw error
+      throw error;
     }
-
-
   }
 
-  findAll(idUser:string): Promise<Dog[]> {
+  findAll(idUser: string): Promise<Dog[]> {
     return this.dogRepository.findAll(idUser);
   }
 
@@ -36,11 +34,10 @@ export class DogsService {
     try {
       const dog = await this.findOne(id);
       await this.dogRepository.removeDog(id);
-      return true; 
+      return true;
     } catch (error) {
-      console.error(error); 
-      return false; 
+      console.error(error);
+      return false;
     }
   }
- 
 }

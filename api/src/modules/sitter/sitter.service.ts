@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,7 +16,12 @@ import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class SitterService {
-  constructor(@InjectRepository(Sitter) private readonly sitterRepository:Repository<Sitter>, private readonly credentialRepository: CredentialsRepository, private readonly authService: AuthRepository) {}
+  constructor(
+    @InjectRepository(Sitter)
+    private readonly sitterRepository: Repository<Sitter>,
+    private readonly credentialRepository: CredentialsRepository,
+    private readonly authService: AuthRepository,
+  ) {}
 
   async create(
     firstname: string,
@@ -28,8 +37,14 @@ export class SitterService {
     const hashedPassword = await this.authService.hashPassword(password);
 
     try {
-      const credentials: Credentials = await this.credentialRepository.create({ password: hashedPassword, email });
-      if (!credentials) throw new BadRequestException('Hubo un error al crear las credenciales');
+      const credentials: Credentials = await this.credentialRepository.create({
+        password: hashedPassword,
+        email,
+      });
+      if (!credentials)
+        throw new BadRequestException(
+          'Hubo un error al crear las credenciales',
+        );
 
       const newSitter = this.sitterRepository.create({
         firstname,
@@ -43,7 +58,8 @@ export class SitterService {
       });
 
       const sitterSaved = await this.sitterRepository.save(newSitter);
-      if (!sitterSaved) throw new BadRequestException('Hubo un error al guardar el sitter');
+      if (!sitterSaved)
+        throw new BadRequestException('Hubo un error al guardar el sitter');
 
       return sitterSaved;
     } catch (error) {
@@ -52,16 +68,20 @@ export class SitterService {
   }
   async findAll(): Promise<Sitter[]> {
     try {
-      return await this.sitterRepository.find({relations:['services','appointments']});
+      return await this.sitterRepository.find({
+        relations: ['services', 'appointments'],
+      });
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
     }
   }
 
-
   async findOne(id: string): Promise<Sitter> {
     try {
-      const sitter = await this.sitterRepository.findOne({ where: { id }, relations:['services', 'appointments'] });
+      const sitter = await this.sitterRepository.findOne({
+        where: { id },
+        relations: ['services', 'appointments'],
+      });
       if (!sitter) {
         throw new NotFoundException(`Sitter con id ${id} no encontrado`);
       }
@@ -71,15 +91,17 @@ export class SitterService {
     }
   }
 
-
-  async update(id: string, updateSitterInput: Partial<UpdateSitterInput>): Promise<Sitter> {
+  async update(
+    id: string,
+    updateSitterInput: Partial<UpdateSitterInput>,
+  ): Promise<Sitter> {
     const sitter = await this.sitterRepository.findOne({ where: { id } });
 
     if (!sitter) {
       throw new NotFoundException(`Sitter with ID ${id} not found`);
     }
 
-    Object.assign(sitter, updateSitterInput); 
+    Object.assign(sitter, updateSitterInput);
 
     return this.sitterRepository.save(sitter);
   }
@@ -91,7 +113,7 @@ export class SitterService {
       if (!sitter) {
         throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
       }
-  
+
       // Elimina el sitter (cambia a la lógica específica de tu aplicación)
       await this.sitterRepository.delete(id); // Usa tu método de eliminación aquí
       return true;

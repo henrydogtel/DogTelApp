@@ -7,7 +7,7 @@ import { User } from '../user/entities/user.entity';
 import { Sitter } from '../sitter/entities/sitter.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Calification,User,Sitter])],
+  imports: [TypeOrmModule.forFeature([Calification, User, Sitter])],
   providers: [CalificationsService, CalificationsResolver],
   exports: [CalificationsService],
 })

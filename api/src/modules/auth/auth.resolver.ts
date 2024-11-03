@@ -10,7 +10,7 @@ export class AuthResolver {
   @Mutation(() => LoginResponse)
   async login(
     @Args('email') email: string,
-    @Args('password') password: string
+    @Args('password') password: string,
   ): Promise<LoginResponse> {
     try {
       const user = await this.authService.validateUser(email, password);
@@ -22,8 +22,9 @@ export class AuthResolver {
       return await this.authService.login(user);
     } catch (error) {
       console.error('Error during login:', error);
-      throw new Error('An error occurred during login. Please check your credentials and try again.');
+      throw new Error(
+        'An error occurred during login. Please check your credentials and try again.',
+      );
     }
   }
 }
-

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAppointmentInput } from '../dto/create-appointment.input';
 import { UpdateAppointmentInput } from '../dto/update-appointment.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,13 +10,36 @@ import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
 @Injectable()
 export class AppointmentsService {
 
-  constructor(@InjectRepository(Appointment) private repositoryAppointment: Repository<Appointment>, @InjectRepository(User) private userRepository: Repository<User>) {
+  constructor(@InjectRepository(Appointment) private repositoryAppointment: Repository<Appointment>, @InjectRepository(User) private userRepository: Repository<User>, @InjectRepository(Sitter) private sitterRepository: Repository<Sitter>) {
 
   }
 
   async create(createAppointmentInput: CreateAppointmentInput) {
     const {status,entryDate,departureDate,timeIn,timeOut,total,note,idSitter,idUser} = createAppointmentInput
-    const userFound:User = await this.userRepository.findOneBy({id:idUser})
+
+    try {
+      const userFound:User = await this.userRepository.findOneBy({id:idUser})
+      if(!userFound) throw new BadRequestException('No existe el usuario que se quiere agregar a la cita')
+      const sitter: Sitter = await this.sitterRepository.findOneBy({id:idUser})
+      if(!sitter) throw new BadRequestException('No exist el cuidador que se quiere agregar a la cita')
+      
+      const newAppointment = this.repositoryAppointment.create({
+        status,
+        entryDate,
+        departureDate,
+        timeIn,
+        timeOut,
+        
+      })
+
+
+    } catch(error){
+      
+    }
+    
+   
+
+
     return this.repositoryAppointment.save(createAppointmentInput);
   }
 

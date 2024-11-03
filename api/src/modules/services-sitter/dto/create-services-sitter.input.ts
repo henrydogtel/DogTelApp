@@ -10,5 +10,4 @@ export class CreateServicesSitterInput {
   @Field(() => String)
   @IsNotEmpty()
   description: string;
-
 }

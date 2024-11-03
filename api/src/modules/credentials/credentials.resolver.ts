@@ -3,18 +3,21 @@ import { CredentialsService } from './credentials.service';
 import { Credentials } from './entities/credential.entity';
 import { CreateCredentialInput } from './dto/create-credential.input';
 
-
 @Resolver(() => Credentials)
 export class CredentialsResolver {
   constructor(private readonly credentialsService: CredentialsService) {}
 
   @Mutation(() => Credentials)
-  async createCredential(@Args('createCredentialInput') createCredentialInput: CreateCredentialInput) {
+  async createCredential(
+    @Args('createCredentialInput') createCredentialInput: CreateCredentialInput,
+  ) {
     try {
       return await this.credentialsService.create(createCredentialInput);
     } catch (error) {
       console.error('Error creating credential:', error);
-      throw new Error('An error occurred while creating the credential. Please try again.');
+      throw new Error(
+        'An error occurred while creating the credential. Please try again.',
+      );
     }
   }
 
@@ -24,7 +27,9 @@ export class CredentialsResolver {
       return await this.credentialsService.findAll();
     } catch (error) {
       console.error('Error retrieving credentials:', error);
-      throw new Error('An error occurred while retrieving credentials. Please try again.');
+      throw new Error(
+        'An error occurred while retrieving credentials. Please try again.',
+      );
     }
   }
 
@@ -60,4 +65,3 @@ export class CredentialsResolver {
   //   }
   // }
 }
-

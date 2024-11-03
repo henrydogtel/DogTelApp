@@ -12,14 +12,20 @@ export class ServicesSitterResolver {
   @Mutation(() => ServicesSitter)
   async createServicesSitter(
     @Args('sitter_id') idSitter: string,
-    @Args('CreateServicesSitterInput') createServicesSitterInput: CreateServicesSitterInput
+    @Args('CreateServicesSitterInput')
+    createServicesSitterInput: CreateServicesSitterInput,
   ): Promise<ServicesSitter> {
     try {
       const { name, description } = createServicesSitterInput;
-      return await this.servicesSitterService.create(idSitter, createServicesSitterInput);
+      return await this.servicesSitterService.create(
+        idSitter,
+        createServicesSitterInput,
+      );
     } catch (error) {
       console.error('Error creating services sitter:', error);
-      throw new Error('An error occurred while creating the services sitter. Please try again.');
+      throw new Error(
+        'An error occurred while creating the services sitter. Please try again.',
+      );
     }
   }
 
@@ -29,7 +35,9 @@ export class ServicesSitterResolver {
       return await this.servicesSitterService.findAll();
     } catch (error) {
       console.error('Error retrieving services sitters:', error);
-      throw new Error('An error occurred while retrieving the services sitters. Please try again.');
+      throw new Error(
+        'An error occurred while retrieving the services sitters. Please try again.',
+      );
     }
   }
 
@@ -39,31 +47,50 @@ export class ServicesSitterResolver {
       return await this.servicesSitterService.findOne(id);
     } catch (error) {
       console.error(`Error finding service sitter with ID ${id}:`, error);
-      throw new Error('An error occurred while finding the services sitter. Please try again.');
+      throw new Error(
+        'An error occurred while finding the services sitter. Please try again.',
+      );
     }
   }
 
   @Mutation(() => ServicesSitter)
-  async updateServicesSitter(@Args('updateServicesSitterInput') updateServicesSitterInput: UpdateServicesSitterInput) {
+  async updateServicesSitter(
+    @Args('updateServicesSitterInput')
+    updateServicesSitterInput: UpdateServicesSitterInput,
+  ) {
     try {
-      return await this.servicesSitterService.update(updateServicesSitterInput.id, updateServicesSitterInput);
+      return await this.servicesSitterService.update(
+        updateServicesSitterInput.id,
+        updateServicesSitterInput,
+      );
     } catch (error) {
-      console.error(`Error updating services sitter with ID ${updateServicesSitterInput.id}:`, error);
-      throw new Error('An error occurred while updating the services sitter. Please try again.');
+      console.error(
+        `Error updating services sitter with ID ${updateServicesSitterInput.id}:`,
+        error,
+      );
+      throw new Error(
+        'An error occurred while updating the services sitter. Please try again.',
+      );
     }
   }
 
   @Mutation(() => RemoveServicesSitter)
-  async removeServicesSitter(@Args('id') id: string): Promise<RemoveServicesSitter> {
+  async removeServicesSitter(
+    @Args('id') id: string,
+  ): Promise<RemoveServicesSitter> {
     try {
       const success = await this.servicesSitterService.removeService(id);
       return {
         success,
-        message: success ? 'The service was deleted successfully' : 'Error deleting the service',
+        message: success
+          ? 'The service was deleted successfully'
+          : 'Error deleting the service',
       };
     } catch (error) {
       console.error(`Error removing service sitter with ID ${id}:`, error);
-      throw new Error('An error occurred while deleting the services sitter. Please try again.');
+      throw new Error(
+        'An error occurred while deleting the services sitter. Please try again.',
+      );
     }
   }
 }

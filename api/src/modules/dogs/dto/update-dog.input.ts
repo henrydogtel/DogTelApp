@@ -5,5 +5,5 @@ import { v4 as uuid } from 'uuid';
 @InputType()
 export class UpdateDogInput extends PartialType(CreateDogInput) {
   @Field(() => String)
-  id: string = uuid() ;
+  id: string = uuid();
 }

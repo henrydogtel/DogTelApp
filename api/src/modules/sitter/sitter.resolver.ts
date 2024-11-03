@@ -32,12 +32,14 @@ export class SitterResolver {
         password,
         email,
         fee,
-        descripcion
-      )
+        descripcion,
+      );
 
       return sitter;
     } catch (error) {
-      throw new BadRequestException(error.message || 'Error al crear el sitter');
+      throw new BadRequestException(
+        error.message || 'Error al crear el sitter',
+      );
     }
   }
 
@@ -50,7 +52,9 @@ export class SitterResolver {
     }
   }
   @Query(() => Sitter, { name: 'sitter' })
-  async findOne(@Args('id', { type: () => String }) id: string): Promise<Sitter> {
+  async findOne(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Sitter> {
     try {
       return await this.sitterService.findOne(id);
     } catch (error) {
@@ -60,14 +64,17 @@ export class SitterResolver {
 
   @Mutation(() => Sitter)
   async updateSitter(
-    @Args('updateSitterInput', { type: () => UpdateSitterInput }) updateSitterInput: Partial<UpdateSitterInput>,
+    @Args('updateSitterInput', { type: () => UpdateSitterInput })
+    updateSitterInput: Partial<UpdateSitterInput>,
   ): Promise<Sitter> {
     try {
       const { id, ...updateData } = updateSitterInput;
       return await this.sitterService.update(id, updateData);
     } catch (error) {
       console.error('Error updating sitter:', error);
-      throw new BadRequestException('An error occurred while updating the sitter');
+      throw new BadRequestException(
+        'An error occurred while updating the sitter',
+      );
     }
   }
 
@@ -77,11 +84,15 @@ export class SitterResolver {
       const success = await this.sitterService.removeSitter(id);
       return {
         success,
-        message: success ? 'Sitter successfully deleted' : 'Error deleting the sitter',
+        message: success
+          ? 'Sitter successfully deleted'
+          : 'Error deleting the sitter',
       };
     } catch (error) {
       console.error(`Error removing sitter with id ${id}:`, error);
-      throw new BadRequestException('An error occurred while deleting the sitter');
+      throw new BadRequestException(
+        'An error occurred while deleting the sitter',
+      );
     }
   }
 }
