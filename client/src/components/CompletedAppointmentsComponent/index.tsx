@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const CompletedAppointmentsComponent = () => {
+
+  useEffect(() => {
+    console.log('hi')
+  },[])
+
+  
   // Citas completadas
   const completedAppointments = [
     { id: 1, title: "Walk with Max", date: "2024-09-15", time: "11:00 AM" },
