@@ -62,37 +62,36 @@ export class SitterResolver {
     }
   }
 
+  @Query(() => Sitter, { name: 'sitterByEmail' })
+  async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<Sitter> {
+    return this.sitterService.findOneByEmail(email);
+  }
+
   @Mutation(() => Sitter)
   async updateSitter(
-    @Args('updateSitterInput', { type: () => UpdateSitterInput })
-    updateSitterInput: Partial<UpdateSitterInput>,
+    @Args('id', { type: () => String }) id: string,
+    @Args('updateSitterInput', { type: () => UpdateSitterInput }) updateSitterInput: Partial<UpdateSitterInput>,
   ): Promise<Sitter> {
-    try {
-      const { id, ...updateData } = updateSitterInput;
-      return await this.sitterService.update(id, updateData);
-    } catch (error) {
-      console.error('Error updating sitter:', error);
-      throw new BadRequestException(
-        'An error occurred while updating the sitter',
-      );
-    }
+    return await this.sitterService.update(id, updateSitterInput);
+  }
+
+  @Mutation(() => Sitter)
+  async updateSitterImage(
+    @Args('id') id: string,
+    @Args('userImg') userImg: string,
+  ): Promise<Sitter> {
+    const userUpdated = await this.sitterService.updateUserImage(id, userImg);
+    return userUpdated;
   }
 
   @Mutation(() => RemoveSitterResponse)
   async removeSitter(@Args('id') id: string): Promise<RemoveSitterResponse> {
-    try {
-      const success = await this.sitterService.removeSitter(id);
-      return {
-        success,
-        message: success
-          ? 'Sitter successfully deleted'
-          : 'Error deleting the sitter',
-      };
-    } catch (error) {
-      console.error(`Error removing sitter with id ${id}:`, error);
-      throw new BadRequestException(
-        'An error occurred while deleting the sitter',
-      );
-    }
+    const success = await this.sitterService.removeSitter(id);
+    return {
+      success,
+      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
+    };
   }
+
+  
 }

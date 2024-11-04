@@ -39,7 +39,7 @@ export class Sitter extends Person {
   appointments: Appointment[];
 
   @Field(() => Credentials)
-  @OneToOne(() => Credentials, (credentials) => credentials.user)
+  @OneToOne(() => Credentials, (credentials) => credentials.sitter)
   @JoinColumn({ name: 'credentials_id' })
   credentials: Credentials;
 
