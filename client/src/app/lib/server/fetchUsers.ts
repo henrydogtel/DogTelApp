@@ -159,7 +159,7 @@ export const fetchUserProfileByEmail = async (email: string): Promise<IUser | nu
     variables: { email },
   });
 
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
@@ -186,7 +186,7 @@ export const fetchSitterProfileByEmail = async (email: string): Promise<ISitter 
     variables: { email },
   });
 
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
@@ -214,7 +214,7 @@ export const updateUserProfile = async (userId: string, firstname: string, lastn
 
     variables: { updateUserId: userId, updateUserInput: { firstname, lastname, address } },
   });
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
@@ -245,7 +245,7 @@ export const updateSitterProfile = async (
     },
   });
 
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
@@ -276,7 +276,7 @@ export const fetchSitterProfile = async (sitterId: string) => {
     variables: { sitterId },
   });
 
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
@@ -322,7 +322,7 @@ export const updateUserImage = async (userId: string, userImgUrl: string): Promi
 
   console.log('Datos enviados:', { id: userId, userImg: userImgUrl });
 
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
@@ -346,7 +346,7 @@ export const updateSitterImage = async (sitterId: string, userImgUrl: string): P
 
   console.log('Datos enviados para actualizar la imagen del sitter:', { id: sitterId, userImg: userImgUrl });
 
-  const response = await fetch('http://localhost:3001/graphql', {
+  const response = await fetch(urlBack, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: query,
