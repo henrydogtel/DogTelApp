@@ -24,6 +24,27 @@ export class UserService {
     private readonly sendMailService: SendMailsService,
   ) {}
 
+  async updateUserImage(id: string, userImg: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.userImg = userImg;
+    return this.userRepository.save(user);
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { credentials: { email } },
+      relations: ['credentials'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
   async create(createUserInput: CreateUserInput): Promise<User> {
     const hashedPassword = await this.authRepository.hashPassword(
       createUserInput.password,

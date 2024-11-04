@@ -24,7 +24,7 @@ export class CreateDogInput {
   @Field(() => [String], { description: 'List of image URLs for the dog' })
   @IsArray()
   @ArrayNotEmpty()
-  images: string[];
+  images?: string[];
 
   @Field(() => String, { description: 'Race of the dog' })
   @IsNotEmpty()
