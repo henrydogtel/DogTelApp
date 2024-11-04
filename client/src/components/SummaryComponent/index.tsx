@@ -3,6 +3,7 @@
 import { UserContext } from "@/context/user";
 import { IDog, ISitter } from "@/interfaces/interfaces";
 import { useContext, useEffect, useState } from "react";
+import { concertOne, neucha } from "@/app/lib/server/fonts";
 
 const SummaryComponent: React.FC = () => {
   const [selectedSitter, setSelectedSitter] = useState<ISitter | null>(null);
