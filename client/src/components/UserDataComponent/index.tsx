@@ -105,8 +105,8 @@ const UserDataComponent: React.FC = () => {
             await updateSitterProfile(
                 userInfo.user.id,          
                 updatedFields.firstname,    
-                updatedFields.lastname,     // Apellido
-                updatedFields.address,      // Dirección
+                updatedFields.lastname,     
+                updatedFields.address,      
                
             );
         } else {
@@ -144,17 +144,14 @@ const UserDataComponent: React.FC = () => {
     console.log('user id:', userInfo.user.id);
     
     try {
-      const uploadedUrl = await uploadUserImage(file); // Subir la imagen
+      const uploadedUrl = await uploadUserImage(file); 
       console.log('User ID antes de la actualización de la imagen:', userInfo.user.id);
-      
-      // Determinar la mutación a usar según el rol del usuario
       if (userInfo.role === "sitter") {
         await updateSitterImage(userInfo.user.id, uploadedUrl);
       } else {
         await updateUserImage(userInfo.user.id, uploadedUrl);
       }
 
-      // Actualizar el estado con la nueva imagen
       setUserInfo((prev) => prev && { 
         ...prev, 
         user: { 
