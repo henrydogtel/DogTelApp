@@ -1,8 +1,15 @@
 "use client";
 
 import { getDogsByUserId, postCreateDog } from "@/app/lib/server/fetchDog";
-import { getSittersFetch, getSitterByIdFetch } from "@/app/lib/server/fetchSitter";
-import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
+import {
+  getSittersFetch,
+  getSitterByIdFetch,
+} from "@/app/lib/server/fetchSitter";
+import {
+  postSignIn,
+  postSignUpSitter,
+  postSignUpOwner,
+} from "@/app/lib/server/fetchUsers";
 import {
   IDogRegister,
   ILoginUser,
@@ -11,18 +18,17 @@ import {
   IUserContextType,
   IUserResponse,
   IDog,
-  ISitter
+  ISitter,
 } from "@/interfaces/interfaces";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useState } from "react";
-const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
-
+const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
 export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
-  sitters:[],
+  sitters: [],
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
@@ -33,39 +39,34 @@ export const UserContext = createContext<IUserContextType>({
   createDog: async () => false,
   getDogs: async () => false,
   getSitters: async () => [],
-  getSitterById: async () => null
+  getSitterById: async () => null,
 });
-
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>();
-  const [dogs,setDogs] = useState<any>([])
+  const [dogs, setDogs] = useState<any>([]);
   const [sitters, setSitters] = useState<ISitter[]>([]);
   const [isLogged, setIsLogged] = useState(false);
   const [sitter, setSitter] = useState<ISitter | null>(null);
-  const router = useRouter()
-
+  const router = useRouter();
 
   const signIn = async (credentials: ILoginUser) => {
-
-    
     try {
       const data: any = await postSignIn(credentials);
-      if(!data) return false
+      if (!data) return false;
       console.log(data.user);
-      
+
       setUser(data);
 
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", data.accessToken);
 
-      localStorage.setItem('firstname', data.user.firstname)
-      localStorage.setItem('lastname', data.user.lastname)
+      localStorage.setItem("firstname", data.user.firstname);
+      localStorage.setItem("lastname", data.user.lastname);
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("idUser", data.user.id);
 
-     
       return true;
     } catch (error) {
       console.log(error);
@@ -86,7 +87,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       return false;
     }
   };
-  
+
   const signUpOwner = async (user: IRegisterUser) => {
     try {
       const data = await postSignUpOwner(user);
@@ -101,16 +102,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  
-
   const logOut = async () => {
-
     localStorage.removeItem("cartItems");
-    localStorage.removeItem('firstname');
-    localStorage.removeItem('lastname');
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('idUser');
+    localStorage.removeItem("firstname");
+    localStorage.removeItem("lastname");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("idUser");
 
     await signOut();
 
@@ -118,33 +116,31 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLogged(false);
   };
 
-  const createDog = async (idUser:string,dog:IDogRegister) => {
-    const success = await postCreateDog(idUser,dog)
-    if(success) {
-      return true
+  const createDog = async (idUser: string, dog: IDogRegister) => {
+    const success = await postCreateDog(idUser, dog);
+    if (success) {
+      return true;
     } else {
-      return false
+      return false;
     }
-   
-  }
+  };
 
-  const getDogs = async (idUser:string) => {
-    const success = await getDogsByUserId(idUser)
-    if(success && success.data && success.data.dogs) {
-      
-      success.data.dogs && setDogs(success.data.dogs)      
-      return true
+  const getDogs = async (idUser: string) => {
+    const success = await getDogsByUserId(idUser);
+    if (success && success.data && success.data.dogs) {
+      success.data.dogs && setDogs(success.data.dogs);
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   const getSitters = useCallback(async (): Promise<ISitter[]> => {
     try {
       const response = await fetch(urlBack, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           query: `query Sitters { 
@@ -177,32 +173,32 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 } 
               } 
             } 
-          }`
+          }`,
         }),
       });
       const result = await response.json();
       console.log(result);
-      
+
       if (result.data && result.data.sitters) {
+        setSitters(result.data.sitters);
         return result.data.sitters;
       }
-      return []; 
+      return [];
     } catch (error) {
-      console.error('Error fetching sitters:', error);
+      console.error("Error fetching sitters:", error);
       return [];
     }
   }, []);
 
   const getSitterById = async (id: string): Promise<ISitter | null> => {
     try {
-
-        const response = await fetch(urlBack, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query: `
+      const response = await fetch(urlBack, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
                     query SitterById($id: String!) { 
                         sitter(id: $id) { 
                             address 
@@ -235,27 +231,26 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                         } 
                     }
                 `,
-                variables: { id },
-            }),
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        const result = await response.json();
-        console.log(result);
-        
-        if (result.data && result.data.sitter) {
-            return result.data.sitter; 
-        }
+          variables: { id },
+        }),
+      });
 
-        return null;
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log(result);
+
+      if (result.data && result.data.sitter) {
+        return result.data.sitter;
+      }
+
+      return null;
     } catch (error) {
-
-        console.error('Error fetching sitter by ID:', error);
-        return null; 
+      console.error("Error fetching sitter by ID:", error);
+      return null;
     }
-};
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -289,8 +284,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         getDogs,
         sitters,
         getSitters,
-        getSitterById
-        
+        getSitterById,
       }}
     >
       {children}
