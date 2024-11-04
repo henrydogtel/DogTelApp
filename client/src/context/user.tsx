@@ -3,7 +3,6 @@
 import { getDogsByUserId, postCreateDog } from "@/app/lib/server/fetchDog";
 import {
   getSittersFetch,
-  getSitterByIdFetch,
 } from "@/app/lib/server/fetchSitter";
 import {
   postSignIn,
@@ -11,8 +10,7 @@ import {
   postSignUpOwner,
 } from "@/app/lib/server/fetchUsers";
 
-import { getSittersFetch, getSitterById } from "@/app/lib/server/fetchSitter";
-import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
+import {  getSitterById } from "@/app/lib/server/fetchSitter";
 import {
   IDogRegister,
   ILoginUser,
@@ -32,7 +30,6 @@ export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
   sitters: [],
-  sitters:[],
   userImg:null,
   setUser: () => {},
   isLogged: false,
@@ -50,8 +47,6 @@ export const UserContext = createContext<IUserContextType>({
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>();
-  const [dogs, setDogs] = useState<any>([]);
   const [user, setUser] = useState<any>({ userImg: null });
   const [dogs,setDogs] = useState<any>([])
   const [sitters, setSitters] = useState<ISitter[]>([]);
