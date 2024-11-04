@@ -45,6 +45,7 @@ export class UserResolver {
     }
   }
 
+  
   @Query(() => [User], { name: 'users' })
   async findAll(): Promise<User[]> {
     try {
@@ -54,6 +55,8 @@ export class UserResolver {
       throw new BadRequestException('An error occurred while retrieving users');
     }
   }
+
+  
 
   @Query(() => User, { name: 'user' })
   async findOne(@Args('id', { type: () => String }) id: string): Promise<User> {
@@ -96,14 +99,18 @@ export class UserResolver {
     }
   }
 
-  // subida de imagenes
-  @Mutation(() => User)
-  // @UseGuards(AuthGuardJwt)
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadProfilePicture(
-    @Args('userId', { type: () => String }) userId: string,
-    @UploadedFile() file: Express.Multer.File,
-  ): Promise<User> {
-    return await this.userService.uploadProfilePicture(userId, file);
+  @Query(() => User, { name: 'userByEmail' }) 
+  async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<User> {
+    return this.userService.findOneByEmail(email); 
   }
+
+  @Mutation(() => User)
+  async updateUserImage(
+    @Args('id') id: string,
+    @Args('userImg') userImg: string,
+  ): Promise<User> {
+    const userUpdated = await this.userService.updateUserImage(id, userImg);
+    return userUpdated;
+  }
+
 }

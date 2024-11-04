@@ -68,7 +68,7 @@ type Sitter {
   role: String
   userImg: String!
   rate: Float!
-  fee: Int!
+  fee: Float!
   descripcion: String!
   services: [ServicesSitter!]!
   appointments: [Appointment!]!
@@ -82,7 +82,7 @@ scalar DateTime
 
 type Appointment {
   """Unique ID for each appointment"""
-  id: ID!
+  id: String!
 
   """Start date of the appointment"""
   entryDate: DateTime
@@ -91,7 +91,10 @@ type Appointment {
   departureDate: DateTime
 
   """Time of the appointment"""
-  time: DateTime
+  timeIn: DateTime
+
+  """Time of the appointment"""
+  timeOut: DateTime
 
   """Status of the appointment"""
   status: typeStatus
@@ -104,6 +107,9 @@ type Appointment {
   sitter: Sitter!
   user: User!
   detail: [AppointmentDetail!]!
+
+  """hour when appointment create was"""
+  createdAt: DateTime!
 }
 
 """Supported appointment statuses."""
@@ -157,9 +163,11 @@ type Query {
   appointmentDetail(id: Int!): AppointmentDetail!
   users: [User!]!
   user(id: String!): User!
+  userByEmail(email: String!): User!
   credentials: [Credentials!]!
   sitters: [Sitter!]!
   sitter(id: String!): Sitter!
+  sitterByEmail(email: String!): Sitter!
   dogs(idUser: String!): [Dog!]!
   dog(id: String!): Dog!
 }
@@ -177,11 +185,12 @@ type Mutation {
   createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): User!
-  uploadProfilePicture(userId: String!): User!
+  updateUserImage(id: String!, userImg: String!): User!
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
-  updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
+  updateSitter(id: String!, updateSitterInput: UpdateSitterInput!): Sitter!
+  updateSitterImage(id: String!, userImg: String!): Sitter!
   removeSitter(id: String!): RemoveSitterResponse!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
@@ -197,48 +206,59 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "572c15b4-bec7-4a3b-a4e2-af50d5ca930b"
-  id: String! = "bde91ffa-346a-4b25-bc94-97c7c9f055d8"
+  id: String! = "69317405-12c4-42b0-8c5c-a3792d594c41"
 }
 
 input CreateAppointmentInput {
-  """Estado de la cita"""
-  status: String
-
   """Fecha de inicio de la cita"""
-  entryDate: DateTime
+  entryDate: String
 
   """Fecha de finalización de la cita"""
-  departureDate: DateTime
+  departureDate: String
 
   """Hora de la cita"""
-  time: DateTime
+  timeIn: String
 
-  """Total de la cita"""
-  total: Float
+  """Hora del final de la cita"""
+  timeOut: String
 
   """Nota del cliente sobre la cita"""
   note: String
+
+  """id del usuario de la cita"""
+  idUser: String!
+
+  """id del sitter a cuidar en la cita"""
+  idSitter: String!
+
+  """id dogs to appointment"""
+  dogsId: [String!]!
 }
 
 input UpdateAppointmentInput {
-  """Estado de la cita"""
-  status: String
-
   """Fecha de inicio de la cita"""
-  entryDate: DateTime
+  entryDate: String
 
   """Fecha de finalización de la cita"""
-  departureDate: DateTime
+  departureDate: String
 
   """Hora de la cita"""
-  time: DateTime
+  timeIn: String
 
-  """Total de la cita"""
-  total: Float
+  """Hora del final de la cita"""
+  timeOut: String
 
   """Nota del cliente sobre la cita"""
   note: String
+
+  """id del usuario de la cita"""
+  idUser: String
+
+  """id del sitter a cuidar en la cita"""
+  idSitter: String
+
+  """id dogs to appointment"""
+  dogsId: [String!]
   id: Int!
 }
 
@@ -261,7 +281,6 @@ input UpdateUserInput {
   role: String
   password: String
   email: String
-  id: String!
 }
 
 input CreateCredentialInput {
@@ -273,9 +292,13 @@ input CreateCredentialInput {
 }
 
 input UpdateSitterInput {
-  id: ID!
-  rate: Float!
-  fee: Float!
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  address: String
+  role: String
+  password: String
+  email: String
 }
 
 input CreateDogInput {
@@ -310,7 +333,7 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "3dd4760a-536e-4e44-a2a7-7d143715d0ae"
+  id: String! = "fe513b69-4550-4db4-b4a6-8821c6c99f83"
 }
 
 input CreateCalificationDto {
@@ -318,5 +341,4 @@ input CreateCalificationDto {
   sitterId: String!
   rate: Int!
   comment: String
-  id: String! = "6cfaef04-e745-411a-9c69-5342d49aee16"
 }

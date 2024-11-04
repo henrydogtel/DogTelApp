@@ -24,7 +24,7 @@ const HomeComponent = () => {
       const user = JSON.parse(auser); // Asumiendo que `auser` es un JSON
       setRole(user.role);
     }
-  }, [user]);
+  }, []);
   
   return ( 
     <div>

@@ -10,6 +10,9 @@ import {
   postSignUpSitter,
   postSignUpOwner,
 } from "@/app/lib/server/fetchUsers";
+
+import { getSittersFetch, getSitterById } from "@/app/lib/server/fetchSitter";
+import { postSignIn, postSignUpSitter, postSignUpOwner } from "@/app/lib/server/fetchUsers";
 import {
   IDogRegister,
   ILoginUser,
@@ -29,6 +32,8 @@ export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
   sitters: [],
+  sitters:[],
+  userImg:null,
   setUser: () => {},
   isLogged: false,
   setIsLogged: () => {},
@@ -40,11 +45,15 @@ export const UserContext = createContext<IUserContextType>({
   getDogs: async () => false,
   getSitters: async () => [],
   getSitterById: async () => null,
+  getSittersProfile: async () => null,
+  getSittersById: async () => null,
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>();
   const [dogs, setDogs] = useState<any>([]);
+  const [user, setUser] = useState<any>({ userImg: null });
+  const [dogs,setDogs] = useState<any>([])
   const [sitters, setSitters] = useState<ISitter[]>([]);
   const [isLogged, setIsLogged] = useState(false);
   const [sitter, setSitter] = useState<ISitter | null>(null);
@@ -63,9 +72,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
       localStorage.setItem("firstname", data.user.firstname);
       localStorage.setItem("lastname", data.user.lastname);
-      localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("idUser", data.user.id);
+      localStorage.setItem("userId", data.user.id);
+
 
       return true;
     } catch (error) {
@@ -104,11 +114,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logOut = async () => {
     localStorage.removeItem("cartItems");
-    localStorage.removeItem("firstname");
-    localStorage.removeItem("lastname");
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("idUser");
+
+    localStorage.removeItem('firstname');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('idUser');
+    localStorage.removeItem('userId');
+
 
     await signOut();
 
@@ -252,6 +265,25 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+const getSittersProfile = async () => {
+  const success = await getSittersFetch();
+  if (success && success.data && success.data.sitters) {
+    setSitters(success.data.sitters);
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const getSittersById = async (id: string) => {
+  const response = await fetch(`/api/sitters/${id}`); 
+  if (!response.ok) {
+    return null;
+  }
+  const sitter = await response.json();
+  return sitter;
+};
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -285,6 +317,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         sitters,
         getSitters,
         getSitterById,
+        getSittersProfile,
+        getSittersById,
+        userImg: user?.userImg,
+        
       }}
     >
       {children}

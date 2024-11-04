@@ -38,7 +38,7 @@ export class Person {
   @Column({ type: 'varchar', length: 255 })
   @IsString({ message: 'Address must be a string' })
   @Length(1, 255, { message: 'Address must be between 1 and 255 characters' })
-  address: string;
+  address?: string;
 
   @Field(() => String, { nullable: true })
   @Column({

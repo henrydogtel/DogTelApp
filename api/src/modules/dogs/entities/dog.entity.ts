@@ -40,7 +40,7 @@ export class Dog {
   @Field(() => [String], { description: 'List of image URLs for the dog' })
   @IsArray({ message: 'Images must be in an array' })
   @IsString({ each: true, message: 'Each image URL must be a text string' })
-  images: string[];
+  images?: string[];
 
   @Column({ type: 'varchar', name: 'race' })
   @Field(() => String, { description: 'Race of the dog' })

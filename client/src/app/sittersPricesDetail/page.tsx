@@ -9,14 +9,14 @@ import { UserContext } from "@/context/user";
 
 const SittersPricesDetail = () => {
   const { getSitters } = useContext(UserContext);
-  const [sitters, setSitters] = useState<ISitter[]>([]);
+  const [sitters, setSitters] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchSitters = useCallback(async () => {
     setLoading(true); 
     try {
-      const fetchedSitters = await getSitters();
+      const fetchedSitters  = await getSitters() as ISitter[];
       if (fetchedSitters && fetchedSitters.length > 0) {
         setSitters(fetchedSitters); 
       } else {
@@ -49,7 +49,7 @@ const SittersPricesDetail = () => {
         <h1 className={`${concertOne.className} text-3xl font-bold mb-6 text-[#B17457]`}>Cuidadores</h1>
         {sitters.length > 0 ? (
           <ul className="space-y-4">
-            {sitters.map((sitter) => (
+            {sitters.map((sitter:any) => (
               <li
                 key={sitter.id}
                 className="border border-[#B17457] p-4 rounded-lg shadow hover:bg-[#FFEEAD] transition"
