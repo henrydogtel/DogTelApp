@@ -23,7 +23,6 @@ export const getSittersFetch = async () => {
             id
             entryDate
             departureDate
-            time
             status
             total
             note
@@ -80,7 +79,6 @@ export const getSitterById = async (sitterId: string): Promise<ISitter | null> =
                 id
                 entryDate
                 departureDate
-                time
                 status
                 total
                 note

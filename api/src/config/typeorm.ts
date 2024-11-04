@@ -18,8 +18,8 @@ const config = {
     // port: DB_PORT,
     // username: DB_USERNAME,
     // password: DB_PASSWORD,
-    // synchronize: true,
-    // dropSchema: true,
+    synchronize: true,
+    dropSchema: true,
     logging: true,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}']
