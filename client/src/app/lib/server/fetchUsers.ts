@@ -2,6 +2,8 @@ import {
   ILoginUser,
   IRegisterSitter,
   IRegisterUser,
+  ISitter,
+  IUser,
 } from "@/interfaces/interfaces";
 import { config as dotenvConfig } from 'dotenv';
 
@@ -11,7 +13,6 @@ const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
 
 export const postSignUpSitter = async (user: IRegisterSitter) => {
-  // Garantizamos que el rol siempre sea "user"
   const userWithRole = {
     ...user,
     fee: Number(user.fee),
@@ -142,6 +143,217 @@ export const postSignIn = async (credentials: ILoginUser) => {
   }
 };
 
+export const fetchUserProfileByEmail = async (email: string): Promise<IUser | null> => {
+  const query = JSON.stringify({
+    query: `
+      query UserByEmail($email: String!) {
+        userByEmail(email: $email) {
+          id
+          firstname
+          lastname
+          userImg
+          address
+        }
+      }
+    `,
+    variables: { email },
+  });
+
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+
+  const data = await response.json();
+  console.log("GraphQL Response:", data);
+  return data?.data?.userByEmail || null;
+};
+
+export const fetchSitterProfileByEmail = async (email: string): Promise<ISitter | null> => {
+  const query = JSON.stringify({
+    query: `
+      query SitterByEmail($email: String!) {
+        sitterByEmail(email: $email) {
+          id
+          firstname
+          lastname
+          userImg
+          address
+        }
+      }
+    `,
+    variables: { email },
+  });
+
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+
+  const data = await response.json();
+  console.log("GraphQL Response (Sitter):", data);
+  return data?.data?.sitterByEmail || null;
+};
+
+
+
+//editar perfil de usuario (name,address)
+export const updateUserProfile = async (userId: string, firstname: string, lastname: String, address: string): Promise<Partial<IUser>> => {
+  const query = JSON.stringify({
+    query: `
+     mutation UpdateUser($updateUserId: String!, $updateUserInput: UpdateUserInput!) {
+  updateUser(id: $updateUserId, updateUserInput: $updateUserInput) {
+    firstname
+    lastname
+    address
+  }
+}
+    `,
+
+    variables: { updateUserId: userId, updateUserInput: { firstname, lastname, address } },
+  });
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+  const data = await response.json()
+  return data
+}
+
+export const updateSitterProfile = async (
+  sitterId: string,
+  firstname: string,
+  lastname: string,
+  address: string
+): Promise<Partial<ISitter>> => {
+  const query = JSON.stringify({
+    query: `
+      mutation UpdateSitter($updateSitterId: String!, $updateSitterInput: UpdateSitterInput!) {
+        updateSitter(id: $updateSitterId, updateSitterInput: $updateSitterInput) {
+          firstname
+          lastname
+          address
+        }
+      }
+    `,
+    variables: {
+      updateSitterId: sitterId,
+      updateSitterInput: { firstname, lastname, address }
+    },
+  });
+
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+
+  const data = await response.json();
+
+  if (data.errors) {
+    throw new Error(`Error al actualizar el perfil del sitter: ${data.errors[0].message}`);
+  }
+
+  return data.data.updateSitter;
+};
+
+
+export const fetchSitterProfile = async (sitterId: string) => {
+  const query = JSON.stringify({
+    query: `
+      query Sitter($sitterId: String!) {
+        sitter(id: $sitterId) {
+          firstname
+          lastname
+          address
+          userImg
+        }
+      }
+    `,
+    variables: { sitterId },
+  });
+
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+
+  const data = await response.json();
+  return data.data.sitter;
+};
+
+
+// subida de imagenes
+export const uploadUserImage = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'ml_default');
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/ddawjnvdg/image/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  console.log(response)
+  const data = await response.json();
+  return data.secure_url;
+
+
+};
+
+export const updateUserImage = async (userId: string, userImgUrl: string): Promise<any> => {
+
+  const query = JSON.stringify({
+    query: `
+      mutation UpdateUserImage($updateUserImageId: String!, $userImg: String!) {
+  updateUserImage(id: $updateUserImageId, userImg: $userImg) {
+    id
+    userImg
+  }
+}
+    `,
+
+    variables: { updateUserImageId: userId, userImg: userImgUrl },
+  });
+
+  console.log('Datos enviados:', { id: userId, userImg: userImgUrl });
+
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+  const data = await response.json();
+  return data;
+};
+
+export const updateSitterImage = async (sitterId: string, userImgUrl: string): Promise<any> => {
+  const query = JSON.stringify({
+    query: `
+      mutation UpdateSitterImage($updateSitterImageId: String!, $userImg: String!) {
+        updateSitterImage(id: $updateSitterImageId, userImg: $userImg) {
+          id
+          userImg
+        }
+      }
+    `,
+    variables: { updateSitterImageId: sitterId, userImg: userImgUrl },
+  });
+
+  console.log('Datos enviados para actualizar la imagen del sitter:', { id: sitterId, userImg: userImgUrl });
+
+  const response = await fetch('http://localhost:3001/graphql', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: query,
+  });
+  const data = await response.json();
+  return data;
+};
 
 
 

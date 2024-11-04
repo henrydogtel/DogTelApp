@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import SignUpWithGoogle from "../SignUpGoogle";
 import Link from "next/link";
-import { postSignIn } from "@/app/lib/server/fetchUsers";
 import {neucha, concertOne} from "@/app/lib/server/fonts"
 
 function SignInForm() {
@@ -47,11 +46,12 @@ function SignInForm() {
     e.preventDefault();
   
     const success = await signIn(signinValues);
-  
+    
     if (success) {
+      
       Swal.fire({
         icon: "success",
-        title: "Signed in successfully",
+        title: "Signed in successfully hola",
         position: "top-end",
         toast: true,
         showConfirmButton: false,
@@ -60,7 +60,6 @@ function SignInForm() {
       });
       
       
-      router.push("/home");
     } else {
       Swal.fire({
         icon: "error",

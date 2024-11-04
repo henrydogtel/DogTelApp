@@ -69,7 +69,7 @@ export class SitterService {
   async findAll(): Promise<Sitter[]> {
     try {
       return await this.sitterRepository.find({
-        relations: ['services', 'appointments'],
+        relations: ['services', 'appointments','appointments.user'],
       });
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
@@ -78,7 +78,7 @@ export class SitterService {
 
   async findOne(id: string): Promise<Sitter> {
     try {
-      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments']});
+      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments', 'appointments.user']});
       if (!sitter) {
         throw new NotFoundException(`Sitter con id ${id} no encontrado`);
       }
@@ -88,10 +88,31 @@ export class SitterService {
     }
   }
 
-  async update(
-    id: string,
-    updateSitterInput: Partial<UpdateSitterInput>,
-  ): Promise<Sitter> {
+  async findOneByEmail(email: string): Promise<Sitter> {
+    const sitter = await this.sitterRepository.findOne({
+      where: { credentials: { email } },
+      relations: ['credentials'],
+    });
+
+    if (!sitter) {
+      throw new NotFoundException('User not found');
+    }
+
+    return sitter;
+  }
+
+
+  async updateUserImage(id: string, userImg: string): Promise<Sitter> {
+    const user = await this.sitterRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.userImg = userImg;
+    return this.sitterRepository.save(user);
+  }
+
+
+  async update(id: string, updateSitterInput: Partial<UpdateSitterInput>): Promise<Sitter> {
     const sitter = await this.sitterRepository.findOne({ where: { id } });
 
     if (!sitter) {
@@ -105,18 +126,18 @@ export class SitterService {
 
   async removeSitter(id: string): Promise<boolean> {
     try {
-      // Verifica si el sitter existe
-      const sitter = await this.findOne(id); // Lanzará NotFoundException si no existe
+      const sitter = await this.findOne(id); 
       if (!sitter) {
         throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
       }
-
-      // Elimina el sitter (cambia a la lógica específica de tu aplicación)
-      await this.sitterRepository.delete(id); // Usa tu método de eliminación aquí
+      await this.sitterRepository.delete(id);
       return true;
     } catch (error) {
       console.error('Error al eliminar el sitter:', error);
       return false;
     }
   }
+
+  
+ 
 }

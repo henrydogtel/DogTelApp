@@ -17,9 +17,7 @@ export class AppointmentsResolver {
       return await this.appointmentsService.create(createAppointment);
     } catch (error) {
       console.error('Error creating appointment:', error);
-      throw new Error(
-        'An error occurred while creating the appointment. Please try again.',
-      );
+      throw error.message;
     }
   }
 

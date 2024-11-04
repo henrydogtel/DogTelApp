@@ -88,9 +88,7 @@ const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
                 timerProgressBar: true,
               });
               setRegistered(true)
-              setInterval(() => {
-                router.push('/home')
-              }, 3000)
+             
             } else {
               Swal.fire({
                 icon: "error",
@@ -135,9 +133,7 @@ const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
                 timer: 3000,
                 timerProgressBar: true,
               });
-              setInterval(() => {
-                router.push('/home')
-              }, 3000)
+             
             } else {
               Swal.fire({
                 icon: "error",
@@ -175,9 +171,7 @@ const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
                 timer: 3000,
                 timerProgressBar: true,
               });
-              setInterval(() => {
-                router.push('/home')
-              }, 3000)
+             
               return
               // Si necesitas almacenar el token o el rol, hazlo aquí
               // localStorage.setItem('accessToken', result.accessToken);
@@ -203,9 +197,19 @@ const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
              
     }
 
+    setTimeout(() => {
+      if(status === 'authenticated') window.location.pathname = '/home'
+
+    }, 3000);
+
 
     return(() => {
-     if(status === 'authenticated' && localStorage.getItem('user') === null) signOut()
+     
+     if(status === 'authenticated' && localStorage.getItem('user') === null) {
+      
+      signOut()
+     } 
+
     })
     
   },[status])
