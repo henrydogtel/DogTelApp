@@ -4,6 +4,7 @@ interface ICredential {
 }
 
 interface IUser {
+
   id: string,
   firstname: string,
   lastname: string,
@@ -17,6 +18,39 @@ interface ILoginUser {
   email: string;
   password: string;
 }
+
+interface ISitter {
+  address: string; // Dirección del sitter
+  role: string; // Rol (sitter)
+  userImg: string; // URL de la imagen de perfil
+  firstname: string; // Nombre del sitter
+  lastname: string; // Apellido del sitter
+  id: string; // Identificador único del sitter
+  rate: number; // Tarifa del sitter
+  fee: number; // Cargo adicional del sitter
+  descripcion: string; // Descripción del sitter
+  services: {
+    // Servicios ofrecidos por el sitter
+    name: string; // Nombre del servicio
+    description: string; // Descripción del servicio
+  }[]; // Array de servicios
+  appointments: {
+    // Citas asociadas al sitter
+    id: string; // Identificador único de la cita
+    entryDate: string; // Fecha de entrada de la cita
+    departureDate: string; // Fecha de salida de la cita
+    time: string; // Hora de la cita
+    status: string; // Estado de la cita
+    total: number; // Total de la cita
+    note: string; // Nota de la cita
+    user: {
+      // Usuario asociado a la cita
+      id: string; // Identificador del usuario
+      firstname: string; // Nombre del usuario
+      lastname: string; // Apellido del usuario
+      address: string; // Dirección del usuario
+    };
+  }[]; // Array de citas
 
  interface ISitter {
   id: string;
@@ -84,7 +118,6 @@ interface IRegisterSitter {
   descripcion: string;
 }
 
-
 interface IUserResponse {
   login: boolean;
   user: Partial<IUser> | null;
@@ -113,23 +146,20 @@ interface IUserContextType {
 
 interface IDogRegister {
   name: string;
-  birthdate:string;
-  images:[],
-  race:string;
-  size:string;
+  birthdate: string;
+  images: [];
+  race: string;
+  size: string;
 }
 
 interface IDog {
-  id:string,
+  id: string;
   name: string;
-  birthdate:string;
-  images:[],
-  race:string;
-  size:string;
+  birthdate: string;
+  images: string[];
+  race: string;
+  size: string;
 }
-
-
-
 
 export type {
   ICredential,
