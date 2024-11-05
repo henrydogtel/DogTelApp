@@ -17,7 +17,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#fff4d6]">
+    <div className="flex flex-col min-h-screen">
       <div className="w-full">
         <Image
           src="/marron.png"
@@ -28,7 +28,7 @@ export default function LandingPage() {
         />
       </div>
       <div className="flex justify-center items-start p-12">
-        <div className="w-2/3 p-8 bg-[#fff6bd] shadow-lg rounded-lg">
+        <div className="w-2/3 p-8 bg-[#fff9d4] shadow-lg rounded-lg">
           <h2 className={`${concertOne.className} text-4xl font-bold mb-9 text-center text-[#d1702b]`}>
             WHAT DEFINES US?
           </h2>
@@ -52,7 +52,7 @@ export default function LandingPage() {
 
         <div className="w-full flex flex-col items-center">
           {["Do you want to be a dog sitter?", "Do you need a sitter for your dog?"].map((text, index) => (
-            <div key={index} className={`relative w-1/2 flex flex-col items-center justify-center p-8 ${index === 0 ? 'bg-[#ffb28e]' : 'bg-[#ffc97e]'} shadow-lg rounded-lg mb-8`}>
+            <div key={index} className={`relative w-1/2 flex flex-col items-center justify-center p-8 ${index === 0 ? 'bg-[#ffa277]' : 'bg-[#ffc97e]'} shadow-lg rounded-lg mb-8`}>
               <h2 className={`${concertOne.className} text-2xl font-bold mb-4 text-[#ffffff]`}>
                 {text}
               </h2>
@@ -77,14 +77,14 @@ export default function LandingPage() {
       </div>
 
       <div className="text-center py-12">
-        <h3 className={`${concertOne.className} text-4xl font-bold text-[#ea804f]`}>
+        <h3 className={`${concertOne.className} text-4xl font-bold text-[#d1702b]`}>
           THESE ARE SOME OF OUR SITTERS
         </h3>
       </div>
 
       <div className="flex justify-center space-x-4 px-12 pb-12">
         {["carla.jpg", "juan.jpg", "lucia.jpg", "santiago.jpg"].map((src, idx) => (
-          <div key={idx} className="w-1/4 p-4 bg-[#ffc494] shadow-lg rounded-lg">
+          <div key={idx} className="w-1/4 p-4 bg-[#ffb87e] shadow-lg rounded-lg">
             <Image
               src={`/${src}`}
               alt={src.split('.')[0].toUpperCase()}

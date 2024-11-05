@@ -105,7 +105,6 @@ interface IUserContextType {
   signUpOwner: (user: IRegisterUser) => Promise<boolean>;
   logOut: () => void;
   createDog: (idUser: string, dog: IDogRegister) => Promise<boolean>;
-  removeDog: (dogId: string) => Promise<boolean>;
   getDogs: (idUser: string) => Promise<boolean>
   getSitters: () => Promise<boolean | ISitter[]>;
   getSittersById: (id: string) => void;
