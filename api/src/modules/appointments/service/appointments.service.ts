@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAppointmentInput } from '../dto/create-appointment.input';
-import { UpdateAppointmentInput } from '../dto/update-appointment.input';
+import { ResponseAprobarAppointment, UpdateAppointmentInput } from '../dto/update-appointment.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Timestamp } from 'typeorm';
-import { Appointment } from '../entities/appointment.entity';
+import { Appointment, typeStatus } from '../entities/appointment.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
 import { Dog } from 'src/modules/dogs/entities/dog.entity';
@@ -113,14 +113,65 @@ async saveDogsDetails(dogsId: string[], totalHorasAppointment: number, appointme
 }
 
 
+async getAppointmentsByIdUser(idUser:string):Promise<Appointment[]> {
+  try {
+    if(!idUser) throw new BadRequestException('Se requiere el id del usuario')
+    const appointmentsFound = this.repositoryAppointment.find({where:{user:{
+      id:idUser
+    }}})
+    if(!appointmentsFound) throw new BadRequestException('Hubo un error al encontrar los appointments')
+    return appointmentsFound
+  } catch (error) {
+    throw error
+  }
+}
+
+async getAppointmentsByIdSitter(idSitter:string):Promise<Appointment[]> {
+  try {
+    if(!idSitter) throw new BadRequestException('Se requiere el id del usuario')
+    const appointmentsFound = this.repositoryAppointment.find({where:{sitter:{
+      id:idSitter
+    }}})
+    if(!appointmentsFound) throw new BadRequestException('Hubo un error al encontrar los appointments')
+    return appointmentsFound
+  } catch (error) {
+    throw error
+  }
+}
+
+async confirmAppointment(idAppointment:string):Promise<ResponseAprobarAppointment> {
+  try {
+    const response = await this.repositoryAppointment.update({id:idAppointment},{status:typeStatus.APPROVED})
+    if(!response) throw new BadRequestException('Hubo un error al aceptar la cita')
+    return {message:'La cita se acepto correctamente', status:true}
+  } catch (error) {
+    throw error
+  }
+}
+
+async cancelAppointment(idAppointment:string):Promise<ResponseAprobarAppointment> {
+  try {
+    const response = await this.repositoryAppointment.update({id:idAppointment},{status:typeStatus.CANCELLED})
+    if(!response) throw new BadRequestException('Hubo un error al cancelar la cita')
+    return {message:'La cita se cancelo correctamente', status:true}
+  } catch (error) {
+    throw error
+  }
+}
 
 
   findAll() {
     return this.repositoryAppointment.find({relations:['user','sitter','detail']});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
+  async findOne(id: string) {
+    try {
+      const appointment = await this.repositoryAppointment.findOneBy({id})
+      if(!appointment) throw new BadRequestException('Hubo un error al encontrar el appointment')
+      return appointment
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   update(id: number, updateAppointmentInput: UpdateAppointmentInput) {

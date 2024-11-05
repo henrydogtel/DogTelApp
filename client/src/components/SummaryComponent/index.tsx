@@ -10,7 +10,7 @@ const SummaryComponent: React.FC = () => {
   const [showDogs, setShowDogs] = useState(false);
   const [showSelectButton, setShowSelectButton] = useState(true);
   const [selectedDogs, setSelectedDogs] = useState<string[]>([]);
-  const { dogs, getDogs } = useContext(UserContext);
+  const { dogs, getDogs, createAppointment } = useContext(UserContext);
 
   const [entryDate, setEntryDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
@@ -53,7 +53,7 @@ const SummaryComponent: React.FC = () => {
     });
   };
 
-  const handleFormSubmit = (event: React.FormEvent) => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const appointmentData = {
@@ -66,8 +66,15 @@ const SummaryComponent: React.FC = () => {
       idSitter: selectedSitter?.id || "",
       dogsId: selectedDogs,
     };
-
     console.log("Datos de la cita:", appointmentData);
+    try {
+      const response = await createAppointment(appointmentData)
+      if(response) console.log('appointment created');
+    } catch (error) {
+      console.log(error);
+      
+    }
+   
   };
 
   return (
