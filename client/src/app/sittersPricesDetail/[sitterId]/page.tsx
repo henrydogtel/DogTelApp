@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { UserContext } from "@/context/user";
 import { ISitter } from "@/interfaces/interfaces";
+import { neucha, concertOne } from "@/app/lib/server/fonts";
 
 const SitterDetail = () => {
   const params = useParams();
@@ -39,7 +40,7 @@ const SitterDetail = () => {
   }, [sitterId, getSitterById]);
 
   if (loading) {
-    return <h1 className="text-center text-gray-500 text-2xl">Cargando...</h1>;
+    return <h1 className="text-center text-gray-500 text-2xl">Loading...</h1>;
   }
 
   if (error) {
@@ -49,15 +50,15 @@ const SitterDetail = () => {
   if (!sitter) {
     return (
       <h1 className="text-center text-red-500 text-2xl">
-        No se pudo cargar el cuidador.
+        Could not load the sitter.
       </h1>
     );
   }
 
   return (
-    <div className="max-w-3xl my-10 mx-auto p-8 bg-white shadow-xl rounded-lg border border-gray-200">
-      <div className="flex flex-col md:flex-row items-start">
-        <div className="flex-shrink-0">
+    <div className="max-w-3xl my-10 mx-auto p-8 bg-[#fff0d3] shadow-xl rounded-lg border border-gray-200">
+      <div className="flex flex-col md:flex-row items-start ">
+        <div className="flex-shrink-0 ">
           <Image
             src={sitter.userImg || "/default-image.jpg"}
             alt={`Imagen de ${sitter.firstname}`}
@@ -65,10 +66,10 @@ const SitterDetail = () => {
             width={192}
             height={192}
           />
-          <div className="mt-4 text-lg text-[#B17457] font-medium text-center">
+          <div className={`${concertOne.className} mt-4 text-lg text-[#dc803f] font-medium text-center`}>
             <p>{sitter.rate} ★</p>
             <p>
-              <span className="text-[#FA7070] font-semibold">
+              <span className={`${concertOne.className} text-[#dc803f] font-semibold`}>
                 ${sitter.fee}
               </span>
               /h
@@ -77,10 +78,10 @@ const SitterDetail = () => {
         </div>
 
         <div className="md:ml-8 flex-grow flex flex-col justify-center mt-6 md:mt-0">
-          <h1 className="text-5xl font-bold text-[#B17457]">
+          <h1 className={`${concertOne.className} text-5xl font-bold text-[#dc803f]`}>
             {sitter.firstname} {sitter.lastname}
           </h1>
-          <p className="text-gray-600 mt-3 text-lg">
+          <p className={`${neucha.className} text-[#B17457] mt-3 text-lg`}>
             {sitter.descripcion || "Descripción no disponible."}
           </p>
           <Link
@@ -88,7 +89,7 @@ const SitterDetail = () => {
             onClick={() =>
               localStorage.setItem("selectedSitter", JSON.stringify(sitter))
             }
-            className="mt-8 bg-[#FFEEAD] hover:bg-[#FA7070] text-[#B17457] py-3 px-8 rounded-lg transition duration-300 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#B17457] focus:ring-opacity-50 border border-[#B17457] hover:border-[#FA7070] transform hover:scale-105 text-center"
+            className={`${neucha.className} mt-8 bg-[#e99953] hover:bg-[#f8b275] text-[#ffffff] py-3 px-8 rounded-lg transition duration-300 ease-in-out shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#B17457] focus:ring-opacity-50 border border-[#B17457] hover:border-[#FA7070] transform hover:scale-105 text-center`}
           >
             Hire now!
           </Link>

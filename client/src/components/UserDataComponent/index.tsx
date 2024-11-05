@@ -105,8 +105,8 @@ const UserDataComponent: React.FC = () => {
             await updateSitterProfile(
                 userInfo.user.id,          
                 updatedFields.firstname,    
-                updatedFields.lastname,     // Apellido
-                updatedFields.address,      // Dirección
+                updatedFields.lastname,     
+                updatedFields.address,      
                
             );
         } else {
@@ -140,11 +140,8 @@ const UserDataComponent: React.FC = () => {
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || !userInfo) return;
     const file = event.target.files[0];
-    console.log('User Info:', userInfo);
-    console.log('user id:', userInfo.user.id);
-    
     try {
-      const uploadedUrl = await uploadUserImage(file); // Subir la imagen
+      const uploadedUrl = await uploadUserImage(file); 
       console.log('User ID antes de la actualización de la imagen:', userInfo.user.id);
       
       // Determinar la mutación a usar según el rol del usuario
@@ -153,8 +150,6 @@ const UserDataComponent: React.FC = () => {
       } else {
         await updateUserImage(userInfo.user.id, uploadedUrl);
       }
-
-      // Actualizar el estado con la nueva imagen
       setUserInfo((prev) => prev && { 
         ...prev, 
         user: { 
@@ -175,7 +170,7 @@ const UserDataComponent: React.FC = () => {
   return (
     <div className="flex flex-col items-center">
       <section className="mb-12 text-center">
-        <h2 className="text-3xl font-semibold text-[#B17457] mb-6">
+        <h2 className="text-3xl font-semibold text-[#dc803f] mb-6">
           {userInfo.role === "user" ? "User Profile" : "Sitter Profile"}
         </h2>
 
@@ -204,7 +199,7 @@ const UserDataComponent: React.FC = () => {
                 placeholder="Firstname"
                 value={userData.firstname}
                 onChange={handleChangeUserData}
-                className="text-lg font-semibold text-[#B17457] mb-2 p-2 border"
+                className="text-lg font-semibold text-[#dc803f] mb-2 p-2 border"
               />
               <input
                 type="text"
@@ -212,7 +207,7 @@ const UserDataComponent: React.FC = () => {
                 placeholder="Lastname"
                 value={userData.lastname}
                 onChange={handleChangeUserData}
-                className="text-lg font-semibold text-[#B17457] mb-2 p-2 border"
+                className="text-lg font-semibold text-[#dc803f] mb-2 p-2 border"
               />
               <input
                 type="text"
@@ -220,12 +215,12 @@ const UserDataComponent: React.FC = () => {
                 placeholder="Address"
                 value={userData.address}
                 onChange={handleChangeUserData}
-                className="text-lg font-semibold text-[#B17457] mb-2 p-2 border"
+                className="text-lg font-semibold text-[#dc803f] mb-2 p-2 border"
               />
             </>
           ) : (
             <>
-              <p className="text-lg font-semibold text-[#B17457]">
+              <p className="text-lg font-semibold text-[#dc803f]">
                 Name: {userInfo.user.firstname} {userInfo.user.lastname}
               </p>
               <p className="text-gray-600">Address: {userInfo.user.address}</p>
@@ -237,7 +232,7 @@ const UserDataComponent: React.FC = () => {
       <section className="text-center flex gap-4">
         <button
           onClick={() => setIsEditing((prev) => !prev)}
-          className="bg-[#B17457] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#9b5e47] transition-colors"
+          className="bg-[#e99953] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#f8b275] transition-colors"
         >
           {isEditing ? "Cancel" : "Edit Profile"}
         </button>
@@ -249,7 +244,7 @@ const UserDataComponent: React.FC = () => {
             Save Changes
           </button>
         )}
-        <button className="bg-[#B17457] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#9b5e47] transition-colors">
+        <button className="bg-[#e99953] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#f8b275] transition-colors">
           Log Out
         </button>
       </section>
