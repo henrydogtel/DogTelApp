@@ -95,7 +95,7 @@ const SideBarComponent = () => {
                 return (
                   <div className="flex bg-[#faf4f0] min-h-screen">
                    
-                    <nav className="mt-10 ml-10 mb-10 bg-[#ffb64fad] rounded-2xl shadow-lg p-6 flex flex-col">
+                    <nav className="mt-10 ml-10 mb-10 bg-[#ffdcac] rounded-2xl shadow-lg p-6 flex flex-col">
                       <h2 className={`${concertOne.className} text-3xl font-bold text-[#dc803f] mb-8`}>
                         Dashboard
                       </h2>

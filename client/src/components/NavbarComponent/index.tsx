@@ -143,7 +143,7 @@ const NavbarComponent = () => {
                     className="block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl find-sitters"
                     aria-current="page"
                   >
-                    <span style={{ color: 'black' }}>Find Sitters</span>
+                    <span style={{ color: 'white' }}>Find Sitters</span>
                   </Link>
                 </li>
               )}

@@ -86,7 +86,7 @@ const RegisterSitterForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
+    <div className="max-w-lg mx-auto p-8 bg-[#fff8e1] rounded-lg shadow-lg my-10">
       <h1 className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}>Sitter Register</h1>
       <form onSubmit={handleSubmit}>
         <div className="relative z-0 w-full mb-6 group">

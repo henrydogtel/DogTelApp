@@ -49,7 +49,7 @@ const MyPetsComponent = () => {
                   width={100}
                   height={100}
                 />
-                <h3 className="text-xl font-semibold text-[#B17457]">
+                <h3 className="text-xl font-semibold text-[#dc803f]">
                   {pet.name}
                 </h3>
                 <p className="text-gray-500">Race: {pet.race}</p>

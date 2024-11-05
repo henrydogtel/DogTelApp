@@ -75,7 +75,7 @@ function SignInForm() {
 
   return (
     <form
-      className="max-w-lg mx-auto m-10 p-6 bg-white rounded-lg shadow-lg"
+      className="max-w-lg mx-auto m-10 p-6 bg-[#fff8e1] rounded-lg shadow-lg"
       onSubmit={handleSubmit}
     >
       <h1 className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}>Login</h1>

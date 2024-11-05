@@ -17,7 +17,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#fff4d6]">
       <div className="w-full">
         <Image
           src="/marron.png"
@@ -77,7 +77,7 @@ export default function LandingPage() {
       </div>
 
       <div className="text-center py-12">
-        <h3 className={`${concertOne.className} text-4xl font-bold text-[#d1702b]`}>
+        <h3 className={`${concertOne.className} text-4xl font-bold text-[#ea804f]`}>
           THESE ARE SOME OF OUR SITTERS
         </h3>
       </div>
