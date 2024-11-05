@@ -9,6 +9,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { neucha, concertOne } from "@/app/lib/server/fonts";
+import { UserContext } from "@/context/user";
 
 function SignInForm() {
   const router = useRouter();

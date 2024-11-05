@@ -70,7 +70,6 @@ const RegisterSitterForm = () => {
         icon: "success",
         title: "User Registered successfully",
       });
-      router.push("/home");
     } else {
       const Toast = Swal.mixin({
         toast: true,
@@ -330,7 +329,7 @@ const RegisterSitterForm = () => {
 
         <h2 className={`${neucha.className} font-bold p-3 text-center`}>Or</h2>
         <div className="text-center">
-          <SignUpWithGoogle role={"user"} />
+          <SignUpWithGoogle role={"sitter"} />
         </div>
         <div className="flex flex-col items-center mt-6">
           <h1

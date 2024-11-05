@@ -4,6 +4,7 @@
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { neucha, concertOne } from "@/app/lib/server/fonts";
+import { UserContext } from "@/context/user";
 
 const HomeComponent = () => {
   const [firstname, setFirstname] = useState('');
