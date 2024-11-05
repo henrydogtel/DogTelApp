@@ -189,13 +189,13 @@ type Mutation {
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
+  updateSitter(updateSitterInput: UpdateSitterInput!): Sitter!
   updateSitter(id: String!, updateSitterInput: UpdateSitterInput!): Sitter!
   updateSitterImage(id: String!, userImg: String!): Sitter!
   removeSitter(id: String!): RemoveSitterResponse!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
-  updateDogImage(id: String!, images: [String!]!): Dog!
   createCalification(createCalificationDto: CreateCalificationDto!): Calification!
 }
 
@@ -207,7 +207,7 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "50cc87b7-2ab2-47b4-8153-ada280027551"
+  id: String! = "69317405-12c4-42b0-8c5c-a3792d594c41"
 }
 
 input CreateAppointmentInput {
@@ -293,6 +293,9 @@ input CreateCredentialInput {
 }
 
 input UpdateSitterInput {
+  id: ID!
+  rate: Float!
+  fee: Float!
   firstname: String
   lastname: String
   birthdate: DateTime
@@ -334,7 +337,8 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "a7c069d5-9dcd-4466-9e71-c924b7378caa"
+  id: String! = "069964cf-b980-4ca7-afc2-12c3ace8ec19"
+  id: String! = "fe513b69-4550-4db4-b4a6-8821c6c99f83"
 }
 
 input CreateCalificationDto {

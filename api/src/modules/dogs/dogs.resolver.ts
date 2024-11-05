@@ -8,7 +8,7 @@ import { RemoveDogResponse } from './dto/remove-dog.input';
 
 @Resolver(() => Dog)
 export class DogsResolver {
-  constructor(private readonly dogsService: DogsService) { }
+  constructor(private readonly dogsService: DogsService) {}
 
   @Mutation(() => Dog)
   async createDog(
@@ -78,14 +78,5 @@ export class DogsResolver {
         'An error occurred while removing the dog. Please try again.',
       );
     }
-  }
-
-  @Mutation(() => Dog)
-  async updateDogImage(
-    @Args('id') id: string,
-    @Args({ name: 'images', type: () => [String] }) images: string[],
-  ): Promise<Dog> {
-    const dogUpdated = await this.dogsService.updateUserImage(id, images);
-    return dogUpdated;
   }
 }
