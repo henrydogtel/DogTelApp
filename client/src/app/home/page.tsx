@@ -1,6 +1,5 @@
 import Chatbot from '@/components/ChatBot'
 import HomeComponent from '@/components/HomeComponent'
-import LocationComponent from '@/components/LocationComponent'
 import React from 'react'
 
 const Home = () => {
@@ -8,7 +7,6 @@ const Home = () => {
     <div>
       <HomeComponent/>
       <Chatbot/>
-      <LocationComponent/>
     </div>
   )
 }

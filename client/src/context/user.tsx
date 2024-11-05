@@ -39,7 +39,6 @@ export const UserContext = createContext<IUserContextType>({
   signUpSitter: async () => false,
   signUpOwner: async () => false,
   createDog: async () => false,
-  removeDog: async () => false,
   getDogs: async () => false,
   getSitters: async () => [],
   getSitterById: async () => null,
@@ -133,39 +132,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       return false;
     }
   };
-
-  const removeDog = async (dogId: string): Promise<boolean> => {
-    try {
-      const response = await fetch(urlBack, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`, 
-        },
-        body: JSON.stringify({
-          query: `mutation RemoveDog($removeDogId: String!) {
-            removeDog(id: $removeDogId) {
-              message
-              success
-            }
-          }`,
-          variables: {
-            removeDogId: dogId,
-          },
-        }),
-      });
-      const result = await response.json();
-      if (result.data.removeDog.success) {
-        setDogs((prevDogs: IDog[]) => prevDogs.filter((dog: IDog) => dog.id !== dogId));
-        return true; 
-      }
-      return false; 
-    } catch (error) {
-      console.error("Error removing dog:", error);
-      return false;
-    }
-  };
-  
 
   const getDogs = async (idUser: string) => {
     const success = await getDogsByUserId(idUser);
@@ -340,7 +306,6 @@ const getSittersById = async (id: string) => {
         signUpSitter,
         signUpOwner,
         createDog,
-        removeDog,
         logOut,
         dogs,
         getDogs,

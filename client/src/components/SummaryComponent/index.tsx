@@ -71,14 +71,14 @@ const SummaryComponent: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#ffe3b3d5] p-8 rounded-lg shadow-md max-w-4xl mx-auto grid gap-8">
-      <h2 className={`${concertOne.className} text-3xl font-bold text-[#dc803f] text-center mb-6`}>
-        CREATE APPOINMENT
+    <div className="bg-[#FAF7F0] p-8 rounded-lg shadow-md max-w-4xl mx-auto grid gap-8">
+      <h2 className="text-2xl font-bold text-[#B17457] text-center mb-6">
+        Create Appointment
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="p-6 border border-[#B17457] rounded-lg shadow-sm bg-[#fff0d3] min-h-[300px]">
-          <h1 className={`${concertOne.className} text-3xl font-bold text-center mb-6 text-[#dc803f]`}>
+        <div className="p-6 border border-[#B17457] rounded-lg shadow-sm bg-white min-h-[300px]">
+          <h1 className="text-3xl font-bold text-center mb-6 text-[#B17457]">
             Selected Sitter
           </h1>
           {selectedSitter ? (
@@ -86,14 +86,14 @@ const SummaryComponent: React.FC = () => {
               <img
                 src={selectedSitter.userImg}
                 alt={selectedSitter.firstname}
-                className="rounded-full object-cover mb-4 border-4 border-[#ad6c32]"
+                className="rounded-full object-cover mb-4 border-4 border-[#B17457]"
                 width={150}
                 height={150}
               />
-              <h3 className={`${neucha.className} text-2xl font-semibold text-[#dc803f]`}>
+              <h3 className="text-2xl font-semibold text-[#B17457]">
                 {selectedSitter.firstname} {selectedSitter.lastname}
               </h3>
-              <h4 className="text-xl font-bold text-[#dc803f]">
+              <h4 className="text-xl font-bold text-[#B17457]">
                 {selectedSitter.rate}⭐
               </h4>
             </div>
@@ -102,11 +102,11 @@ const SummaryComponent: React.FC = () => {
           )}
         </div>
 
-        <div className="p-6 border border-[#dc803f] rounded-lg shadow-sm bg-[#fff0d3] min-h-[300px] flex flex-col justify-center items-center">
+        <div className="p-6 border border-[#B17457] rounded-lg shadow-sm bg-white min-h-[300px] flex flex-col justify-center items-center">
           {showSelectButton && (
             <button
               onClick={handleSelectPet}
-              className={`${neucha.className} bg-[#dc803f] text-white px-4 py-2 rounded-md hover:bg-[#f8b275] mb-4`}
+              className="bg-[#B17457] text-white px-4 py-2 rounded-md hover:bg-[#944f3e] mb-4"
             >
               Select your pets
             </button>
@@ -114,7 +114,7 @@ const SummaryComponent: React.FC = () => {
 
           {showDogs && dogs ? (
             <div>
-              <h2 className={`${concertOne.className} text-3xl font-bold text-center mb-6 text-[#dc803f]`}>
+              <h2 className="text-3xl font-bold text-center mb-6 text-[#B17457]">
                 Select Pets
               </h2>
               <ul className="space-y-4">
@@ -131,7 +131,7 @@ const SummaryComponent: React.FC = () => {
                       alt={dog.name}
                       className="object-cover h-6 w-6 mr-4 rounded-full"
                     />
-                    <p className={`${neucha.className} text-lg font-semibold text-[#dc803f] text-center flex-grow mr-12`}>
+                    <p className="text-lg font-semibold text-[#B17457] text-center flex-grow mr-12">
                       {dog.name}
                     </p>
                   </li>
@@ -148,10 +148,10 @@ const SummaryComponent: React.FC = () => {
 
       <form
         onSubmit={handleFormSubmit}
-        className="p-6 border border-[#B17457] rounded-lg shadow-sm bg-[#fff0d3] mt-8"
+        className="p-6 border border-[#B17457] rounded-lg shadow-sm bg-white mt-8"
       >
         <div className="grid gap-4">
-          <label className={`${neucha.className} text-[#dc803f] font-semibold`}>Entry Date</label>
+          <label className="text-[#B17457] font-semibold">Entry Date</label>
           <input
             type="date"
             value={entryDate}
@@ -160,7 +160,7 @@ const SummaryComponent: React.FC = () => {
             required
           />
 
-          <label className={`${neucha.className} text-[#dc803f] font-semibold`}>Departure Date</label>
+          <label className="text-[#B17457] font-semibold">Departure Date</label>
           <input
             type="date"
             value={departureDate}
@@ -169,7 +169,7 @@ const SummaryComponent: React.FC = () => {
             required
           />
 
-          <label className={`${neucha.className} text-[#dc803f] font-semibold`}>Time In</label>
+          <label className="text-[#B17457] font-semibold">Time In</label>
           <input
             type="time"
             value={timeIn}
@@ -178,7 +178,7 @@ const SummaryComponent: React.FC = () => {
             required
           />
 
-          <label className={`${neucha.className} text-[#dc803f] font-semibold`}>Time Out</label>
+          <label className="text-[#B17457] font-semibold">Time Out</label>
           <input
             type="time"
             value={timeOut}
@@ -187,7 +187,7 @@ const SummaryComponent: React.FC = () => {
             required
           />
 
-          <label className={`${neucha.className} text-[#dc803f] font-semibold`}>
+          <label className="text-[#B17457] font-semibold">
             Additional Notes
           </label>
           <textarea
@@ -199,7 +199,7 @@ const SummaryComponent: React.FC = () => {
 
           <button
             type="submit"
-            className={`${neucha.className} bg-[#e09451] text-white px-4 py-2 rounded-md hover:bg-[#f8b275]`}
+            className="bg-[#B17457] text-white px-4 py-2 rounded-md hover:bg-[#944f3e]"
           >
             Confirm Appointment
           </button>

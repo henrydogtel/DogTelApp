@@ -15,7 +15,7 @@ export const postCreateDog = async (idUser: string, dog: IDogRegister) => {
           }`,
         variables: {
             idUser,
-            createDogInput: dog 
+            createDogInput: dog // Cambia 'dog' a 'createDogInput'
         }
     });
 
@@ -58,35 +58,3 @@ export const getDogsByUserId = async (idUser: string) => {
     
     return data;
 };
-
-//imegenes
-export const updateDogImage = async (dogId: string, images: string[]) => {
-  const query = JSON.stringify({
-    query: `
-      mutation UpdateDogImage($updateDogImageId: String!, $images: [String!]!) {
-        updateDogImage(id: $updateDogImageId, images: $images) {
-          id
-          images
-        }
-      }
-    `,
-    variables: { updateDogImageId: dogId, images },
-  });
-
-  const response = await fetch(urlBack, {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    body: query,
-  });
-
-  const data = await response.json();
-  
-  if (data.errors) {
-    console.error("Error updating dog image:", data.errors);
-  } else {
-    console.log("Dog image updated successfully:", data.data.updateDogImage);
-  }
-
-  return data;
-};
-

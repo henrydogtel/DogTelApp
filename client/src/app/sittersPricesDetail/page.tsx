@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useContext, useCallback } from "react";
 import { ISitter } from "@/interfaces/interfaces";
-import { concertOne, neucha } from "../lib/server/fonts";
+import { concertOne } from "../lib/server/fonts";
 import { UserContext } from "@/context/user"; 
 
 const SittersPricesDetail = () => {
@@ -20,10 +20,10 @@ const SittersPricesDetail = () => {
       if (fetchedSitters && fetchedSitters.length > 0) {
         setSitters(fetchedSitters); 
       } else {
-        setError("Sitters could not be loaded."); 
+        setError("No se pudieron cargar los cuidadores."); 
       }
     } catch (err) {
-      setError("Error loading sitters.");
+      setError("Error al cargar los cuidadores.");
       console.error(err);
     } finally {
       setLoading(false); 
@@ -36,40 +36,40 @@ const SittersPricesDetail = () => {
 
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return <p className="text-center">Cargando...</p>;
   }
 
   if (error) {
-    return <p className={`${neucha.className} text-center text-red-500`}>{error}</p>;
+    return <p className="text-center text-red-500">{error}</p>;
   }
 
   return (
-    <div className="flex bg-[#fcf9f2]">
+    <div className="flex">
       <div className="max-w-4xl w-1/2 mx-auto p-6">
-        <h1 className={`${concertOne.className} text-3xl font-bold mb-6 text-[#dc803f]`}>Sitters</h1>
+        <h1 className={`${concertOne.className} text-3xl font-bold mb-6 text-[#B17457]`}>Cuidadores</h1>
         {sitters.length > 0 ? (
           <ul className="space-y-4">
             {sitters.map((sitter:any) => (
               <li
                 key={sitter.id}
-                className="border border-[#e17442] p-4 rounded-lg shadow bg-[#feeecc] hover:bg-[#f5e1b6] transition"
+                className="border border-[#B17457] p-4 rounded-lg shadow hover:bg-[#FFEEAD] transition"
               >
                 <Link href={`/sittersPricesDetail/${sitter.id}`} className="flex items-start space-x-4">
                   <Image
-                    src={sitter.userImg || '/default-image.jpg'} 
+                    src={sitter.userImg || '/default-image.jpg'} // Imagen por defecto si no hay imagen
                     alt={`Imagen de ${sitter.firstname}`}
                     className="w-32 h-32 rounded-full object-cover mb-2"
                     width={100}
                     height={100}
                   />
                   <div>
-                    <h2 className={`${concertOne.className} text-xl font-semibold text-[#dc803f]`}>
+                    <h2 className={`${concertOne.className} text-xl font-semibold text-[#B17457]`}>
                       {sitter.firstname} {sitter.lastname}
                     </h2>
                     <p className={`${concertOne.className} text-lg text-gray-700 font-medium mt-2`}>
-                    Rating: {sitter.rate} ★
+                      Calificación: {sitter.rate} ★
                     </p>
-                    <p className={`${concertOne.className} text-lg text-[#dc803f] font-medium mt-2`}>
+                    <p className={`${concertOne.className} text-lg text-[#B17457] font-medium mt-2`}>
                       ${sitter.fee}/h
                     </p>
                   </div>
@@ -78,11 +78,11 @@ const SittersPricesDetail = () => {
             ))}
           </ul>
         ) : (
-          <p className={`${concertOne.className} text-lg text-center text-gray-500`}>No sitters found.</p>
+          <p className={`${concertOne.className} text-lg text-center text-gray-500`}>No se encontraron cuidadores.</p>
         )}
       </div>
-      <div className="w-1/2 bg-[#fff0d3] p-6 flex items-center justify-center">
-        <h1 className={`${concertOne.className} text-[#dc803f] text-2xl`}>Map</h1>
+      <div className="w-1/2 bg-[#FAF7F0] p-6 flex items-center justify-center">
+        <h1 className={`${concertOne.className} text-[#B17457] text-2xl`}>Mapa</h1>
       </div>
     </div>
   );
