@@ -31,7 +31,7 @@ import { v4 as uuid } from 'uuid';
 export enum typeStatus {
   PENDING = 'pending',
   CANCELLED = 'canceled',
-  ENDING = 'ending',
+  APPROVED = 'approved',
   FINISHED = 'finished',
 }
 
