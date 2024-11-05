@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,7 +16,12 @@ import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class SitterService {
-  constructor(@InjectRepository(Sitter) private readonly sitterRepository:Repository<Sitter>, private readonly credentialRepository: CredentialsRepository, private readonly authService: AuthRepository) {}
+  constructor(
+    @InjectRepository(Sitter)
+    private readonly sitterRepository: Repository<Sitter>,
+    private readonly credentialRepository: CredentialsRepository,
+    private readonly authService: AuthRepository,
+  ) {}
 
   async create(
     firstname: string,
@@ -28,8 +37,14 @@ export class SitterService {
     const hashedPassword = await this.authService.hashPassword(password);
 
     try {
-      const credentials: Credentials = await this.credentialRepository.create({ password: hashedPassword, email });
-      if (!credentials) throw new BadRequestException('Hubo un error al crear las credenciales');
+      const credentials: Credentials = await this.credentialRepository.create({
+        password: hashedPassword,
+        email,
+      });
+      if (!credentials)
+        throw new BadRequestException(
+          'Hubo un error al crear las credenciales',
+        );
 
       const newSitter = this.sitterRepository.create({
         firstname,
@@ -43,7 +58,8 @@ export class SitterService {
       });
 
       const sitterSaved = await this.sitterRepository.save(newSitter);
-      if (!sitterSaved) throw new BadRequestException('Hubo un error al guardar el sitter');
+      if (!sitterSaved)
+        throw new BadRequestException('Hubo un error al guardar el sitter');
 
       return sitterSaved;
     } catch (error) {
@@ -52,16 +68,17 @@ export class SitterService {
   }
   async findAll(): Promise<Sitter[]> {
     try {
-      return await this.sitterRepository.find({relations:['services','appointments']});
+      return await this.sitterRepository.find({
+        relations: ['services', 'appointments','appointments.user'],
+      });
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
     }
   }
 
-
   async findOne(id: string): Promise<Sitter> {
     try {
-      const sitter = await this.sitterRepository.findOne({ where: { id } });
+      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments', 'appointments.user']});
       if (!sitter) {
         throw new NotFoundException(`Sitter con id ${id} no encontrado`);
       }
@@ -69,6 +86,29 @@ export class SitterService {
     } catch (error) {
       throw new NotFoundException(`Error al obtener el sitter con id ${id}`);
     }
+  }
+
+  async findOneByEmail(email: string): Promise<Sitter> {
+    const sitter = await this.sitterRepository.findOne({
+      where: { credentials: { email } },
+      relations: ['credentials'],
+    });
+
+    if (!sitter) {
+      throw new NotFoundException('User not found');
+    }
+
+    return sitter;
+  }
+
+
+  async updateUserImage(id: string, userImg: string): Promise<Sitter> {
+    const user = await this.sitterRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.userImg = userImg;
+    return this.sitterRepository.save(user);
   }
 
 
@@ -79,25 +119,25 @@ export class SitterService {
       throw new NotFoundException(`Sitter with ID ${id} not found`);
     }
 
-    Object.assign(sitter, updateSitterInput); 
+    Object.assign(sitter, updateSitterInput);
 
     return this.sitterRepository.save(sitter);
   }
 
   async removeSitter(id: string): Promise<boolean> {
     try {
-      // Verifica si el sitter existe
-      const sitter = await this.findOne(id); // Lanzará NotFoundException si no existe
+      const sitter = await this.findOne(id); 
       if (!sitter) {
         throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
       }
-  
-      // Elimina el sitter (cambia a la lógica específica de tu aplicación)
-      await this.sitterRepository.delete(id); // Usa tu método de eliminación aquí
+      await this.sitterRepository.delete(id);
       return true;
     } catch (error) {
       console.error('Error al eliminar el sitter:', error);
       return false;
     }
   }
+
+  
+ 
 }

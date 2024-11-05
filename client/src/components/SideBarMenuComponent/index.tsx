@@ -19,6 +19,7 @@ import MyPetsComponent from "../MyPetsComponent";
 import OwnersListComponent from "../OwnersListComponent";
 import SittersListComponent from "../SittersListComponent/Index";
 import HelpComponent from "../HelpComponent";
+import { concertOne, neucha } from "@/app/lib/server/fonts";
 
 const SideBarComponent = () => {
   const [activeComponent, setActiveComponent] = useState("Profile");
@@ -91,38 +92,45 @@ const SideBarComponent = () => {
               
                 ];
 
-  return (
-    <div className="flex bg-[#FAF7F0] min-h-screen">
-      {/* Barra lateral flotante */}
-     <nav className="mt-10 ml-10 mb-10 bg-[#FFEEAD] rounded-2xl shadow-lg p-6 flex flex-col">
-  <h2 className="text-3xl font-bold text-[#B17457] mb-8">Dashboard</h2>
-  <ul className="space-y-4">
-    {menuItems.map(({ name, icon }) => (
-      <li key={name}>
-        <button
-          className={`w-full text-left py-3 px-5 rounded-lg transition duration-300 flex items-center justify-start
-            ${
-              activeComponent === name
-                ? "bg-[#FA7070] text-white shadow-xl"
-                : "text-[#B17457] hover:bg-[#FA7070] hover:text-white"
-            }
-          `}
-          onClick={() => setActiveComponent(name)}
-        >
-          <span className="mr-3">
-            <FontAwesomeIcon icon={icon} />
-          </span>
-          <span className="text-lg">{name}</span>
-        </button>
-      </li>
-    ))}
-  </ul>
-</nav>
-
-      {/* Contenido principal */}
-      <div className="w-full p-10">{renderComponent()}</div>
-    </div>
-  );
+                return (
+                  <div className="flex bg-[#faf4f0] min-h-screen">
+                   
+                    <nav className="mt-10 ml-10 mb-10 bg-[#ffb64fad] rounded-2xl shadow-lg p-6 flex flex-col">
+                      <h2 className={`${concertOne.className} text-3xl font-bold text-[#dc803f] mb-8`}>
+                        Dashboard
+                      </h2>
+                      <ul className="space-y-4">
+                        {menuItems.map(({ name, icon }) => (
+                          <li key={name}>
+                            <button
+                              className={`w-full text-left py-3 px-5 rounded-lg transition duration-300 flex items-center justify-start text-[#fffffffd]
+                                ${
+                                  activeComponent === name
+                                    ? `{${neucha.className} bg-[#ad6c32] text-white shadow-xl}`
+                                    : "text-[#3b7fb7b4] hover:bg-[#dc803f] "
+                                }
+                              `}
+                              onClick={() => setActiveComponent(name)}
+                            >
+                              <span className="mr-3">
+                                <FontAwesomeIcon icon={icon} />
+                              </span>
+                              <span className={`text-lg ${concertOne.className}`}>{name}</span> 
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                
+                  
+                    <div className="w-full p-10">
+                      <div className={concertOne.className}>
+                        {renderComponent()}
+                      </div>
+                    </div>
+                  </div>
+                );
+                
 };
 
 export default SideBarComponent;

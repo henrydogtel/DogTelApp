@@ -3,26 +3,30 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-white text-center px-4 mt-5 mb-10">
-      <Image
-        src="https://t2.uc.ltmcdn.com/es/posts/0/8/4/como_saber_si_mi_perro_esta_triste_41480_orig.jpg"
-        className="rounded-3xl shadow-lg mt-6 w-64 h-64 object-cover mx-auto"
-        alt="Sad Dog Image"
-        width={500}
-        height={500}
-      />
-      <h1 className="text-6xl font-bold text-gray-900 mb-2 mt-2">404 - NOT FOUND</h1>
-      <h2 className="text-2xl text-gray-600 mb-6">
-        The page you’re looking for can’t be found.
-      </h2>
-      <p className="text-gray-500 mb-8">
-        It looks like the page you’re trying to reach doesn’t exist.
-      </p>
-      <Link href="/home">
-        <button className="px-8 py-3 bg-blue-600 text-white font-medium text-lg rounded-lg hover:bg-blue-700 transition-colors duration-300">
-          Go back to Home
-        </button>
-      </Link>
+    <div className="relative flex flex-col justify-center items-end min-h-screen text-center overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src="https://imagenes.eltiempo.com/files/image_1200_600/uploads/2024/02/06/65c2571787327.jpeg" 
+          className="object-cover w-full h-full" 
+          alt="Background Image"
+          layout="fill" 
+        />
+      </div>
+      <div className="relative z-10 mr-20"> 
+      <h1 className="text-6xl font-extrabold text-[#B17457] mb-2 mt-2 font-concert-one">404 - NOT FOUND</h1>
+
+        <h2 className="text-2xl text-[#4c2919] mb-6 font-concert-one">
+          The page you’re looking for can’t be found.
+        </h2>
+        <p className="text-white mb-8 font-concert-one">
+          It looks like the page you’re trying to reach doesn’t exist.
+        </p>
+        <Link href="/home">
+          <button className="px-8 py-3 bg-[#c15f32] text-white font-medium text-lg rounded-lg hover:bg-[#6f432f] transition-colors duration-300">
+            Go back to Home
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

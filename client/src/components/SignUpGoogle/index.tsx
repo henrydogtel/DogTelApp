@@ -10,7 +10,11 @@ import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { isNull } from "util";
 
-const SignUpWithGoogle =  ({role}) => {
+interface ISignUpWithGoole {
+  role: string
+}
+
+const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
 
   const {data: session, status, update} = useSession()
   const {setUser, signUpSitter, signUpOwner} = useContext(UserContext)
@@ -84,9 +88,7 @@ const SignUpWithGoogle =  ({role}) => {
                 timerProgressBar: true,
               });
               setRegistered(true)
-              setInterval(() => {
-                router.push('/home')
-              }, 3000)
+             
             } else {
               Swal.fire({
                 icon: "error",
@@ -131,9 +133,7 @@ const SignUpWithGoogle =  ({role}) => {
                 timer: 3000,
                 timerProgressBar: true,
               });
-              setInterval(() => {
-                router.push('/home')
-              }, 3000)
+             
             } else {
               Swal.fire({
                 icon: "error",
@@ -171,9 +171,7 @@ const SignUpWithGoogle =  ({role}) => {
                 timer: 3000,
                 timerProgressBar: true,
               });
-              setInterval(() => {
-                router.push('/home')
-              }, 3000)
+             
               return
               // Si necesitas almacenar el token o el rol, hazlo aquí
               // localStorage.setItem('accessToken', result.accessToken);
@@ -199,9 +197,19 @@ const SignUpWithGoogle =  ({role}) => {
              
     }
 
+    setTimeout(() => {
+      if(status === 'authenticated') window.location.pathname = '/home'
+
+    }, 3000);
+
 
     return(() => {
-     if(status === 'authenticated' && localStorage.getItem('user') === null) signOut()
+     
+     if(status === 'authenticated' && localStorage.getItem('user') === null) {
+      
+      signOut()
+     } 
+
     })
     
   },[status])

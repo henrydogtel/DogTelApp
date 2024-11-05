@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useContext } from "react";
-import { UserContext } from "@/context/user";
 import { validateSignin } from "@/app/utils/validationOwner";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -44,10 +43,12 @@ function SignInForm() {
 
     const success = await signIn(signinValues);
 
+    
     if (success) {
+      
       Swal.fire({
         icon: "success",
-        title: "Signed in successfully",
+        title: "Signed in successfully hola",
         position: "top-end",
         toast: true,
         showConfirmButton: false,
@@ -55,6 +56,8 @@ function SignInForm() {
         timerProgressBar: true,
       });
       router.push("/home");
+      
+      
     } else {
       Swal.fire({
         icon: "error",

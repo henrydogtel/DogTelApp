@@ -12,7 +12,6 @@ import { AuthModule } from '../auth/auth.module';
 import { SendMailsService } from '../send-mails/send-mails.service';
 import { SendMailsModule } from '../send-mails/send-mails.module';
 
-
 @Global()
 @Module({
   imports: [
@@ -21,13 +20,11 @@ import { SendMailsModule } from '../send-mails/send-mails.module';
     HttpModule,
     MulterModule.register(),
     CredentialsModule,
-    SendMailsModule
+    SendMailsModule,
   ],
 
   providers: [UserResolver, UserService, CredentialsService, SendMailsService],
 
-  exports: [TypeOrmModule], 
-
-
+  exports: [TypeOrmModule],
 })
-export class UserModule { }
+export class UserModule {}

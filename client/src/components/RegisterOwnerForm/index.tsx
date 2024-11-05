@@ -73,7 +73,6 @@ const {signUpOwner} = useContext(UserContext)
           timer: 3000,
           timerProgressBar: true,
         });
-       router.push("/home")
       } else {
         Swal.fire({
           icon: "error",

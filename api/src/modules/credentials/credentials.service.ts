@@ -5,15 +5,17 @@ import { Credentials } from './entities/credential.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-
 @Injectable()
 export class CredentialsService {
   constructor(
     @InjectRepository(Credentials)
     private readonly credentialsRepository: Repository<Credentials>,
-    private readonly credentialsRepositor: CredentialsRepository) { }
+    private readonly credentialsRepositor: CredentialsRepository,
+  ) {}
 
-  async create(createCredentialInput: CreateCredentialInput): Promise<Credentials> {
+  async create(
+    createCredentialInput: CreateCredentialInput,
+  ): Promise<Credentials> {
     return this.credentialsRepository.create(createCredentialInput);
   }
 
@@ -22,12 +24,13 @@ export class CredentialsService {
   }
 
   async findOneByEmail(email: string): Promise<Credentials | null> {
-    
-    const credentials = await this.credentialsRepository.findOne({ where: {
-      email,
-    },relations:['user','sitter'] }); 
-    
-    return credentials
-}
+    const credentials = await this.credentialsRepository.findOne({
+      where: {
+        email,
+      },
+      relations: ['user', 'sitter'],
+    });
 
+    return credentials;
+  }
 }

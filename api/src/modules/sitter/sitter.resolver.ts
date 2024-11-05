@@ -32,12 +32,14 @@ export class SitterResolver {
         password,
         email,
         fee,
-        descripcion
-      )
+        descripcion,
+      );
 
       return sitter;
     } catch (error) {
-      throw new BadRequestException(error.message || 'Error al crear el sitter');
+      throw new BadRequestException(
+        error.message || 'Error al crear el sitter',
+      );
     }
   }
 
@@ -50,7 +52,9 @@ export class SitterResolver {
     }
   }
   @Query(() => Sitter, { name: 'sitter' })
-  async findOne(@Args('id', { type: () => String }) id: string): Promise<Sitter> {
+  async findOne(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<Sitter> {
     try {
       return await this.sitterService.findOne(id);
     } catch (error) {
@@ -58,12 +62,26 @@ export class SitterResolver {
     }
   }
 
-   @Mutation(() => Sitter)
+  @Query(() => Sitter, { name: 'sitterByEmail' })
+  async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<Sitter> {
+    return this.sitterService.findOneByEmail(email);
+  }
+
+  @Mutation(() => Sitter)
   async updateSitter(
+    @Args('id', { type: () => String }) id: string,
     @Args('updateSitterInput', { type: () => UpdateSitterInput }) updateSitterInput: Partial<UpdateSitterInput>,
   ): Promise<Sitter> {
-    const { id, ...updateData } = updateSitterInput;
-    return this.sitterService.update(id, updateData);
+    return await this.sitterService.update(id, updateSitterInput);
+  }
+
+  @Mutation(() => Sitter)
+  async updateSitterImage(
+    @Args('id') id: string,
+    @Args('userImg') userImg: string,
+  ): Promise<Sitter> {
+    const userUpdated = await this.sitterService.updateUserImage(id, userImg);
+    return userUpdated;
   }
 
   @Mutation(() => RemoveSitterResponse)
@@ -74,4 +92,6 @@ export class SitterResolver {
       message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
     };
   }
+
+  
 }

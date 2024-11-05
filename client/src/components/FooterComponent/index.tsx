@@ -6,7 +6,7 @@ import { neucha, concertOne } from "@/app/lib/server/fonts";
 const FooterComponent = () => {
   return (
     <div>
-      <footer className="bg-[#edd79a]">
+      <footer className="bg-[#ffb54fd0]">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="flex flex-col items-center">
             <div className="mb-6 flex justify-start w-full">
@@ -24,12 +24,11 @@ const FooterComponent = () => {
             </div>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 text-center">
               <div>
-                <h2
-                  className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}
-                >
+
+                <h2 className={`mb-6 text-sm font-semibold text-[#d1702b] uppercase ${concertOne.className}`}>
                   Resources
                 </h2>
-                <ul className={`text-black font-medium ${neucha.className}`}>
+                <ul className={`text-[#ea804f] font-medium ${neucha.className}`}>
                   <li className="mb-4">
                     <Link
                       href="https://flowbite.com/"
@@ -49,12 +48,11 @@ const FooterComponent = () => {
                 </ul>
               </div>
               <div>
-                <h2
-                  className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}
-                >
+             
+                <h2 className={`mb-6 text-sm font-semibold text-[#d1702b] uppercase ${concertOne.className}`}>
                   Follow us
                 </h2>
-                <ul className={`text-black font-medium ${neucha.className}`}>
+                <ul className={`text-[#ea804f] font-medium ${neucha.className}`}>
                   <li className="mb-4">
                     <Link
                       href="https://github.com/themesberg/flowbite"
@@ -74,12 +72,10 @@ const FooterComponent = () => {
                 </ul>
               </div>
               <div>
-                <h2
-                  className={`mb-6 text-sm font-semibold text-gray-900 uppercase ${concertOne.className}`}
-                >
+                <h2 className={`mb-6 text-sm font-semibold text-[#d1702b] uppercase ${concertOne.className}`}>
                   Legal
                 </h2>
-                <ul className={`text-black font-medium ${neucha.className}`}>
+                <ul className={`text-[#ea804f] font-medium ${neucha.className}`}>
                   <li className="mb-4">
                     <Link href="#" className="hover:underline">
                       Privacy Policy
@@ -96,7 +92,7 @@ const FooterComponent = () => {
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div className="flex flex-col items-center">
-            <span className={`text-sm text-black ${concertOne.className}`}>
+            <span className={`text-sm text-[#d1702b] ${concertOne.className}`}>
               © 2023{" "}
               <Link href="https://flowbite.com/" className="hover:underline">
                 Flowbite™
