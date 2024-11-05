@@ -121,7 +121,7 @@ export default function DogForm() {
             className={`${neucha.className} block text-lg font-semibold mb-2`}
             style={{ color: "#ef8a38" }}
           >
-            Breed
+            Race
           </label>
           <input
             type="text"
