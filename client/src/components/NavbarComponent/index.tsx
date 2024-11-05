@@ -6,8 +6,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "@/context/user";
-import { usePathname, useRouter } from "next/navigation";
 import { neucha } from "@/app/lib/server/fonts";
+import { usePathname, useRouter } from "next/navigation";
 import Shepherd from "shepherd.js";
 import 'shepherd.js/dist/css/shepherd.css';
 import './shepherd.css'; // Asegúrate de importar tus estilos personalizados
@@ -24,6 +24,13 @@ const NavbarComponent = () => {
     logOut();
   };
 
+  // Verifica si el usuario y el token existen en localStorage
+  const user = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
+
+  return (
+    <div>
+      <nav className="bg-[#e9d7a5] border-gray-200 relative z-10">
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedUser = localStorage.getItem('user');
@@ -135,6 +142,18 @@ const NavbarComponent = () => {
           </Link>
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul
+              className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 bg-[#e9d7a5]`}
+            >
+              <li>
+                <Link
+                  href="registerOwner"
+                  className=" p-2 px-3 text-white bg-[#f0a328]  hover:bg-[#cd953b]  font-semibold py-2 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
+                  aria-current="page"
+                >
+                  Take care of dogs!
+                </Link>
+              </li>
             <ul className={`${neucha.className} font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-[#D5E1DD] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-[#ffb64f26]`}>
               {userLocal && role === 'user' && (
                 <li>
@@ -153,7 +172,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/login"
-                      className="block p-2 px-3 text-white bg-[#fc955e] hover:bg-[#d9865d] rounded-2xl"
+                      className="block p-2 px-3 text-white bg-[#e2a652] hover:bg-[#be9254] rounded-2xl"
                       aria-current="page"
                     >
                       Sign In
@@ -162,7 +181,7 @@ const NavbarComponent = () => {
                   <li>
                     <Link
                       href="/registerAs"
-                      className="block p-2 px-3 text-white bg-[#fc955e] hover:bg-[#d9865d] rounded-2xl"
+                      className="block p-2 px-3 text-white bg-[#e2a652] hover:bg-[#be9254] rounded-2xl"
                       aria-current="page"
                     >
                       Sign Up
@@ -171,6 +190,34 @@ const NavbarComponent = () => {
                 </>
               ) : null}
 
+              {user && token && (
+                <>
+                  <li>
+                    <Link
+                      href="/sittersPricesDetail"
+                      className="bg-[#b96c1e] hover:bg-[#be9254] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
+                    >
+                      Find Sitters
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/home"
+                      className="bg-[#b96c1e] hover:bg-[#be9254] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
+                    >
+                      Home
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      href="/dashboard"
+                      className="bg-[#b96c1e] hover:bg-[#be9254] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                </>
               <Link
                 href="/home"
                 className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center"

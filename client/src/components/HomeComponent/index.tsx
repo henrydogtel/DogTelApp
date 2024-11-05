@@ -1,6 +1,6 @@
 "use client";
 
-import { UserContext } from "@/context/user";
+
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { neucha, concertOne } from "@/app/lib/server/fonts";
