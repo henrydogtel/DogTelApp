@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import DogForm from '../DogForm';
 import { UserContext } from '@/context/user';
 import { updateDogImage } from '@/app/lib/server/fetchDog';
-import Image from 'next/image';
 
 const MyPetsComponent:React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
