@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useContext, useCallback } from "react";
 import { ISitter } from "@/interfaces/interfaces";
-import { concertOne } from "../lib/server/fonts";
+import { concertOne, neucha } from "../lib/server/fonts";
 import { UserContext } from "@/context/user"; 
 
 const SittersPricesDetail = () => {
@@ -20,10 +20,10 @@ const SittersPricesDetail = () => {
       if (fetchedSitters && fetchedSitters.length > 0) {
         setSitters(fetchedSitters); 
       } else {
-        setError("No se pudieron cargar los cuidadores."); 
+        setError("Sitters could not be loaded."); 
       }
     } catch (err) {
-      setError("Error al cargar los cuidadores.");
+      setError("Error loading sitters.");
       console.error(err);
     } finally {
       setLoading(false); 
@@ -40,7 +40,7 @@ const SittersPricesDetail = () => {
   }
 
   if (error) {
-    return <p className="text-center text-red-500">{error}</p>;
+    return <p className={`${neucha.className} text-center text-red-500`}>{error}</p>;
   }
 
   return (
@@ -52,11 +52,11 @@ const SittersPricesDetail = () => {
             {sitters.map((sitter:any) => (
               <li
                 key={sitter.id}
-                className="border border-[#B17457] p-4 rounded-lg shadow bg-[#feeecc] hover:bg-[#f5e1b6] transition"
+                className="border border-[#e17442] p-4 rounded-lg shadow bg-[#feeecc] hover:bg-[#f5e1b6] transition"
               >
                 <Link href={`/sittersPricesDetail/${sitter.id}`} className="flex items-start space-x-4">
                   <Image
-                    src={sitter.userImg || '/default-image.jpg'} // Imagen por defecto si no hay imagen
+                    src={sitter.userImg || '/default-image.jpg'} 
                     alt={`Imagen de ${sitter.firstname}`}
                     className="w-32 h-32 rounded-full object-cover mb-2"
                     width={100}

@@ -6,7 +6,7 @@ import { UserContext } from '@/context/user';
 const MyPetsComponent = () => {
 
       const [isModalOpen, setIsModalOpen] = useState(false);
-      const {dogs, getDogs} = useContext(UserContext)
+      const {dogs, getDogs, removeDog} = useContext(UserContext)
       const [idUser, setIdUser] = useState(localStorage.getItem('idUser'))
 
       const handleAddPet = () => {
@@ -33,6 +33,19 @@ const MyPetsComponent = () => {
         }
       },[dogs])
 
+      const handleDeletePet = async (petId: number) => {
+        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta mascota?");
+        
+        if (confirmDelete) {
+            const success = await removeDog(petId.toString()); 
+            if (success) {
+                getDogs(idUser as string); 
+            } else {
+                alert("Error deleting the pet");
+            }
+        }
+    };
+    
   return (
     <div>
       {/* Mascotas */}
@@ -41,7 +54,7 @@ const MyPetsComponent = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {dogs && dogs.length > 0 ? (
             dogs.map((pet:any) => (
-              <div key={pet.id} className="bg-white p-6 rounded-xl shadow-lg">
+              <div key={pet.id} className="bg-[#fff4d0] p-6 rounded-xl shadow-lg">
                 <Image
                   src='https://media.istockphoto.com/id/1387833234/es/vector/silueta-de-perro-sobre-fondo-blanco.jpg?s=612x612&w=0&k=20&c=H1XjkMuI6ZXi9sSgFfQH16zxRxblm3Z5LDk1ee7v-0M='
                   alt={pet.name}
@@ -54,6 +67,13 @@ const MyPetsComponent = () => {
                 </h3>
                 <p className="text-gray-500">Race: {pet.race}</p>
                 <p className="text-gray-500">Size: {pet.size}</p>
+
+                <button
+                  className='bg-[#f55036] text-white py-2 px-4 rounded-lg hover:bg-[#ed6955]'
+                  onClick={() => handleDeletePet(pet.id)} 
+                >
+                  Delete
+                </button>
 
               </div>
             ))
@@ -78,6 +98,8 @@ const MyPetsComponent = () => {
           className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center"
           onClick={handleOutsideClick}
         >
+          {/* Botón de Update */}
+
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md overflow-y-auto max-h-[80vh]">
             <button
               className="bg-red-500 text-white px-4 py-2 rounded mb-4"
@@ -85,6 +107,7 @@ const MyPetsComponent = () => {
             >
               X
             </button>
+
             <DogForm />
           </div>
         </div>
