@@ -197,10 +197,10 @@ const SignUpWithGoogle:React.FC<ISignUpWithGoole> =  ({role}) => {
              
     }
 
-    setTimeout(() => {
-      if(status === 'authenticated') window.location.pathname = '/home'
+    // setTimeout(() => {
+    //   if(status === 'authenticated') window.location.pathname = '/home'
 
-    }, 3000);
+    // }, 3000);
 
 
     return(() => {

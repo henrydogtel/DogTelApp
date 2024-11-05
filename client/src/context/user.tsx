@@ -20,10 +20,12 @@ import {
   IUserResponse,
   IDog,
   ISitter,
+  ICreateAppointment,
 } from "@/interfaces/interfaces";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useState } from "react";
+import { createAppointmentFetch } from "@/app/lib/server/fetchAppointments";
 const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
 export const UserContext = createContext<IUserContextType>({
@@ -44,6 +46,7 @@ export const UserContext = createContext<IUserContextType>({
   getSitterById: async () => null,
   getSittersProfile: async () => null,
   getSittersById: async () => null,
+  createAppointment: async () => null
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -59,7 +62,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const data: any = await postSignIn(credentials);
       if (!data) return false;
       console.log(data.user);
-
+      window.location.href = '/home'
       setUser(data);
 
       localStorage.setItem("user", JSON.stringify(data));
@@ -126,6 +129,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createDog = async (idUser: string, dog: IDogRegister) => {
     const success = await postCreateDog(idUser, dog);
+    success && setDogs(success.data.dogs);
     if (success) {
       return true;
     } else {
@@ -279,6 +283,19 @@ const getSittersById = async (id: string) => {
   return sitter;
 };
 
+const createAppointment = async (appointment: ICreateAppointment):Promise<any> => {
+  try {
+    const success = await createAppointmentFetch(appointment)
+    if(!success) throw new Error('there was an error creating the appointment...')
+    return true
+  } catch (error) {
+    throw error
+    
+  }
+}
+
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -315,6 +332,7 @@ const getSittersById = async (id: string) => {
         getSittersProfile,
         getSittersById,
         userImg: user?.userImg,
+        createAppointment
         
       }}
     >

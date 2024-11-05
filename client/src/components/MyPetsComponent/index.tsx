@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react'
 import DogForm from '../DogForm';
