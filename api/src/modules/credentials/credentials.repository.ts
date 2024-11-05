@@ -29,7 +29,7 @@ export class CredentialsRepository {
         throw new BadRequestException('Hubo un error al crear la credencial');
       return credentialSaved;
     } catch (error) {
-      throw new error();
+      throw new error;
     }
   }
 
