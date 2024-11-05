@@ -8,12 +8,12 @@ const HelpComponent = () => {
         We are here to assist you. You can contact us through the following
         means:
       </p>
-      <div className="text-[#FA7070]">
+      <div className="text-[#e74a35]">
         <p>
           Email:{" "}
           <a
             href="mailto:support@dogtel.com"
-            className="text-[#B17457] hover:underline"
+            className="text-[#e74a35] hover:underline"
           >
             support@dogtel.com
           </a>
