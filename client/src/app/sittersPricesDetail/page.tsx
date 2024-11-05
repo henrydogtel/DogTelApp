@@ -14,32 +14,31 @@ const SittersPricesDetail = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchSitters = useCallback(async () => {
-    setLoading(true); // Iniciar la carga
+    setLoading(true); 
     try {
       const fetchedSitters  = await getSitters() as ISitter[];
       if (fetchedSitters && fetchedSitters.length > 0) {
-        setSitters(fetchedSitters); // Solo actualizar si hay datos válidos
+        setSitters(fetchedSitters); 
       } else {
-        setError("No se pudieron cargar los cuidadores."); // Manejo de error
+        setError("No se pudieron cargar los cuidadores."); 
       }
     } catch (err) {
       setError("Error al cargar los cuidadores.");
       console.error(err);
     } finally {
-      setLoading(false); // Finaliza la carga
+      setLoading(false); 
     }
-  }, [getSitters]); // Dependencia de efecto
+  }, [getSitters]); 
 
   useEffect(() => {
-    fetchSitters(); // Llama a la función fetchSitters en el efecto
-  }, [fetchSitters]); // Asegúrate de que esta sea la única dependencia
+    fetchSitters(); 
+  }, [fetchSitters]); 
 
-  // Mostrar estado de carga
+
   if (loading) {
     return <p className="text-center">Cargando...</p>;
   }
 
-  // Mostrar mensaje de error
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }

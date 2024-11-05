@@ -4,6 +4,7 @@ interface ICredential {
 }
 
 interface IUser {
+
   id: string,
   firstname: string,
   lastname: string,
@@ -17,6 +18,7 @@ interface ILoginUser {
   email: string;
   password: string;
 }
+
 
  interface ISitter {
   id: string;
@@ -84,7 +86,6 @@ interface IRegisterSitter {
   descripcion: string;
 }
 
-
 interface IUserResponse {
   login: boolean;
   user: Partial<IUser> | null;
@@ -113,23 +114,20 @@ interface IUserContextType {
 
 interface IDogRegister {
   name: string;
-  birthdate:string;
-  images:[],
-  race:string;
-  size:string;
+  birthdate: string;
+  images: [];
+  race: string;
+  size: string;
 }
 
 interface IDog {
-  id:string,
+  id: string;
   name: string;
-  birthdate:string;
-  images:[],
-  race:string;
-  size:string;
+  birthdate: string;
+  images: string[];
+  race: string;
+  size: string;
 }
-
-
-
 
 export type {
   ICredential,
