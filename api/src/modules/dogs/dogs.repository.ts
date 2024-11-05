@@ -15,7 +15,7 @@ export class DogsRepository {
   constructor(
     @InjectRepository(Dog) private readonly dogsRepository: Repository<Dog>,
     private readonly userRepository: UserRepository,
-  ) {}
+  ) { }
 
   async createDog(
     idUser: string,
