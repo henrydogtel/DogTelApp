@@ -10,8 +10,8 @@ const RegisterAs = () => {
   
   return (
     <div>
-      <div className="flex flex-col items-center justify-center h-screen bg-[#FAF7F0]">
-        <div className="w-[70%] p-6 bg-white rounded-lg shadow-lg text-[#B17457] ">
+      <div className="flex flex-col items-center justify-center h-screen bg-[#fffdfa]">
+        <div className="w-[70%] p-6 bg-[#fff8e1] rounded-lg shadow-lg text-[#e18048] ">
           <h1 className={` ${concertOne.className} text-3xl font-bold mb-6 text-center`}>Register as:</h1>
 
           <div className="space-y-4">
@@ -29,7 +29,7 @@ const RegisterAs = () => {
             </Link>
 
             <div className="flex flex-col items-center mt-6">
-              <h1 className={`${concertOne.className} text-xl font-semibold text-[#B17457]`}>
+              <h1 className={`${concertOne.className} text-xl font-semibold text-[#f68f53]`}>
                 Have an account?
                 <Link
                   href="/login"

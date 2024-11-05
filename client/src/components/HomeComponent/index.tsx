@@ -1,9 +1,10 @@
 "use client";
 
-import { UserContext } from "@/context/user";
+
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { neucha, concertOne } from "@/app/lib/server/fonts";
+import { UserContext } from "@/context/user";
 
 const HomeComponent = () => {
   const [firstname, setFirstname] = useState('');
@@ -31,7 +32,7 @@ const HomeComponent = () => {
       <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-[#FAF7F0]">
         <div className="text-left md:w-1/2 space-y-6">
         <h1
-  className={`${concertOne.className} text-7xl font-extrabold text-[#d1702b]`}
+  className={`${concertOne.className} text-7xl font-extrabold text-[#de7646]`}
   style={{
     textShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)", // Sombra suave
     marginTop: "20px", // Añadir un pequeño margen superior
@@ -42,7 +43,7 @@ const HomeComponent = () => {
 
 
 
-          <h2 style={{ fontSize: '2rem' }} className={`${neucha.className} text-6xl font-bold text-[#743815]`}>
+          <h2 style={{ fontSize: '2rem' }} className={`${neucha.className} text-6xl font-bold text-[#ffab36]`}>
             {role === 'user' 
               ? "If you have dogs, we'll take care of it."
               : role === 'sitter' 
@@ -66,31 +67,31 @@ const HomeComponent = () => {
     
       <div className="flex flex-wrap justify-between gap-6 p-6 bg-[#FAF7F0] pt-36 pb-36">
         <div className="bg-white p-4 rounded-lg shadow-lg text-center w-full md:w-1/6">
-          <h1 className={`${neucha.className} text-4xl font-bold text-[#215385]`}>70.000</h1>
+          <h1 className={`${neucha.className} text-4xl font-bold text-[#f36144]`}>70.000</h1>
           <span className={`${concertOne.className} block text-lg font-bold text-[#ea804f] mt-2`}>
             Happy Dogs Served
           </span>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-lg text-center w-full md:w-1/6">
-          <h1 className={`${neucha.className} text-4xl font-bold text-[#215385]`}>150.000+</h1>
+          <h1 className={`${neucha.className} text-4xl font-bold text-[#f36144]`}>150.000+</h1>
           <span className={`${concertOne.className} block text-lg font-bold text-[#ea804f] mt-2`}>
             Reservations Completed
           </span>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-lg text-center w-full md:w-1/6">
-          <h1 className={`${neucha.className} text-4xl font-bold text-[#215385]`}>70.000</h1>
+          <h1 className={`${neucha.className} text-4xl font-bold text-[#f36144]`}>70.000</h1>
           <span className={`${concertOne.className} block text-lg font-bold text-[#ea804f] mt-2`}>
             Happy Dogs Served
           </span>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-lg text-center w-full md:w-1/6">
-          <h1 className={`${neucha.className} text-4xl font-bold text-[#215385]`}>75.000+</h1>
+          <h1 className={`${neucha.className} text-4xl font-bold text-[#f36144]`}>75.000+</h1>
           <span className={`${concertOne.className} block text-lg font-bold text-[#ea804f] mt-2`}>
             5-Star Reviews
           </span>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-lg text-center w-full md:w-1/6">
-          <h1 className={`${neucha.className} text-4xl font-bold text-[#215385]`}>9+</h1>
+          <h1 className={`${neucha.className} text-4xl font-bold text-[#f36144]`}>9+</h1>
           <span className={`${concertOne.className} block text-lg font-bold text-[#ea804f] mt-2`}>
             Years in Business
           </span>
