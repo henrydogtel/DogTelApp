@@ -195,6 +195,7 @@ type Mutation {
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
+  updateDogImage(id: String!, images: [String!]!): Dog!
   createCalification(createCalificationDto: CreateCalificationDto!): Calification!
 }
 
@@ -207,6 +208,8 @@ input UpdateServicesSitterInput {
   name: String
   description: String
   id: String! = "703340ce-9829-419b-ad4e-9b8cf3a565ab"
+  id: String! = "50cc87b7-2ab2-47b4-8153-ada280027551"
+
 }
 
 input CreateAppointmentInput {
@@ -333,7 +336,10 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
+
   id: String! = "867247c1-d427-48ec-825d-f8dd23eb950c"
+  id: String! = "a7c069d5-9dcd-4466-9e71-c924b7378caa"
+
 }
 
 input CreateCalificationDto {

@@ -110,7 +110,8 @@ interface IUserContextType {
   getSitters: () => Promise<boolean | ISitter[]>;
   getSittersById: (id: string) => void;
   getSittersProfile: () => void,
-  getSitterById: (id:string) => Promise<ISitter | null> 
+  getSitterById: (id:string) => Promise<ISitter | null> ,
+  createAppointment: (appointment:ICreateAppointment) => Promise<any>
 }
 
 interface IDogRegister {
@@ -130,6 +131,17 @@ interface IDog {
   size: string;
 }
 
+interface ICreateAppointment {
+  departureDate: string;  
+  dogsId: string[];      
+  entryDate: string;     
+  idSitter: string;       
+  idUser: string;        
+  note: string;         
+  timeIn: string;        
+  timeOut: string;        
+}
+
 export type {
   ICredential,
   IRegisterUser,
@@ -142,4 +154,5 @@ export type {
   IDogRegister,
   IDog,
   ISitter,
+  ICreateAppointment
 };
