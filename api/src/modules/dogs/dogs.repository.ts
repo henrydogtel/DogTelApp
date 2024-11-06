@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateDogInput } from './dto/create-dog.input';
 import { UpdateDogInput } from './dto/update-dog.input';
 import { UserRepository } from '../user/user.repository';
+import { ApiExpectationFailedResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class DogsRepository {

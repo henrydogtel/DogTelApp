@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsDate, IsEnum, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsDate, IsEnum, IsString, IsUUID } from 'class-validator';
 import { UserRole } from 'src/enums/user-role.enum';
 
 @InputType()
@@ -31,4 +31,9 @@ export class CreateUserInput {
   @Field(() => String)
   @IsString()
   email: string;
+  
+  @Field({ defaultValue: true })
+  @IsBoolean({ message: 'The verification field must be boolean' })
+  isActive?: boolean;
+
 }

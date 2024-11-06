@@ -43,6 +43,10 @@ export class Credentials {
   @IsBoolean({ message: 'The verification field must be boolean' })
   verified: boolean;
 
+  @Field({ defaultValue: true })
+  @IsBoolean({ message: 'The verification field must be boolean' })
+  isActive: boolean;
+
   @Field(() => User)
   @OneToOne(() => User, (user) => user.credentials)
   user: User;

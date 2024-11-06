@@ -7,4 +7,7 @@ export class CreateCredentialInput {
 
   @Field(() => String, { description: 'Email del usuario' })
   email: string;
+ 
+  @Field(()=> Boolean, {description: 'Estado de la cuenta'})
+  isActive: boolean;
 }

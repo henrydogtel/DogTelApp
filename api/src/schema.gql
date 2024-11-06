@@ -20,6 +20,7 @@ type Dog {
 
   """Size of the dog"""
   size: String!
+  isActive: Boolean!
   user: User!
   details: [AppointmentDetail!]!
 }
@@ -47,6 +48,7 @@ type Credentials {
   passport: String!
   email: String!
   verified: Boolean!
+  isActive: Boolean!
   user: User!
   sitter: Sitter!
 }
@@ -67,6 +69,7 @@ type Sitter {
   address: String!
   role: String
   userImg: String!
+  isActive: Boolean!
   rate: Float!
   fee: Float!
   descripcion: String!
@@ -128,6 +131,7 @@ type User {
   address: String!
   role: String
   userImg: String!
+  isActive: Boolean!
   dogs: [Dog!]!
   appointments: [Appointment!]!
   credentials: Credentials!
@@ -184,17 +188,19 @@ type Mutation {
   removeAppointmentDetail(id: Int!): AppointmentDetail!
   createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
   updateUserImage(id: String!, userImg: String!): User!
+  updateUserStatus(id: String!, isActive: Boolean!): User!
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
-  createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
+  createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!, isActive: Boolean!): Sitter!
   updateSitter(id: String!, updateSitterInput: UpdateSitterInput!): Sitter!
-  updateSitterImage(id: String!, userImg: String!): Sitter!
   removeSitter(id: String!): RemoveSitterResponse!
+  updateSitterImage(id: String!, userImg: String!): Sitter!
+  SitterStatus(id: String!, isActive: Boolean!): Sitter!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
+  updateDogStatus(id: String!, isActive: Boolean!): Dog!
   createCalification(createCalificationDto: CreateCalificationDto!): Calification!
 }
 
@@ -206,7 +212,7 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "69317405-12c4-42b0-8c5c-a3792d594c41"
+  id: String! = "55402d55-88c4-4ffb-81a5-49f0b687dc01"
 }
 
 input CreateAppointmentInput {
@@ -281,6 +287,7 @@ input UpdateUserInput {
   role: String
   password: String
   email: String
+  isActive: Boolean
 }
 
 input CreateCredentialInput {
@@ -289,6 +296,9 @@ input CreateCredentialInput {
 
   """Email del usuario"""
   email: String!
+
+  """Estado de la cuenta"""
+  isActive: Boolean!
 }
 
 input UpdateSitterInput {
@@ -299,6 +309,7 @@ input UpdateSitterInput {
   role: String
   password: String
   email: String
+  isActive: Boolean = true
 }
 
 input CreateDogInput {
@@ -333,7 +344,7 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "fe513b69-4550-4db4-b4a6-8821c6c99f83"
+  id: String! = "fa5031b4-8620-4da8-bcd8-927ca267c520"
 }
 
 input CreateCalificationDto {

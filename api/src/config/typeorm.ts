@@ -11,15 +11,15 @@ import {
 const config = {
   type: 'postgres',
   //deploy:
-  url: 'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb',
-  //localhost:
-    // database: DB_NAME,
-    // host: DB_HOST,
-    // port: DB_PORT,
-    // username: DB_USERNAME,
-    // password: DB_PASSWORD,
+  //url: 'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb',
+    localhost: DB_HOST,
+    database: DB_NAME,
+    host: DB_HOST,
+    port: DB_PORT,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
     synchronize: true,
-    dropSchema: true,
+    dropSchema: false,
     logging: true,
     entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/migrations/*{.ts,.js}']
@@ -28,7 +28,7 @@ const config = {
 export default registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
 
-// database: DB_NAME,
+//database: DB_NAME
 // host: DB_HOST,
 // port: DB_PORT,
 // username: DB_USERNAME,

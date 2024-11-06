@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -85,25 +85,11 @@ export class UserResolver {
     }
   }
 
-  @Mutation(() => User)
-  async removeUser(
-    @Args('id', { type: () => String }) id: string,
-  ): Promise<void> {
-    try {
-      await this.userService.removeUser(id);
-    } catch (error) {
-      console.error(`Error removing user with id ${id}:`, error);
-      throw new BadRequestException(
-        `An error occurred while removing the user with id: ${id}`,
-      );
-    }
-  }
-
   @Query(() => User, { name: 'userByEmail' }) 
   async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<User> {
     return this.userService.findOneByEmail(email); 
   }
-
+  
   @Mutation(() => User)
   async updateUserImage(
     @Args('id') id: string,
@@ -111,6 +97,21 @@ export class UserResolver {
   ): Promise<User> {
     const userUpdated = await this.userService.updateUserImage(id, userImg);
     return userUpdated;
+  }
+  
+  @Mutation(() => User)
+  async updateUserStatus(
+    @Args('id') id: string,
+    @Args('isActive') isActive: boolean,
+  ): Promise<User> {
+    try {
+      return await this.userService.UserStatus(id, isActive);
+    } catch (error) {
+      console.error('Error updating user status:', error);
+      throw new error(
+        'An error occurred while updating the user status. Please try again.',
+      );
+    }
   }
 
 }

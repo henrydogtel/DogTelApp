@@ -13,6 +13,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { CredentialsRepository } from '../credentials/credentials.repository';
 import { AuthRepository } from '../auth/auth.repository';
 import { SendMailsService } from '../send-mails/send-mails.service';
+import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class UserService {
@@ -49,13 +50,14 @@ export class UserService {
     const hashedPassword = await this.authRepository.hashPassword(
       createUserInput.password,
     );
-    const { firstname, lastname, birthdate, role, address, password, email } =
+    const { firstname, lastname, birthdate, role, address, password, email, isActive } =
       createUserInput;
 
     try {
       const credentials: Credentials = await this.credentialRepository.create({
         password: hashedPassword,
         email,
+        isActive,
       });
       if (!credentials)
         throw new BadRequestException(
@@ -134,6 +136,22 @@ export class UserService {
   async removeUser(id: string): Promise<void> {
     const user = await this.findOne(id);
     await this.userRepository.remove(user);
+  }
+
+  async UserStatus(id: string, isActive: boolean): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      user.isActive = isActive;
+      return await this.userRepository.save(user);
+    } catch (error) {
+      console.error('Error updating user status:', error);
+      throw new error(
+        'An error occurred while updating the user status. Please try again.',
+      );
+    }
   }
 
   // Subida de imágenes

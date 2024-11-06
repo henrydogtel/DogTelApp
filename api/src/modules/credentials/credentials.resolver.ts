@@ -15,7 +15,7 @@ export class CredentialsResolver {
       return await this.credentialsService.create(createCredentialInput);
     } catch (error) {
       console.error('Error creating credential:', error);
-      throw new Error(
+      throw new error(
         'An error occurred while creating the credential. Please try again.',
       );
     }
@@ -27,13 +27,13 @@ export class CredentialsResolver {
       return await this.credentialsService.findAll();
     } catch (error) {
       console.error('Error retrieving credentials:', error);
-      throw new Error(
+      throw new error(
         'An error occurred while retrieving credentials. Please try again.',
       );
     }
   }
 
-  // Uncomment these methods and add try/catch as shown:
+  
 
   // @Query(() => Credentials, { name: 'credential' })
   // async findOne(@Args('id', { type: () => String }) id: string) {
@@ -41,7 +41,7 @@ export class CredentialsResolver {
   //     return await this.credentialsService.findOne(id);
   //   } catch (error) {
   //     console.error(`Error finding credential with ID ${id}:`, error);
-  //     throw new Error('An error occurred while finding the credential. Please try again.');
+  //     throw new error('An error occurred while finding the credential. Please try again.');
   //   }
   // }
 
@@ -51,7 +51,7 @@ export class CredentialsResolver {
   //     return await this.credentialsService.update(updateCredentialInput.credentialId, updateCredentialInput);
   //   } catch (error) {
   //     console.error(`Error updating credential with ID ${updateCredentialInput.credentialId}:`, error);
-  //     throw new Error('An error occurred while updating the credential. Please try again.');
+  //     throw new error('An error occurred while updating the credential. Please try again.');
   //   }
   // }
 
@@ -61,7 +61,7 @@ export class CredentialsResolver {
   //     return await this.credentialsService.remove(id);
   //   } catch (error) {
   //     console.error(`Error removing credential with ID ${id}:`, error);
-  //     throw new Error('An error occurred while removing the credential. Please try again.');
+  //     throw new error('An error occurred while removing the credential. Please try again.');
   //   }
   // }
 }

@@ -79,4 +79,19 @@ export class DogsResolver {
       );
     }
   }
+
+  @Mutation(() => Dog)
+  async updateDogStatus(
+    @Args('id') id: string,
+    @Args('isActive') isActive: boolean,
+  ): Promise<Dog> {
+    try {
+      return await this.dogsService.DogStatus(id, isActive);
+    } catch (error) {
+      console.error('Error updating dog status:', error);
+      throw new error(
+        'An error occurred while updating the dog status. Please try again.',
+      );
+    }
+  }
 }

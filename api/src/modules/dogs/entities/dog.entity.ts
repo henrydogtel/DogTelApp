@@ -56,6 +56,10 @@ export class Dog {
   })
   size: typeRace;
 
+  @Field(() => Boolean, { defaultValue: true })
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
+
   @ManyToOne(() => User, (user) => user.dogs)
   @Field(() => User)
   user: User;
@@ -63,4 +67,5 @@ export class Dog {
   @OneToMany(() => AppointmentDetail, (details) => details.dog)
   @Field(() => [AppointmentDetail])
   details: AppointmentDetail[];
+
 }

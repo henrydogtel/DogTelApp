@@ -45,4 +45,8 @@ export class Sitter extends Person {
 
   @OneToMany(() => Calification, (calification) => calification.sitter)
   califications: Calification[];
+
+  @Field(() => Boolean, { defaultValue: true })
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 }

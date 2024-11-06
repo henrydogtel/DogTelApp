@@ -3,14 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Sitter } from './entities/sitter.entity';
 import { Repository } from 'typeorm';
 import { CredentialsRepository } from '../credentials/credentials.repository';
 import { Credentials } from '../credentials/entities/credential.entity';
-import { AuthService } from '../auth/auth.service';
 import { AuthRepository } from '../auth/auth.repository';
 import { UserRole } from 'src/enums/user-role.enum';
 
@@ -33,6 +31,7 @@ export class SitterService {
     email: string,
     fee: number,
     descripcion: string,
+    isActive: boolean,
   ): Promise<Sitter> {
     const hashedPassword = await this.authService.hashPassword(password);
 
@@ -40,6 +39,7 @@ export class SitterService {
       const credentials: Credentials = await this.credentialRepository.create({
         password: hashedPassword,
         email,
+        isActive,
       });
       if (!credentials)
         throw new BadRequestException(
@@ -138,6 +138,20 @@ export class SitterService {
     }
   }
 
-  
- 
+  async SitterStatus(id: string, isActive: boolean): Promise<Sitter> {
+    try {
+      const sitter = await this.sitterRepository.findOne({ where: { id } });
+      if (!sitter) {
+        throw new NotFoundException('Sitter not found');
+      }
+      sitter.isActive = isActive;
+      return await this.sitterRepository.save(sitter);
+    } catch (error) {
+      console.error('Error updating sitter status:', error);
+      throw new error(
+        'An error occurred while updating the sitter status. Please try again.',
+      );
+    }
+  }
+
 }

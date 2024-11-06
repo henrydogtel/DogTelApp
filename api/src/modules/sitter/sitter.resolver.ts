@@ -21,6 +21,7 @@ export class SitterResolver {
     @Args('email') email: string,
     @Args('fee') fee: number,
     @Args('descripcion') descripcion: string,
+    @Args('isActive') isActive: boolean,
   ): Promise<Sitter> {
     try {
       const sitter = await this.sitterService.create(
@@ -33,6 +34,7 @@ export class SitterResolver {
         email,
         fee,
         descripcion,
+        isActive,
       );
 
       return sitter;
@@ -75,6 +77,15 @@ export class SitterResolver {
     return await this.sitterService.update(id, updateSitterInput);
   }
 
+  @Mutation(() => RemoveSitterResponse)
+  async removeSitter(@Args('id') id: string): Promise<RemoveSitterResponse> {
+    const success = await this.sitterService.removeSitter(id);
+    return {
+      success,
+      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
+    };
+  }
+  
   @Mutation(() => Sitter)
   async updateSitterImage(
     @Args('id') id: string,
@@ -84,14 +95,18 @@ export class SitterResolver {
     return userUpdated;
   }
 
-  @Mutation(() => RemoveSitterResponse)
-  async removeSitter(@Args('id') id: string): Promise<RemoveSitterResponse> {
-    const success = await this.sitterService.removeSitter(id);
-    return {
-      success,
-      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
-    };
+  @Mutation(() => Sitter)
+  async SitterStatus(
+    @Args('id') id: string,
+    @Args('isActive') isActive: boolean,
+  ): Promise<Sitter> {
+    try {
+      return await this.sitterService.SitterStatus(id, isActive);
+    } catch (error) {
+      console.error('Error updating sitter status:', error);
+      throw new error(
+        'An error occurred while updating the sitter status. Please try again.',
+      );
+    }
   }
-
-  
 }

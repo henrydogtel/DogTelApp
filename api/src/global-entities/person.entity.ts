@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import {
+  IsBoolean,
   IsDate,
   IsEnum,
   IsOptional,
@@ -58,4 +59,9 @@ export class Person {
   })
   @IsUrl({}, { message: 'User image must be a valid URL' })
   userImg: string;
+
+  @Field(() => Boolean)
+  @Column({ default: true })
+  @IsBoolean({ message: 'isActive must be a boolean' })
+  isActive: boolean;
 }

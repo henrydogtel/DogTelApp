@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { CreateUserInput } from 'src/modules/user/dto/create-user.input';
-import { IsInt, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsString } from 'class-validator';
 
 @InputType()
 export class CreateSitterInput extends CreateUserInput {
@@ -10,8 +10,12 @@ export class CreateSitterInput extends CreateUserInput {
 
   @Field(() => Number)
   @IsInt()
-  fee: number; // Cuota
+  fee: number; 
 
   @Field(() => String)
   descripcion: string;
+
+  @Field({ defaultValue: true })
+  @IsBoolean({ message: 'The verification field must be boolean' })
+  isActive: boolean;
 }
