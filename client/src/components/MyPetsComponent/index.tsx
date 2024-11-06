@@ -2,15 +2,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '@/context/user';
 import DogForm from '../DogForm';
-import { updateDogImage } from '@/app/lib/server/fetchDog';
+import { updateDogImage, removeDog } from '@/app/lib/server/fetchDog'; 
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
-const MyPetsComponent:React.FC = () => {
+const MyPetsComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { dogs, getDogs } = useContext(UserContext);
   const [idUser] = useState(localStorage.getItem('idUser'));
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
+  const [deleteMessage, setDeleteMessage] = useState<string | null>(null); 
+  const [deletedDogId, setDeletedDogId] = useState<string | null>(null); 
   const handleAddPet = () => {
     setIsModalOpen(true);
   };
@@ -51,39 +53,86 @@ const MyPetsComponent:React.FC = () => {
     }
   };
 
+  const handleRemoveDog = async (dogId: string) => {
+    const data = await removeDog(dogId);
+    if (data && data.data && data.data.removeDog && data.data.removeDog.success) {
+      Swal.fire({
+        icon: "success",
+        title: "Dog removed successfully!",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+
+      
+      const updatedDogs = (dogs || []).filter((dog: any) => dog.id !== dogId);
+
+      getDogs(idUser!); 
+    } else {
+      console.error("Failed to delete dog");
+      Swal.fire({
+        icon: "error",
+        title: "Failed to delete dog",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    }
+  };
+
   return (
     <div>
+      {/* Mensaje de confirmación */}
+      {deleteMessage && (
+        <div className="bg-green-500 text-white p-2 rounded mb-4 text-center">
+          {deleteMessage}
+        </div>
+      )}
+
       {/* Mascotas */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-6 text-[#dc803f]">My Pets</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {dogs && dogs.length > 0 ? (
-            dogs.map((pet: any) => (
-              <div key={pet.id} className="bg-white p-6 rounded-xl shadow-lg w-96 h-96 relative"> 
-  <label htmlFor={`file-upload-${pet.id}`} className="cursor-pointer">
-    <Image
-      src={pet.images[0] || 'https://media.istockphoto.com/id/1387833234/es/vector/silueta-de-perro-sobre-fondo-blanco.jpg?s=612x612&w=0&k=20&c=H1XjkMuI6ZXi9sSgFfQH16zxRxblm3Z5LDk1ee7v-0M='}
-      alt={pet.name}
-      className="w-full h-64 object-cover rounded-lg mb-4"
-      width={500}
-      height={500}
-    />
-  </label>
+            dogs
+              .filter((pet: any) => pet.id !== deletedDogId) // Filtra el perro eliminado
+              .map((pet: any) => (
+                <div key={pet.id} className="bg-white p-6 rounded-xl shadow-lg w-96 h-96 relative">
+                  <label htmlFor={`file-upload-${pet.id}`} className="cursor-pointer">
+                    <Image
+                      src={pet.images[0] || 'https://media.istockphoto.com/id/1387833234/es/vector/silueta-de-perro-sobre-fondo-blanco.jpg?s=612x612&w=0&k=20&c=H1XjkMuI6ZXi9sSgFfQH16zxRxblm3Z5LDk1ee7v-0M='}
+                      alt={pet.name}
+                      className="w-full h-64 object-cover rounded-lg mb-4"
+                      width={500}
+                      height={500}
+                    />
+                  </label>
 
-  <h3 className="text-xl font-semibold text-[#B17457]">{pet.name}</h3>
-  <p className="text-gray-500">Race: {pet.race}</p>
-  <p className="text-gray-500">Size: {pet.size}</p>
+                  <h3 className="text-xl font-semibold text-[#B17457]">{pet.name}</h3>
+                  <p className="text-gray-500">Race: {pet.race}</p>
+                  <p className="text-gray-500">Size: {pet.size}</p>
 
-  <input
-    id={`file-upload-${pet.id}`}
-    type="file"
-    accept="image/*"
-    onChange={(e) => handleImageChange(e, pet.id)}
-    className="hidden" 
-  />
-</div>
+                  <input
+                    id={`file-upload-${pet.id}`}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e, pet.id)}
+                    className="hidden"
+                  />
 
-            ))
+                  {/* Botón de eliminación */}
+                  <button
+                    onClick={() => handleRemoveDog(pet.id)}
+                    className="absolute bottom-4 right-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700"
+                  >
+                    Remove Pet
+                  </button>
+                </div>
+              ))
           ) : (
             <p className="text-gray-600">No pets found.</p>
           )}
