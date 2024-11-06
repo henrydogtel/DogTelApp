@@ -3,6 +3,11 @@ import { IAppointment } from '@/interfaces/interfaces';
 import React, { useContext, useEffect, useState } from 'react';
 import { FaStripe } from 'react-icons/fa'; // Importar el ícono de Stripe
 import LoadingModal from '../LoadingComponent';
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig({ path: '.env' });
+
+const url = process.env.NEXTAUTH_URL as string
 
 const MyOrdersComponent = () => {
   const { userAppointments, getUserAppointmentsById, user } = useContext(UserContext);
@@ -24,9 +29,8 @@ const MyOrdersComponent = () => {
     setLoader(true)
     try {
       // URL de éxito y cancelación
-      const successUrl = 'http://localhost:3000/success';
-      const cancelUrl = 'http://localhost:3000/cancel';
-      console.log('hi');
+      const successUrl = `${url}/success`;
+      const cancelUrl = `${url}/cancel`;
       
       // Llamada a la API para crear la sesión de pago en Stripe
       const response = await fetch('/api/checkout', {
