@@ -12,7 +12,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Mutation(() => User)
   async createUser(
@@ -45,7 +45,7 @@ export class UserResolver {
     }
   }
 
-  
+
   @Query(() => [User], { name: 'users' })
   async findAll(): Promise<User[]> {
     try {
@@ -56,7 +56,7 @@ export class UserResolver {
     }
   }
 
-  
+
 
   @Query(() => User, { name: 'user' })
   async findOne(@Args('id', { type: () => String }) id: string): Promise<User> {
@@ -85,23 +85,26 @@ export class UserResolver {
     }
   }
 
-  @Mutation(() => User)
-  async removeUser(
-    @Args('id', { type: () => String }) id: string,
-  ): Promise<void> {
-    try {
-      await this.userService.removeUser(id);
-    } catch (error) {
-      console.error(`Error removing user with id ${id}:`, error);
-      throw new BadRequestException(
-        `An error occurred while removing the user with id: ${id}`,
-      );
-    }
+  @Mutation(() => String)
+async removeUser(
+  @Args('id', { type: () => String }) id: string,
+): Promise<string> {
+  try {
+    const message = await this.userService.removeUser(id);
+    return message; 
+  } catch (error) {
+    console.error(`Error removing user with id ${id}:`, error);
+    throw new BadRequestException(
+      `An error occurred while removing the user with id: ${id}`,
+    );
   }
+}
 
-  @Query(() => User, { name: 'userByEmail' }) 
+
+
+  @Query(() => User, { name: 'userByEmail' })
   async findOneByEmail(@Args('email', { type: () => String }) email: string): Promise<User> {
-    return this.userService.findOneByEmail(email); 
+    return this.userService.findOneByEmail(email);
   }
 
   @Mutation(() => User)

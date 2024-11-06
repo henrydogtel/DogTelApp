@@ -44,10 +44,10 @@ export class Credentials {
   verified: boolean;
 
   @Field(() => User)
-  @OneToOne(() => User, (user) => user.credentials)
+  @OneToOne(() => User, (user) => user.credentials, { onDelete: 'CASCADE' })
   user: User;
 
   @Field(() => Sitter)
-  @OneToOne(() => Sitter, (sitter) => sitter.credentials)
+  @OneToOne(() => Sitter, (sitter) => sitter.credentials, { onDelete: 'CASCADE' })
   sitter: User;
 }

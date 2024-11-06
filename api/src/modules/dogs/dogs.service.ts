@@ -39,7 +39,7 @@ export class DogsService {
   async removeDog(id: string): Promise<boolean> {
     try {
       const dog = await this.findOne(id);
-      await this.dogsRepository.removeDog(id);
+      await this.dogsRepository.removeDog(dog.id);
       return true;
     } catch (error) {
       console.error(error);

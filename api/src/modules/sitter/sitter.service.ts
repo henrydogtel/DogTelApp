@@ -21,7 +21,7 @@ export class SitterService {
     private readonly sitterRepository: Repository<Sitter>,
     private readonly credentialRepository: CredentialsRepository,
     private readonly authService: AuthRepository,
-  ) {}
+  ) { }
 
   async create(
     firstname: string,
@@ -69,7 +69,7 @@ export class SitterService {
   async findAll(): Promise<Sitter[]> {
     try {
       return await this.sitterRepository.find({
-        relations: ['services', 'appointments','appointments.user'],
+        relations: ['services', 'appointments', 'appointments.user', 'credentials'],
       });
     } catch (error) {
       throw new BadRequestException('Error al obtener la lista de sitters');
@@ -78,7 +78,7 @@ export class SitterService {
 
   async findOne(id: string): Promise<Sitter> {
     try {
-      const sitter = await this.sitterRepository.findOne({ where: { id } , relations:['services','appointments', 'appointments.user']});
+      const sitter = await this.sitterRepository.findOne({ where: { id }, relations: ['services', 'appointments', 'appointments.user'] });
       if (!sitter) {
         throw new NotFoundException(`Sitter con id ${id} no encontrado`);
       }
@@ -126,7 +126,7 @@ export class SitterService {
 
   async removeSitter(id: string): Promise<boolean> {
     try {
-      const sitter = await this.findOne(id); 
+      const sitter = await this.findOne(id);
       if (!sitter) {
         throw new NotFoundException(`Sitter con ID ${id} no encontrado`);
       }
@@ -138,6 +138,6 @@ export class SitterService {
     }
   }
 
-  
- 
+
+
 }

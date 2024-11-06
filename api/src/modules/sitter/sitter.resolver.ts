@@ -89,7 +89,7 @@ export class SitterResolver {
     const success = await this.sitterService.removeSitter(id);
     return {
       success,
-      message: success ? 'Mascota eliminada con éxito' : 'Error al eliminar la mascota',
+      message: success ? `Sitter with ${id} deleted` : 'Error at deleting sitter',
     };
   }
 
