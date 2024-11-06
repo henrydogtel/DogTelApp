@@ -125,4 +125,8 @@ export class Appointment {
   @Field(() => Date, { description: 'hour when appointment create was' })
   @Column({ nullable: true })
   createdAt: Date
+
+  @Field(() => Boolean, {description:'was the payment paid'})
+  @Column({nullable:true, default:false})
+  payment:Boolean
 }
