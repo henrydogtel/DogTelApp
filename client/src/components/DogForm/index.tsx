@@ -68,7 +68,7 @@ export default function DogForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen mt-16 mb-16">
+    <div className="flex justify-center items-center mt-16 mb-16 ">
       <form
         onSubmit={handleSubmit}
         className="p-8 rounded-lg shadow-lg w-full max-w-lg"

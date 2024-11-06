@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { neucha } from "@/app/lib/server/fonts";
 import Shepherd from "shepherd.js";
 import 'shepherd.js/dist/css/shepherd.css';
-import './shepherd.css'; // Asegúrate de importar tus estilos personalizados
+import './shepherd.css'; 
 
 const NavbarComponent = () => {
   const { logOut, user } = useContext(UserContext);
@@ -69,7 +69,9 @@ const NavbarComponent = () => {
       tour.addStep({
         id: 'dashboard',
         title: 'Dashboard',
-        text: 'Go to your Dashboard to add pets and manage your profile.',
+        text: role === 'user' ? 'Go to your Dashboard to add pets and manage your profile.' :"Go to your Dashboard to see which appointments have been added."
+
+        ,
         attachTo: {
           element: '.dashboard-button',
           on: 'bottom',
@@ -143,7 +145,7 @@ const NavbarComponent = () => {
                     className="block p-2 px-3 text-white bg-[#ffd735] hover:bg-[#ffbf52] rounded-2xl find-sitters"
                     aria-current="page"
                   >
-                    <span style={{ color: 'white' }}>Find Sitters</span>
+                    <span style={{ color: 'black' }}>Find Sitters</span>
                   </Link>
                 </li>
               )}
@@ -181,7 +183,7 @@ const NavbarComponent = () => {
               {userLocal && token && (
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center dashboard-button"
+                  className="dashboard bg-[#fc955e] hover:bg-[#d9865d] text-white font-semibold py-2 px-4 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F0854F] focus:ring-opacity-75 transition duration-300 ease-in-out flex items-center justify-center dashboard-button"
                 >
                   Dashboard
                 </button>
