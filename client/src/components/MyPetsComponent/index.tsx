@@ -1,14 +1,10 @@
 'use client'
-
 import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react'
 import DogForm from '../DogForm';
-
 import { updateDogImage, removeDog } from '@/app/lib/server/fetchDog'; 
 import Swal from 'sweetalert2';
 import { UserContext } from '@/context/user';
-import { updateDogImage } from '@/app/lib/server/fetchDog';
-
 
 const MyPetsComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,7 +104,7 @@ const MyPetsComponent: React.FC = () => {
                 <div key={pet.id} className="bg-white p-6 rounded-xl shadow-lg w-96 h-96 relative">
                   <label htmlFor={`file-upload-${pet.id}`} className="cursor-pointer">
                     <Image
-                      src={pet.images[0] || 'https://media.istockphoto.com/id/1387833234/es/vector/silueta-de-perro-sobre-fondo-blanco.jpg?s=612x612&w=0&k=20&c=H1XjkMuI6ZXi9sSgFfQH16zxRxblm3Z5LDk1ee7v-0M='}
+                      src={pet.images[0] || 'https://static.vecteezy.com/system/resources/previews/007/790/632/non_2x/silhouette-of-dog-on-white-background-free-vector.jpg'}
                       alt={pet.name}
                       className="w-full h-64 object-cover rounded-lg mb-4"
                       width={500}
