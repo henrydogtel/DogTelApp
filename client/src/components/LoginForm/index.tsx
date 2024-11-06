@@ -49,7 +49,7 @@ function SignInForm() {
       
       Swal.fire({
         icon: "success",
-        title: "Signed in successfully hola",
+        title: "Signed in successfully",
         position: "top-end",
         toast: true,
         showConfirmButton: false,

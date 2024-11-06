@@ -10,6 +10,7 @@ import { UserContext } from "@/context/user";
 import { neucha, concertOne } from "@/app/lib/server/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import LoadingModal from "../LoadingComponent";
 
 
 const RegisterOwnerForm = () => {
@@ -31,6 +32,7 @@ const {signUpOwner} = useContext(UserContext)
   const [errors, setErrors] = useState({} as { [key: string]: string });
   const [touched, setTouched] = useState({} as { [key: string]: boolean });
   const [showPassword, setShowPassword] = useState(false);
+  const [loader,setLoader] = useState(false)
 
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,11 +51,13 @@ const {signUpOwner} = useContext(UserContext)
  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoader(true)
 
     
     const formErrors = validateSignup(signupValues);
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
+      setLoader(false)
       return;
     }
 
@@ -64,6 +68,7 @@ const {signUpOwner} = useContext(UserContext)
       });
 
       if (success) {
+        setLoader(false)
         Swal.fire({
           icon: "success",
           title: "User Registered successfully",
@@ -74,6 +79,7 @@ const {signUpOwner} = useContext(UserContext)
           timerProgressBar: true,
         });
       } else {
+        setLoader(false)
         Swal.fire({
           icon: "error",
           title: "Invalid User",
@@ -85,6 +91,7 @@ const {signUpOwner} = useContext(UserContext)
         });
       }
     } catch (error) {
+      setLoader(false)
       console.error("Error registering user:", error);
       Swal.fire({
         icon: "error",
@@ -103,6 +110,7 @@ const {signUpOwner} = useContext(UserContext)
 
   return (
     <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
+      {loader && <LoadingModal />}
       <h1
         className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}
       >

@@ -105,8 +105,9 @@ const MyPetsComponent:React.FC = () => {
           id="modalOverlay"
           className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center"
           onClick={handleOutsideClick}
+          style={{zIndex:1000}}
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md overflow-y-auto max-h-[80vh]">
+          <div style={{height:'fit-content'}} className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md overflow-y-auto">
             <button
               className="bg-red-500 text-white px-4 py-2 rounded mb-4"
               onClick={closeModal}

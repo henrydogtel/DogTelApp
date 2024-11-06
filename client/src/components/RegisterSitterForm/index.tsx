@@ -11,6 +11,7 @@ import {neucha, concertOne} from "@/app/lib/server/fonts"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import LoadingModal from "../LoadingComponent";
 
 
 const RegisterSitterForm = () => {
@@ -31,6 +32,7 @@ const RegisterSitterForm = () => {
   const [errors, setErrors] = useState({} as { [key: string]: string });
   const [touched, setTouched] = useState({} as { [key: string]: boolean });
   const [showPassword, setShowPassword] = useState(false);
+  const [loader,setLoader] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -48,6 +50,7 @@ const RegisterSitterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoader(true)
    
     const success = await signUpSitter(
       signupValues
@@ -55,6 +58,7 @@ const RegisterSitterForm = () => {
     )
 
     if (success) {
+      setLoader(false)
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -71,6 +75,7 @@ const RegisterSitterForm = () => {
         title: "User Registered successfully",
       });
     } else {
+      setLoader(false)
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -96,6 +101,7 @@ const RegisterSitterForm = () => {
 
   return (
     <div className="max-w-lg mx-auto p-8 bg-[#fff8e1] rounded-lg shadow-lg my-10">
+      {loader && <LoadingModal />}
       <h1
         className={`${concertOne.className} text-2xl font-bold mb-6 text-center text-[#f68f53]`}
       >
