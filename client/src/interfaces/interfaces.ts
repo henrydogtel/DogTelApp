@@ -33,25 +33,25 @@ interface ILoginUser {
   descripcion: string;
   email: string;
   password: string;
-  services?: {       // Servicios ofrecidos por el sitter
-      name: string;  // Nombre del servicio
-      description: string; // Descripción del servicio
-  };              // Array de servicios
-  appointments: {   // Citas asociadas al sitter
-      id: string;   // Identificador único de la cita
-      entryDate: string; // Fecha de entrada de la cita
-      departureDate: string; // Fecha de salida de la cita
-      time: string; // Hora de la cita
-      status: string; // Estado de la cita
-      total: number; // Total de la cita
-      note: string;  // Nota de la cita
-      user: {       // Usuario asociado a la cita
-          id: string; // Identificador del usuario
-          firstname: string; // Nombre del usuario
-          lastname: string;  // Apellido del usuario
-          address: string; // Dirección del usuario
+  services?: {       
+      name: string;  
+      description: string; 
+  };         
+  appointments: {  
+      id: string;   
+      entryDate: string; 
+      departureDate: string; 
+      time: string; 
+      status: string; 
+      total: number; 
+      note: string;  
+      user: {       
+          id: string; 
+          firstname: string; 
+          lastname: string;  
+          address: string; 
       };
-  }[];              // Array de citas
+  }[];             
 }
 
 interface IRegisterUser {
