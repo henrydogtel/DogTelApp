@@ -33,7 +33,7 @@ export class Credentials {
   passport?: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ unique: true })
   @IsNotEmpty({ message: 'The email is required' })
   @IsEmail({}, { message: 'A valid email is required' })
   email: string;
