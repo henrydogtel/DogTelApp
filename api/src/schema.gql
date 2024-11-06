@@ -184,7 +184,7 @@ type Mutation {
   removeAppointmentDetail(id: Int!): AppointmentDetail!
   createUser(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!): User!
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
+  removeUser(id: String!): String!
   updateUserImage(id: String!, userImg: String!): User!
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
@@ -207,7 +207,7 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "50cc87b7-2ab2-47b4-8153-ada280027551"
+  id: String! = "fcfc4d53-9554-4611-b6d5-507cb189f1b2"
 }
 
 input CreateAppointmentInput {
@@ -334,7 +334,7 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "a7c069d5-9dcd-4466-9e71-c924b7378caa"
+  id: String! = "cb6e71ef-6599-4b15-9a00-14e4538b04cd"
 }
 
 input CreateCalificationDto {

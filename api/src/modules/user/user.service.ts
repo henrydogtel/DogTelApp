@@ -22,7 +22,7 @@ export class UserService {
     private readonly credentialRepository: CredentialsRepository,
     private readonly authRepository: AuthRepository,
     private readonly sendMailService: SendMailsService,
-  ) {}
+  ) { }
 
   async updateUserImage(id: string, userImg: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -109,8 +109,9 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ relations: ['credentials'] });
   }
+
 
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -131,10 +132,18 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async removeUser(id: string): Promise<void> {
+
+  async removeUser(id: string): Promise<string> {
     const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
     await this.userRepository.remove(user);
+    
+    return `User with id: ${id} was removed successfully`; 
   }
+  
+
 
   // Subida de imágenes
   async uploadProfilePicture(

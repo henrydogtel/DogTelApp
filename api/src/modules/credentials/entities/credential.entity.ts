@@ -33,7 +33,7 @@ export class Credentials {
   passport?: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ unique: true })
   @IsNotEmpty({ message: 'The email is required' })
   @IsEmail({}, { message: 'A valid email is required' })
   email: string;
@@ -44,10 +44,10 @@ export class Credentials {
   verified: boolean;
 
   @Field(() => User)
-  @OneToOne(() => User, (user) => user.credentials)
+  @OneToOne(() => User, (user) => user.credentials, { onDelete: 'CASCADE' })
   user: User;
 
   @Field(() => Sitter)
-  @OneToOne(() => Sitter, (sitter) => sitter.credentials)
+  @OneToOne(() => Sitter, (sitter) => sitter.credentials, { onDelete: 'CASCADE' })
   sitter: User;
 }

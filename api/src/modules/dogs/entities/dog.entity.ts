@@ -56,7 +56,7 @@ export class Dog {
   })
   size: typeRace;
 
-  @ManyToOne(() => User, (user) => user.dogs)
+  @ManyToOne(() => User, (user) => user.dogs, { onDelete: 'CASCADE' })
   @Field(() => User)
   user: User;
 
