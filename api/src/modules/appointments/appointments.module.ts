@@ -7,9 +7,10 @@ import { Sitter } from '../sitter/entities/sitter.entity';
 import { User } from '../user/entities/user.entity';
 import { Dog } from '../dogs/entities/dog.entity';
 import { AppointmentDetail } from '../appointment_details/entities/appointment_detail.entity';
+import { SendMailsService } from '../send-mails/send-mails.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Appointment, Sitter, User,Dog, AppointmentDetail])],
-  providers: [AppointmentsResolver, AppointmentsService],
+  providers: [AppointmentsResolver, AppointmentsService, SendMailsService],
 })
 export class AppointmentsModule {}

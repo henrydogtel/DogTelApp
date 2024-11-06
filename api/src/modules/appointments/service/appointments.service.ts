@@ -9,11 +9,12 @@ import { Sitter } from 'src/modules/sitter/entities/sitter.entity';
 import { Dog } from 'src/modules/dogs/entities/dog.entity';
 import { AppointmentDetail } from 'src/modules/appointment_details/entities/appointment_detail.entity';
 import { error } from 'console';
+import { SendMailsService } from 'src/modules/send-mails/send-mails.service';
 
 @Injectable()
 export class AppointmentsService {
 
-  constructor(@InjectRepository(Appointment) private repositoryAppointment: Repository<Appointment>, @InjectRepository(User) private userRepository: Repository<User>, @InjectRepository(Sitter) private sitterRepository: Repository<Sitter>,@InjectRepository(Dog) private dogRepository: Repository<Dog>, @InjectRepository(AppointmentDetail) private detailRepository:Repository<AppointmentDetail>) {
+  constructor(@InjectRepository(Appointment) private repositoryAppointment: Repository<Appointment>, @InjectRepository(User) private userRepository: Repository<User>, @InjectRepository(Sitter) private sitterRepository: Repository<Sitter>,@InjectRepository(Dog) private dogRepository: Repository<Dog>, @InjectRepository(AppointmentDetail) private detailRepository:Repository<AppointmentDetail>, private mailService: SendMailsService) {
 
   }
 
@@ -40,6 +41,48 @@ export class AppointmentsService {
     
     return horasTotales;
 }
+
+private async sendSitterAppointment(mail: string, appointmentSaved: Appointment) {
+  try {
+    // Extract details from the appointment to be included in the email
+    const appointmentDetails = `
+      <h2>Appointment Details</h2>
+      <p><strong>Appointment ID:</strong> ${appointmentSaved.id}</p>
+      <p><strong>Status:</strong> ${appointmentSaved.status}</p>
+      <p><strong>Start Date:</strong> ${appointmentSaved.entryDate}</p>
+      <p><strong>End Date:</strong> ${appointmentSaved.departureDate}</p>
+      <p><strong>Time In:</strong> ${appointmentSaved.timeIn}</p>
+      <p><strong>Time Out:</strong> ${appointmentSaved.timeOut}</p>
+      <p><strong>Total Cost:</strong> $${appointmentSaved.total}</p>
+      <p><strong>Customer Note:</strong> ${appointmentSaved.note || 'No notes provided'}</p>
+      <p><strong>Sitter:</strong> ${appointmentSaved.sitter?.firstname}</p>
+      <p><strong>Customer:</strong> ${appointmentSaved.user?.firstname} ${appointmentSaved.user?.lastname}</p>
+      <p><strong>Payment Status:</strong> ${appointmentSaved.payment ? 'Paid' : 'Not Paid'}</p>
+    `;
+
+    // Prepare the message object
+    const messageObject = {
+      to: mail,
+      subject: `Appointment Confirmation: ${appointmentSaved.id}`,
+      text: `You have a new appointment scheduled.\n\nAppointment ID: ${appointmentSaved.id}\nStatus: ${appointmentSaved.status}\n\nPlease refer to the details in the HTML body.`,
+      html: appointmentDetails, // Sending the HTML formatted appointment details
+    };
+
+    // Send the email using the SendMailsService
+    const response = await this.mailService.sendMail(messageObject);
+    
+    if (!response) {
+      throw new BadRequestException('There was an error sending the email');
+    }
+
+    console.log('Email sent successfully:', response);
+    return response;
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+}
+
 
 convertToUTC(date: Date, timeString: string): Date {
     const [hours, minutes] = timeString.split(':').map(Number);
@@ -74,7 +117,7 @@ async create(createAppointmentInput: CreateAppointmentInput): Promise<Appointmen
             timeOut: timeOutSend,
             note,
             createdAt: new Date(),
-            total: totalHorasAppointment * dogsId.length,
+            total: Math.round(totalHorasAppointment * dogsId.length),
             sitter: sitterFound,
             user: userFound,
         });
@@ -85,11 +128,12 @@ async create(createAppointmentInput: CreateAppointmentInput): Promise<Appointmen
 
         // Luego guardamos los detalles de la cita
         await this.saveDogsDetails(dogsId, totalHorasAppointment, appointmentSaved);
-
-        return await this.repositoryAppointment.findOne({
-            where: { id: appointmentSaved.id },
-            relations: ['sitter', 'user', 'detail', 'detail.dog']
-        });
+        const appointmentSavesDb = await this.repositoryAppointment.findOne({
+          where: { id: appointmentSaved.id },
+          relations: ['sitter', 'user', 'detail', 'detail.dog','sitter.credentials']
+      });
+      this.sendSitterAppointment(appointmentSavesDb.sitter.credentials.email,appointmentSavesDb) 
+        return appointmentSavesDb
 
     } catch (error) {
         throw new Error(error.message);
@@ -118,7 +162,7 @@ async getAppointmentsByIdUser(idUser:string):Promise<Appointment[]> {
     if(!idUser) throw new BadRequestException('Se requiere el id del usuario')
     const appointmentsFound = this.repositoryAppointment.find({where:{user:{
       id:idUser
-    }}})
+    }},relations:['sitter','detail','detail.dog']})
     if(!appointmentsFound) throw new BadRequestException('Hubo un error al encontrar los appointments')
     return appointmentsFound
   } catch (error) {
@@ -131,7 +175,7 @@ async getAppointmentsByIdSitter(idSitter:string):Promise<Appointment[]> {
     if(!idSitter) throw new BadRequestException('Se requiere el id del usuario')
     const appointmentsFound = this.repositoryAppointment.find({where:{sitter:{
       id:idSitter
-    }}})
+    }},relations:['user','detail','detail.dog']})
     if(!appointmentsFound) throw new BadRequestException('Hubo un error al encontrar los appointments')
     return appointmentsFound
   } catch (error) {
@@ -171,6 +215,16 @@ async cancelAppointment(idAppointment:string):Promise<ResponseAprobarAppointment
       return appointment
     } catch (error) {
       throw new Error(error)
+    }
+  }
+
+  async appointmentPaidConfirm(idAppointment:string):Promise<String> {
+    try {
+      const response = await this.repositoryAppointment.update({id:idAppointment},{payment:true})
+      if(!response) throw new BadRequestException('Hubo un error confirmando la compra')
+      return 'compra exitosa'
+    } catch (error) {
+      throw error
     }
   }
 

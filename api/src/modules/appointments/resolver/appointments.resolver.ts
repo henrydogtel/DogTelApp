@@ -130,6 +130,17 @@ export class AppointmentsResolver {
     }
   }
 
+  @Mutation(() => String)
+  async appointmentPaidConfirm(@Args('idAppointment', {type:() => String})idAppointment:string):Promise<String> {
+    try {
+      const response = await this.appointmentsService.appointmentPaidConfirm(idAppointment)
+      if(!response) throw new BadRequestException("Hubo un error")
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
+
 
 
 }

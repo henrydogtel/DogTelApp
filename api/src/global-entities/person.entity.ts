@@ -29,7 +29,7 @@ export class Person {
   @Length(1, 255, { message: 'Lastname must be between 1 and 255 characters' })
   lastname: string;
 
-  @Field(() => Date)
+  @Field(() => String)
   @Column({ type: 'date' })
   @IsDate({ message: 'Birthdate must be a valid date' })
   birthdate: Date;
