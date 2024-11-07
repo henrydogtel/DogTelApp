@@ -173,15 +173,16 @@ export const fetchUserProfileByEmail = async (email: string): Promise<IUser | nu
 export const fetchSitterProfileByEmail = async (email: string): Promise<ISitter | null> => {
   const query = JSON.stringify({
     query: `
-      query SitterByEmail($email: String!) {
-        sitterByEmail(email: $email) {
-          id
-          firstname
-          lastname
-          userImg
-          address
-        }
-      }
+     query SitterByEmail($email: String!) {
+  sitterByEmail(email: $email) {
+    firstname
+    lastname
+    address
+    fee
+    id
+    userImg
+  }
+}
     `,
     variables: { email },
   });
