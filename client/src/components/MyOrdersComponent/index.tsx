@@ -29,8 +29,8 @@ const MyOrdersComponent = () => {
     setLoader(true)
     try {
       // URL de éxito y cancelación
-      const successUrl = `${url}/success`;
-      const cancelUrl = `${url}/cancel`;
+      const successUrl =  'https://resplendent-dusk-fc15f6.netlify.app/success';
+      const cancelUrl = 'https://resplendent-dusk-fc15f6.netlify.app/cancel';
       
       // Llamada a la API para crear la sesión de pago en Stripe
       const response = await fetch('/api/checkout', {
