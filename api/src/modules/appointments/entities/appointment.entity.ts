@@ -71,7 +71,7 @@ export class Appointment {
   @IsDate({ message: 'The appointment time must be a valid date' })
   timeIn?: Date;
 
-  @Field(() =>Date, { description: 'Time of the appointment', nullable: true })
+  @Field(() => Date, { description: 'Time of the appointment', nullable: true })
   @Column({ nullable: true })
   @IsOptional()
   @IsDate({ message: 'The appointment time must be a valid date' })
@@ -107,13 +107,13 @@ export class Appointment {
   note?: string;
 
   @Field(() => Sitter)
-  @ManyToOne(() => Sitter, (sitter) => sitter.appointments)
+  @ManyToOne(() => Sitter, (sitter) => sitter.appointments, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'sitter' })
   @IsNotEmpty({ message: 'The sitter cannot be empty' })
   sitter: Sitter;
 
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.appointments)
+  @ManyToOne(() => User, (user) => user.appointments, { onDelete: 'CASCADE' })
   @IsNotEmpty({ message: 'The user cannot be empty' })
   @JoinColumn({ name: 'user' })
   user: User;
@@ -122,8 +122,8 @@ export class Appointment {
   @OneToMany(() => AppointmentDetail, (detail) => detail.appointment)
   detail: AppointmentDetail[];
 
-  @Field(() => Date, { description:'hour when appointment create was'})
-  @Column({nullable:true})
+  @Field(() => Date, { description: 'hour when appointment create was' })
+  @Column({ nullable: true })
   createdAt: Date
 
   @Field(() => Boolean, {description:'was the payment paid'})
