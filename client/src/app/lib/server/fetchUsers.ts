@@ -18,7 +18,7 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
     fee: Number(user.fee),
     role: "sitter",
   };
-  
+
   const query = JSON.stringify({
     query: `mutation CreateSitter($firstname: String!, $lastname: String!, $birthdate: DateTime!, $address: String!, $role: String!, $password: String!, $email: String!, $fee: Float!, $descripcion: String!) {
     createSitter(firstname: $firstname, lastname: $lastname, birthdate: $birthdate, address: $address, role: $role, password: $password, email: $email, fee: $fee, descripcion: $descripcion) {
@@ -33,7 +33,7 @@ export const postSignUpSitter = async (user: IRegisterSitter) => {
   });
 
   console.log(userWithRole);
-  
+
   const response = await fetch(urlBack, {
     headers: { "Content-Type": "application/json" },
     method: "POST",
@@ -126,7 +126,7 @@ export const postSignIn = async (credentials: ILoginUser) => {
 
     // Comprobar si el login fue exitoso
     if (jsonResponse.data && jsonResponse.data.login) {
-   
+
       return {
         user: jsonResponse.data.login.user,
         email: jsonResponse.data.login.email,
@@ -227,21 +227,23 @@ export const updateSitterProfile = async (
   sitterId: string,
   firstname: string,
   lastname: string,
-  address: string
+  address: string,
+  fee?: number
 ): Promise<Partial<ISitter>> => {
   const query = JSON.stringify({
     query: `
       mutation UpdateSitter($updateSitterId: String!, $updateSitterInput: UpdateSitterInput!) {
-        updateSitter(id: $updateSitterId, updateSitterInput: $updateSitterInput) {
-          firstname
-          lastname
-          address
-        }
-      }
+  updateSitter(id: $updateSitterId, updateSitterInput: $updateSitterInput) {
+    firstname
+    lastname
+    address
+    fee
+  }
+}
     `,
     variables: {
       updateSitterId: sitterId,
-      updateSitterInput: { firstname, lastname, address }
+      updateSitterInput: { firstname, lastname, address, fee }
     },
   });
 
