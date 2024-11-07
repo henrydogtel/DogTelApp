@@ -4,7 +4,6 @@ interface ICredential {
 }
 
 interface IUser {
-
   id: string,
   firstname: string,
   lastname: string,
@@ -12,7 +11,14 @@ interface IUser {
   address: string,
   role: string,
   userImg: string
+  status?: string
+  email: string;
+  credentials?: {
+    email?: string;
+    password?: string;
+  };
 }
+
 
 interface ILoginUser {
   email: string;
@@ -20,7 +26,7 @@ interface ILoginUser {
 }
 
 
- interface ISitter {
+interface ISitter {
   id: string;
   firstname: string;
   lastname: string;
@@ -33,25 +39,26 @@ interface ILoginUser {
   descripcion: string;
   email: string;
   password: string;
-  services?: {       
-      name: string;  
-      description: string; 
-  };         
-  appointments: {  
-      id: string;   
-      entryDate: string; 
-      departureDate: string; 
-      time: string; 
-      status: string; 
-      total: number; 
-      note: string;  
-      user: {       
-          id: string; 
-          firstname: string; 
-          lastname: string;  
-          address: string; 
-      };
-  }[];             
+  status?: string;
+  services?: {
+    name: string;
+    description: string;
+  };
+  appointments: {
+    id: string;
+    entryDate: string;
+    departureDate: string;
+    time: string;
+    status: string;
+    total: number;
+    note: string;
+    user: {
+      id: string;
+      firstname: string;
+      lastname: string;
+      address: string;
+    };
+  }[];
 }
 
 
@@ -90,12 +97,16 @@ interface IRegisterSitter {
 
 interface IUserResponse {
   login: boolean;
+  email: string;
   user: Partial<IUser> | null;
   token: string;
+  role?: string
+
 }
+
 interface IDogDetail {
-  dog:IDog,
-  price:number
+  dog: IDog,
+  price: number
 }
 
 interface IAppointment {
@@ -107,18 +118,19 @@ interface IAppointment {
   note: string; // Notas adicionales
   sitter: ISitter; // Información sobre el cuidador (sitter)
   detail: IDogDetail[];
-  user:IUser,
+  user: IUser,
   createdAt: string; // Fecha de creación de la cita
-  payment:boolean
+  payment: boolean
 }
 
 
 interface IUserContextType {
   user: Partial<IUserResponse> | null;
+  status?: string
   userImg: string | null;
-  sitters:ISitter[] | null;
-  userAppointments:IAppointment[] | null
-  dogs:IDog[] | null;
+  sitters: ISitter[] | null;
+  userAppointments: IAppointment[] | null
+  dogs: IDog[] | null;
   setUser: React.Dispatch<React.SetStateAction<Partial<IUserResponse> | null>>;
   isLogged: boolean;
   setIsLogged: (isLogged: boolean) => void;
@@ -132,14 +144,14 @@ interface IUserContextType {
   getSitters: () => Promise<boolean | ISitter[]>;
   getSittersById: (id: string) => void;
   getSittersProfile: () => void;
-  getSitterById: (id:string) => Promise<ISitter | null> ;
-  createAppointment: (appointment:ICreateAppointment) => Promise<any>;
-  getUserAppointmentsById: (idUser:string) => Promise<any>;
-  getSitterAppointmentsById: (idSitter:string) => Promise<any>;
-  sitterAppointments:any[] | null;
-  approveAppointment: (idAppointment:string) => Promise<any>,
-  rejectAppointment: (idAppointment:string) => Promise<any>,
-  appointmentPaidConfirm: (idAppointment:string) => Promise<any>
+  getSitterById: (id: string) => Promise<ISitter | null>;
+  createAppointment: (appointment: ICreateAppointment) => Promise<any>;
+  getUserAppointmentsById: (idUser: string) => Promise<any>;
+  getSitterAppointmentsById: (idSitter: string) => Promise<any>;
+  sitterAppointments: any[] | null;
+  approveAppointment: (idAppointment: string) => Promise<any>,
+  rejectAppointment: (idAppointment: string) => Promise<any>,
+  appointmentPaidConfirm: (idAppointment: string) => Promise<any>
 }
 
 interface IDogRegister {
@@ -160,14 +172,14 @@ interface IDog {
 }
 
 interface ICreateAppointment {
-  departureDate: string;  
-  dogsId: string[];      
-  entryDate: string;     
-  idSitter: string;       
-  idUser: string;        
-  note: string;         
-  timeIn: string;        
-  timeOut: string;        
+  departureDate: string;
+  dogsId: string[];
+  entryDate: string;
+  idSitter: string;
+  idUser: string;
+  note: string;
+  timeIn: string;
+  timeOut: string;
 }
 
 export type {
@@ -183,5 +195,6 @@ export type {
   IDog,
   ISitter,
   ICreateAppointment,
-  IAppointment
+  IAppointment,
+  // IUserCred
 };

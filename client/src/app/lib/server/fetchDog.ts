@@ -4,8 +4,7 @@ const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 export const postCreateDog = async (idUser: string, dog: IDogRegister) => {
   const query = JSON.stringify({
     query: `mutation CreateDog($idUser: String!, $createDogInput: CreateDogInput!) {
-            createDog(idUser: $idUser, createDogInput: $createDogInput) {
-              
+            createDog(idUser: $idUser, createDogInput: $createDogInput) { 
               name
               birthdate
               images

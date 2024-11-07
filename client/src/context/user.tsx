@@ -83,6 +83,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("idUser", data.user.id);
       localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("role", data.user.role);
 
 
       return true;
@@ -163,7 +164,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createDog = async (idUser: string, dog: IDogRegister) => {
     const success = await postCreateDog(idUser, dog);
-    success && setDogs(success.data.dogs);
+    console.log('aca',success);
+    
+    success && success.data.dogs && setDogs(success.data.dogs);
     if (success) {
       return true;
     } else {
