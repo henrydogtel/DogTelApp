@@ -141,6 +141,17 @@ export class AppointmentsResolver {
     }
   }
 
+  @Mutation(() => Boolean)
+  async markAsFinished(@Args('idAppointment', {type:() => String})idAppointment:string) {
+    try {
+      const response = await this.appointmentsService.markAsFinished(idAppointment)
+      if(!response) throw new BadRequestException('Hubo un error')
+      return true
+    } catch (error) {
+      throw error
+    }
+  }
+
 
 
 }

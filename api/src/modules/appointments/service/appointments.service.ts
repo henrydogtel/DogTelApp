@@ -235,4 +235,19 @@ async cancelAppointment(idAppointment:string):Promise<ResponseAprobarAppointment
   remove(id: number) {
     return `This action removes a #${id} appointment`;
   }
+
+  async markAsFinished(idAppointment:string) {
+    let rateAdd = 100
+    try {
+      const appo = await this.repositoryAppointment.findOne({where:{id:idAppointment},relations:['sitter']})
+      if(!appo) throw new BadRequestException('Hubo un error al encontrar la ccita')
+      const result = await this.repositoryAppointment.update({id:idAppointment},{status:typeStatus.FINISHED})
+      if(!result) throw new BadRequestException('hubo un error al marcar el appointment')
+      const response = await this.sitterRepository.update({id:appo.sitter.id},{rate:appo.sitter.rate + 100})
+    return true
+    } catch (error) {
+      throw error
+    }
+  }
+
 }
