@@ -2,13 +2,13 @@
 import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react'
 import DogForm from '../DogForm';
-import { updateDogImage, removeDog } from '@/app/lib/server/fetchDog'; 
+import { updateDogImage, } from '@/app/lib/server/fetchDog'; 
 import Swal from 'sweetalert2';
 import { UserContext } from '@/context/user';
 
 const MyPetsComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { dogs, getDogs } = useContext(UserContext);
+  const { dogs, getDogs, removeDog } = useContext(UserContext);
   const [idUser] = useState(localStorage.getItem('idUser'));
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [deleteMessage, setDeleteMessage] = useState<string | null>(null); 
@@ -31,7 +31,7 @@ const MyPetsComponent: React.FC = () => {
     if (idUser) {
       getDogs(idUser);
     }
-  }, [idUser, getDogs]);
+  }, [idUser,getDogs,dogs]);
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>, dogId: string) => {
     const file = event.target.files?.[0];
@@ -95,8 +95,18 @@ const MyPetsComponent: React.FC = () => {
 
       {/* Mascotas */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6 text-[#dc803f]">My Pets</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-[#dc803f]">My Pets</h2>
+
+                <div style={{margin:'1rem'}} className="flex items-center">
+            <button
+              className="bg-[#dc803f] text-white py-2 px-4 rounded-lg hover:bg-[#ad6c32]"
+              onClick={handleAddPet}
+            >
+              Add Pet +
+            </button>
+          </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          
           {dogs && dogs.length > 0 ? (
             dogs
               .filter((pet: any) => pet.id !== deletedDogId) // Filtra el perro eliminado
@@ -136,14 +146,7 @@ const MyPetsComponent: React.FC = () => {
           ) : (
             <p className="text-gray-600">No pets found.</p>
           )}
-          <div className="flex items-center">
-            <button
-              className="bg-[#dc803f] text-white py-2 px-4 rounded-lg hover:bg-[#ad6c32]"
-              onClick={handleAddPet}
-            >
-              Add Pet +
-            </button>
-          </div>
+         
         </div>
       </section>
 

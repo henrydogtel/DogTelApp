@@ -127,7 +127,7 @@ interface IUserContextType {
   signUpOwner: (user: IRegisterUser) => Promise<boolean>;
   logOut: () => void;
   createDog: (idUser: string, dog: IDogRegister) => Promise<boolean>;
-  removeDog: (dogId: string) => Promise<boolean>;
+  removeDog: (dogId: string) => Promise<any>;
   getDogs: (idUser: string) => Promise<boolean>
   getSitters: () => Promise<boolean | ISitter[]>;
   getSittersById: (id: string) => void;
@@ -139,7 +139,8 @@ interface IUserContextType {
   sitterAppointments:any[] | null;
   approveAppointment: (idAppointment:string) => Promise<any>,
   rejectAppointment: (idAppointment:string) => Promise<any>,
-  appointmentPaidConfirm: (idAppointment:string) => Promise<any>
+  appointmentPaidConfirm: (idAppointment:string) => Promise<any>,
+  markAsFinished: (idAppointment:string) => Promise<any>
 }
 
 interface IDogRegister {
@@ -183,5 +184,6 @@ export type {
   IDog,
   ISitter,
   ICreateAppointment,
-  IAppointment
+  IAppointment,
+  
 };

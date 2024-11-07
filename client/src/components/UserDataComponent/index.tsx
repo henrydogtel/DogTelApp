@@ -244,9 +244,6 @@ const UserDataComponent: React.FC = () => {
             Save Changes
           </button>
         )}
-        <button className="bg-[#e99953] text-white px-6 py-2 rounded-lg shadow-md hover:bg-[#f8b275] transition-colors">
-          Log Out
-        </button>
       </section>
     </div>
   );

@@ -206,3 +206,22 @@ export const appointmentPaidConfirmFetch = async (idAppointment:string):Promise<
 
   return data;
 }
+
+export const  markAsFinishedFetch = async (idAppointment:string) => {
+  const query = JSON.stringify({
+    query:`mutation MarkAsFinished($idAppointment: String!) {
+      markAsFinished(idAppointment: $idAppointment)
+    }`,variables:{idAppointment}
+  })
+
+  const response = await fetch(urlBack, {
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+    body: query,
+  });
+
+
+  const data = await response.json();
+
+  return data;
+}

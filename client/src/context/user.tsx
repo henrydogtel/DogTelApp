@@ -25,7 +25,7 @@ import {
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useState } from "react";
-import { appointmentPaidConfirmFetch, approveAppointmentFetch, createAppointmentFetch, getSitterAppointmentsByIdFetch, getUserAppointmentsByIdFetch, rejectAppointmentFetch } from "@/app/lib/server/fetchAppointments";
+import { appointmentPaidConfirmFetch, approveAppointmentFetch, createAppointmentFetch, getSitterAppointmentsByIdFetch, getUserAppointmentsByIdFetch, markAsFinishedFetch, rejectAppointmentFetch } from "@/app/lib/server/fetchAppointments";
 const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
 export const UserContext = createContext<IUserContextType>({
@@ -43,7 +43,7 @@ export const UserContext = createContext<IUserContextType>({
   signUpSitter: async () => false,
   signUpOwner: async () => false,
   createDog: async () => false,
-  removeDog: async () => false,
+  removeDog: async () => null,
   getDogs: async () => false,
   getSitters: async () => [],
   getSitterById: async () => null,
@@ -54,7 +54,8 @@ export const UserContext = createContext<IUserContextType>({
   getSitterAppointmentsById: async () => null,
   approveAppointment: async () => null,
   rejectAppointment: async () => null,
-  appointmentPaidConfirm: async () => null
+  appointmentPaidConfirm: async () => null,
+  markAsFinished: async () => null
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -114,6 +115,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const markAsFinished = async (idAppointment:string):Promise<any> => {
+    try {
+      const response = await markAsFinishedFetch(idAppointment)
+      if(!response) throw new Error('hubo un error al terminar la cita')
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
+
 
   const signUpSitter = async (user: IRegisterSitter) => {
     try {
@@ -163,7 +174,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createDog = async (idUser: string, dog: IDogRegister) => {
     const success = await postCreateDog(idUser, dog);
-    success && setDogs(success.data.dogs);
+    console.log(success);
+    setDogs((prevDogs: IDog[]) => prevDogs.filter((dog: IDog) => dog.id !== dog.id));
     if (success) {
       return true;
     } else {
@@ -171,7 +183,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const removeDog = async (dogId: string): Promise<boolean> => {
+  const removeDog = async (dogId: string): Promise<any> => {
     try {
       const response = await fetch(urlBack, {
         method: "POST",
@@ -192,14 +204,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }),
       });
       const result = await response.json();
+      if(!result) throw new Error('hubo un error')
       if (result.data.removeDog.success) {
         setDogs((prevDogs: IDog[]) => prevDogs.filter((dog: IDog) => dog.id !== dogId));
-        return true; 
+        return result; 
       }
-      return false; 
+     
     } catch (error) {
       console.error("Error removing dog:", error);
-      return false;
+      throw error
     }
   };
   
@@ -438,7 +451,8 @@ const rejectAppointment = async (idAppointment:string): Promise<any> => {
         sitterAppointments,
         approveAppointment,
         rejectAppointment,
-        appointmentPaidConfirm
+        appointmentPaidConfirm,
+        markAsFinished
         
       }}
     >
