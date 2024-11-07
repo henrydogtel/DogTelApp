@@ -165,8 +165,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const createDog = async (idUser: string, dog: IDogRegister) => {
     const success = await postCreateDog(idUser, dog);
     console.log('aca',success);
-    
-    success && success.data.dogs && setDogs(success.data.dogs);
+  
     if (success) {
       return true;
     } else {

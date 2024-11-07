@@ -1,20 +1,20 @@
 import { IDogRegister } from "@/interfaces/interfaces";
 const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
-export const postCreateDog = async (idUser: string, dog: IDogRegister) => {
+export const postCreateDog = async (idUser: string, createDogInput: IDogRegister) => {
   const query = JSON.stringify({
     query: `mutation CreateDog($idUser: String!, $createDogInput: CreateDogInput!) {
-            createDog(idUser: $idUser, createDogInput: $createDogInput) { 
-              name
-              birthdate
-              images
-              race
-              size
-            }
-          }`,
+  createDog(idUser: $idUser, createDogInput: $createDogInput) {
+    name
+    birthdate
+    images
+    race
+    size
+  }
+}`,
     variables: {
       idUser,
-      createDogInput: dog
+      createDogInput: createDogInput
     }
   });
 
