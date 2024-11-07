@@ -66,9 +66,7 @@ const SittersPricesDetail = () => {
                     <h2 className={`${concertOne.className} text-xl font-semibold text-[#dc803f]`}>
                       {sitter.firstname} {sitter.lastname}
                     </h2>
-                    <p className={`${concertOne.className} text-lg text-gray-700 font-medium mt-2`}>
-                    Rating: {sitter.rate} ★
-                    </p>
+                    
                     <p className={`${concertOne.className} text-lg text-[#dc803f] font-medium mt-2`}>
                       ${sitter.fee}/h
                     </p>

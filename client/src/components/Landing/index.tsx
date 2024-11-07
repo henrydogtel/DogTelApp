@@ -10,7 +10,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     // Generar ratings aleatorios en el cliente
-    const generatedRatings = ["carla.jpg", "juan.jpg", "lucia.jpg", "santiago.jpg"].map(() => 
+    const generatedRatings = ["carla.jpg", "juan.jpg", "lucia.jpg", "santiago.jpg"].map(() =>
       (Math.random() * (5 - 4.7) + 4.7).toFixed(1)
     );
     setRatings(generatedRatings);
@@ -52,12 +52,21 @@ export default function LandingPage() {
 
         <div className="w-full flex flex-col items-center">
           {["Do you want to be a dog sitter?", "Do you need a sitter for your dog?"].map((text, index) => (
-            <div key={index} className={`relative w-1/2 flex flex-col items-center justify-center p-8 ${index === 0 ? 'bg-[#ffb28e]' : 'bg-[#ffc97e]'} shadow-lg rounded-lg mb-8`}>
-              <h2 className={`${concertOne.className} text-2xl font-bold mb-4 text-[#ffffff]`}>
+            <div
+              key={index}
+              className={`relative w-1/2 flex flex-col items-center justify-center p-8 ${index === 0 ? 'bg-[#ffaa83]' : 'bg-[#ffc370]' } shadow-lg rounded-lg mb-8`}
+            >
+              <h2 className={`${concertOne.className} text-2xl font-bold mb-4 text-[#a17055]`}>
                 {text}
               </h2>
               <Link href={index === 0 ? "/registerSitter" : "/registerOwner"}>
-                <button className="px-6 py-3 bg-[#ffead] text-[#6c3f0f] font-semibold rounded-lg shadow-lg hover:bg-[#ffbc9f] transition duration-300">
+                <button
+                  className={`px-6 py-3 font-semibold rounded-lg shadow-lg transition duration-300 ${
+                    index === 0
+                      ? 'bg-[#e58c6b] text-[#6c3f0f] hover:bg-[#ab5e42] hover:text-[#ffffff]'
+                      : 'bg-[#eaab58] text-[#9e5d32] hover:bg-[#d09144] hover:text-[#ffffff]'
+                  }`}
+                >
                   <p className={`${neucha.className} text-[#ffffff]`}>Click here</p>
                 </button>
               </Link>
@@ -93,7 +102,6 @@ export default function LandingPage() {
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
             <h4 className={`${concertOne.className} text-lg font-bold mb-2 text-[#ef5c3b]`}>{src.split('.')[0].toUpperCase()}</h4>
-            <p className={`${neucha.className} text-[#0d5757cf]`}>🌟 <span className="font-bold">Rating</span>: {ratings[idx]}/5</p>
             <p className={`${neucha.className} text-[#774d39]`}>
               {idx === 0
                 ? "Animal lover and veterinary student, Carla has 3 years of experience walking dogs of all breeds and sizes..."

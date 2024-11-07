@@ -100,9 +100,7 @@ const SummaryComponent: React.FC = () => {
               <h3 className={`${neucha.className} text-2xl font-semibold text-[#dc803f]`}>
                 {selectedSitter.firstname} {selectedSitter.lastname}
               </h3>
-              <h4 className="text-xl font-bold text-[#dc803f]">
-                {selectedSitter.rate}⭐
-              </h4>
+             
             </div>
           ) : (
             <p className="text-center text-gray-500">No sitter selected</p>

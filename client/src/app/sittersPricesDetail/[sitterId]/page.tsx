@@ -67,7 +67,6 @@ const SitterDetail = () => {
             height={192}
           />
           <div className={`${concertOne.className} mt-4 text-lg text-[#dc803f] font-medium text-center`}>
-            <p>{sitter.rate} ★</p>
             <p>
               <span className={`${concertOne.className} text-[#dc803f] font-semibold`}>
                 ${sitter.fee}

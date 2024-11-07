@@ -21,7 +21,7 @@ const pendingAppointments = [
   return (
     <div>
       <section className="mb-12">
-        <h2 className="text-3xl font-semibold text-[#B17457] mb-6">
+        <h2 className="text-3xl font-semibold text-[#dc803f] mb-6">
           Pending Appointments
         </h2>
         <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
