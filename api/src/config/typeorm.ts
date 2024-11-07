@@ -11,13 +11,13 @@ import {
 const config = {
   type: 'postgres',
   //deploy:
-  url: 'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb',
+  // url: 'postgresql://dogteldb_user:3OgvZISZWqWmN7vvzjewpTlsWNJPV4LS@dpg-cschsibtq21c7397beag-a/dogteldb',
   //localhost:
-  // database: DB_NAME,
-  // host: DB_HOST,
-  // port: DB_PORT,
-  // username: DB_USERNAME,
-  // password: DB_PASSWORD,
+  database: DB_NAME,
+  host: DB_HOST,
+  port: DB_PORT,
+  username: DB_USERNAME,
+  password: DB_PASSWORD,
   synchronize: true,
   dropSchema: true,
   logging: true,

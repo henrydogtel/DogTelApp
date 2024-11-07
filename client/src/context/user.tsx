@@ -25,12 +25,14 @@ import {
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useState } from "react";
-import { createAppointmentFetch } from "@/app/lib/server/fetchAppointments";
+import { appointmentPaidConfirmFetch, approveAppointmentFetch, createAppointmentFetch, getSitterAppointmentsByIdFetch, getUserAppointmentsByIdFetch, rejectAppointmentFetch } from "@/app/lib/server/fetchAppointments";
 const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
 export const UserContext = createContext<IUserContextType>({
   user: null,
   dogs: null,
+  userAppointments:null,
+  sitterAppointments:null,
   sitters: [],
   userImg:null,
   setUser: () => {},
@@ -47,12 +49,19 @@ export const UserContext = createContext<IUserContextType>({
   getSitterById: async () => null,
   getSittersProfile: async () => null,
   getSittersById: async () => null,
-  createAppointment: async () => null
+  createAppointment: async () => null,
+  getUserAppointmentsById: async () => null,
+  getSitterAppointmentsById: async () => null,
+  approveAppointment: async () => null,
+  rejectAppointment: async () => null,
+  appointmentPaidConfirm: async () => null
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>({ userImg: null });
   const [dogs,setDogs] = useState<any>([])
+  const [userAppointments,setUserAppointments] = useState<any>([])
+  const [sitterAppointments, setSitterAppointments] = useState<any>([])
   const [sitters, setSitters] = useState<ISitter[]>([]);
   const [isLogged, setIsLogged] = useState(false);
   const [sitter, setSitter] = useState<ISitter | null>(null);
@@ -82,6 +91,29 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       return false;
     }
   };
+
+  const getUserAppointmentsById = async (idUser:string) => {
+    try {
+      const response = await getUserAppointmentsByIdFetch(idUser)
+      if(!response) throw new Error('Ocurred an error')
+      setUserAppointments(response.data.getAppointmentsByIdUser)
+      return true
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const getSitterAppointmentsById = async (idSitter:string) => {
+    try {
+      const response = await getSitterAppointmentsByIdFetch(idSitter)
+      if(!response) throw new Error('Ocurred an error')
+      setSitterAppointments(response.data.getAppointmentsByIdSitter)
+    } catch (error) {
+      throw error
+
+    }
+  }
+
 
   const signUpSitter = async (user: IRegisterSitter) => {
     try {
@@ -122,10 +154,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('userId');
 
 
-    await signOut();
-
+    const response = await signOut();
+    window.location.replace('/')
     setUser(null);
     setIsLogged(false);
+  
   };
 
   const createDog = async (idUser: string, dog: IDogRegister) => {
@@ -252,6 +285,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                             userImg 
                             firstname 
                             lastname 
+                            birthdate
                             id 
                             rate 
                             fee 
@@ -321,10 +355,40 @@ const createAppointment = async (appointment: ICreateAppointment):Promise<any> =
   try {
     const success = await createAppointmentFetch(appointment)
     if(!success) throw new Error('there was an error creating the appointment...')
-    return true
+    return success.data.createAppointment
   } catch (error) {
     throw error
     
+  }
+}
+
+const approveAppointment = async (idAppointment:string):Promise<any> => {
+  try {
+    const response = await approveAppointmentFetch(idAppointment)
+    if(!response) throw new Error('Hubo un error al aprobar el appointment')
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+const appointmentPaidConfirm = async (idAppointment:string):Promise<any> => {
+  try {
+    const response = await appointmentPaidConfirmFetch(idAppointment)
+    if(!response) throw new Error('Hubo un error al aprobar la solicitud')
+    return true
+  } catch (error) {
+    throw error
+  }
+}
+
+const rejectAppointment = async (idAppointment:string): Promise<any> => {
+  try {
+    const response = await rejectAppointmentFetch(idAppointment)
+    if(!response) throw new Error('Hubo un error al aprobar el appointment')
+    return response
+  } catch (error) {
+    throw error
   }
 }
 
@@ -367,7 +431,14 @@ const createAppointment = async (appointment: ICreateAppointment):Promise<any> =
         getSittersProfile,
         getSittersById,
         userImg: user?.userImg,
-        createAppointment
+        createAppointment,
+        getUserAppointmentsById,
+        userAppointments,
+        getSitterAppointmentsById,
+        sitterAppointments,
+        approveAppointment,
+        rejectAppointment,
+        appointmentPaidConfirm
         
       }}
     >

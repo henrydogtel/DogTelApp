@@ -76,7 +76,7 @@ export const postSignUpOwner = async (user: IRegisterUser) => {
       }
     }
   }`,
-    variables: userWithRole, // Aquí enviamos el usuario con el rol incluido
+    variables: userWithRole
   });
 
   const response = await fetch(urlBack, {
