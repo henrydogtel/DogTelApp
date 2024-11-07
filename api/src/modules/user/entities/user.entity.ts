@@ -19,18 +19,18 @@ import { v4 as uuid } from 'uuid';
 @ObjectType()
 export class User extends Person {
   @Field(() => [Dog])
-  @OneToMany(() => Dog, (dog) => dog.user)
+  @OneToMany(() => Dog, (dog) => dog.user, { cascade: true, onDelete: 'CASCADE' })
   dogs: Dog[];
 
   @Field(() => [Appointment])
-  @OneToMany(() => Appointment, (appointment) => appointment.user)
+  @OneToMany(() => Appointment, (appointment) => appointment.user, { cascade: true, onDelete: 'CASCADE' })
   appointments: Appointment[];
 
   @Field(() => Credentials)
-  @OneToOne(() => Credentials, (credentials) => credentials.user)
+  @OneToOne(() => Credentials, (credentials) => credentials.user, { cascade: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'credentials_id' })
   credentials: Credentials;
 
-  @OneToMany(() => Calification, (calification) => calification.user)
+  @OneToMany(() => Calification, (calification) => calification.user, { cascade: true, onDelete: 'CASCADE' })
   califications: Calification[];
 }

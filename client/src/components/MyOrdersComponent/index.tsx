@@ -4,13 +4,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaStripe } from 'react-icons/fa'; // Importar el ícono de Stripe
 import LoadingModal from '../LoadingComponent';
 import { config as dotenvConfig } from 'dotenv';
+import Swal from 'sweetalert2';
 
 dotenvConfig({ path: '.env' });
 
 const url = process.env.NEXTAUTH_URL as string
 
 const MyOrdersComponent = () => {
-  const { userAppointments, getUserAppointmentsById, user } = useContext(UserContext);
+  const { userAppointments, getUserAppointmentsById, user, markAsFinished } = useContext(UserContext);
   const [orders, setOrders] = useState<IAppointment[]>([]);
   const [loader,setLoader] = useState(false)
 
@@ -64,6 +65,25 @@ const MyOrdersComponent = () => {
     }
   };
 
+  const handleMarkAsFinished = async (idAppointment:string) => {
+    try {
+      const response = await markAsFinished(idAppointment)
+      if(!response) throw new Error('hubo un error')
+      Swal.fire({
+        icon: "success",
+        title: "Change status appointment",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+
+    } catch (error) {
+      throw error
+    }
+  } 
+
   useEffect(() => {
     // Actualizar el estado cuando cambian las citas
     console.log(userAppointments);
@@ -109,6 +129,16 @@ const MyOrdersComponent = () => {
 
                       >
                         <FaStripe className="text-xl" /> Pay with Stripe
+                      </button>
+                      <button
+                        className={`${
+                          order.status === 'APPROVED' ? 'bg-gray-500' : 'bg-gray-300 cursor-not-allowed mt-4'
+                        } text-white py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-blue-600 transition`}
+                        onClick={() => handleMarkAsFinished(order.id)}
+                        disabled={!order.payment}
+
+                      >
+                        <FaStripe className="text-xl" /> Mark as finished
                       </button>
                     </div>
                     
