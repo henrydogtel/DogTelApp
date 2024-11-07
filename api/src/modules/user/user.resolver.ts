@@ -1,14 +1,19 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
 import {
   BadRequestException,
+  UnauthorizedException,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserRole } from 'src/enums/user-role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Status } from 'src/enums/status.enum';
+import { Roles } from '../auth/role.decorator';
+import { RolesGuard } from '../auth/role.guard';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -86,19 +91,19 @@ export class UserResolver {
   }
 
   @Mutation(() => String)
-async removeUser(
-  @Args('id', { type: () => String }) id: string,
-): Promise<string> {
-  try {
-    const message = await this.userService.removeUser(id);
-    return message; 
-  } catch (error) {
-    console.error(`Error removing user with id ${id}:`, error);
-    throw new BadRequestException(
-      `An error occurred while removing the user with id: ${id}`,
-    );
+  async removeUser(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<string> {
+    try {
+      const message = await this.userService.removeUser(id);
+      return message;
+    } catch (error) {
+      console.error(`Error removing user with id ${id}:`, error);
+      throw new BadRequestException(
+        `An error occurred while removing the user with id: ${id}`,
+      );
+    }
   }
-}
 
 
 
@@ -115,5 +120,23 @@ async removeUser(
     const userUpdated = await this.userService.updateUserImage(id, userImg);
     return userUpdated;
   }
+
+  @Mutation(() => User)
+  @Roles(UserRole.ADMIN)
+  async updateUserStatus(
+    @Args('id') id: string,
+    @Args('status') status: Status,
+    @Context() context: any
+  ): Promise<User> {
+    const user = context.req.user;
+
+    if (user.role !== UserRole.ADMIN) {
+      throw new UnauthorizedException('No tienes permisos para actualizar el estado');
+    }
+
+    return this.userService.updateUserStatus(id, status);
+  }
+
+
 
 }

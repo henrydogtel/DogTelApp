@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,6 +14,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { CredentialsRepository } from '../credentials/credentials.repository';
 import { AuthRepository } from '../auth/auth.repository';
 import { SendMailsService } from '../send-mails/send-mails.service';
+import { Status } from 'src/enums/status.enum';
 
 @Injectable()
 export class UserService {
@@ -139,10 +141,10 @@ export class UserService {
       throw new NotFoundException(`User with id ${id} not found`);
     }
     await this.userRepository.remove(user);
-    
-    return `User with id: ${id} was removed successfully`; 
+
+    return `User with id: ${id} was removed successfully`;
   }
-  
+
 
 
   // Subida de imágenes
@@ -166,4 +168,17 @@ export class UserService {
 
     return user;
   }
+
+  async updateUserStatus(id: string, status: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    user.status = status as Status; 
+    return this.userRepository.save(user); 
+  }
+  
+
+
 }

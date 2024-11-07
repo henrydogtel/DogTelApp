@@ -9,6 +9,7 @@ import {
   IsUUID,
 } from 'class-validator';
 import { typeRace } from '../entities/dog.entity';
+import { Status } from 'src/enums/status.enum';
 
 @InputType()
 export class CreateDogInput {
@@ -34,4 +35,5 @@ export class CreateDogInput {
   @Field(() => String, { description: 'Size of the dog' })
   @IsEnum(typeRace)
   size: typeRace;
+
 }

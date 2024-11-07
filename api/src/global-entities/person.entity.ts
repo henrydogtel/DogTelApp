@@ -10,6 +10,7 @@ import {
 import { UserRole } from 'src/enums/user-role.enum';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { Status } from 'src/enums/status.enum';
 
 @ObjectType()
 export class Person {
@@ -48,6 +49,7 @@ export class Person {
     nullable: true,
   })
   @IsOptional()
+  @Field(() => UserRole)
   @IsEnum(UserRole, { message: 'Role must be a valid UserRole' })
   role?: UserRole;
 
@@ -58,4 +60,7 @@ export class Person {
   })
   @IsUrl({}, { message: 'User image must be a valid URL' })
   userImg: string;
+
+  @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
+  status?: Status;
 }

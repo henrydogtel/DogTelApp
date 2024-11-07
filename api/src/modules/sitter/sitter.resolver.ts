@@ -1,14 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { SitterService } from './sitter.service';
 import { Sitter } from './entities/sitter.entity';
 import { UpdateSitterInput } from './dto/update-sitter.input';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { UserRole } from 'src/enums/user-role.enum';
 import { RemoveSitterResponse } from './dto/remove-siterr.input';
+import { Roles } from '../auth/role.decorator';
+import { Status } from 'src/enums/status.enum';
+import { RolesGuard } from '../auth/role.guard';
 
 @Resolver(() => Sitter)
 export class SitterResolver {
-  constructor(private readonly sitterService: SitterService) {}
+  constructor(private readonly sitterService: SitterService) { }
 
   @Mutation(() => Sitter)
   async createSitter(
@@ -93,5 +96,19 @@ export class SitterResolver {
     };
   }
 
-  
+  @Mutation(() => Sitter)
+  @Roles(UserRole.ADMIN)
+  async updateSitterStatus(
+    @Args('id') id: string,
+    @Args('status') status: Status,
+    @Context() context: any
+  ): Promise<Sitter> {
+    const user = context.req.user;
+
+    if (user.role !== UserRole.ADMIN) {
+      throw new UnauthorizedException('No tienes permisos para actualizar el estado');
+    }
+
+    return this.sitterService.updateSitterStatus(id, status);
+  }
 }

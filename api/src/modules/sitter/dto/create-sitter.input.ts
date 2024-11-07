@@ -10,7 +10,7 @@ export class CreateSitterInput extends CreateUserInput {
 
   @Field(() => Number)
   @IsInt()
-  fee: number; // Cuota
+  fee?: number; // Cuota
 
   @Field(() => String)
   descripcion: string;

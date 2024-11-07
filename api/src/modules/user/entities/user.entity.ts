@@ -11,13 +11,15 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { v4 as uuid } from 'uuid';
-
+import { Status } from 'src/enums/status.enum';
 @Entity({ name: 'user' })
 @ObjectType()
 export class User extends Person {
+  @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
+  @Field(() => Status)  
+  status?: Status;
+
   @Field(() => [Dog])
   @OneToMany(() => Dog, (dog) => dog.user, { cascade: true, onDelete: 'CASCADE' })
   dogs: Dog[];

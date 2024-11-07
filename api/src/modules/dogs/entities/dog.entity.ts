@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { IsArray, IsDate, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Status } from 'src/enums/status.enum';
 import { AppointmentDetail } from 'src/modules/appointment_details/entities/appointment_detail.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import {

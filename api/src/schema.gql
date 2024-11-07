@@ -63,22 +63,30 @@ type Sitter {
   id: ID!
   firstname: String!
   lastname: String!
-  birthdate: DateTime!
+  birthdate: String!
   address: String!
-  role: String
+  role: roleStatus
   userImg: String!
   rate: Float!
-  fee: Float!
+  fee: Int!
   descripcion: String!
   services: [ServicesSitter!]!
   appointments: [Appointment!]!
   credentials: Credentials!
+  status: Status!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+"""El rol de los usuarios."""
+enum roleStatus {
+  ADMIN
+  USER
+  SITTER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
 
 type Appointment {
   """Unique ID for each appointment"""
@@ -110,13 +118,21 @@ type Appointment {
 
   """hour when appointment create was"""
   createdAt: DateTime!
+
+  """was the payment paid"""
+  payment: Boolean!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 """Supported appointment statuses."""
 enum typeStatus {
   PENDING
   CANCELLED
-  ENDING
+  APPROVED
   FINISHED
 }
 
@@ -124,10 +140,11 @@ type User {
   id: ID!
   firstname: String!
   lastname: String!
-  birthdate: DateTime!
+  birthdate: String!
   address: String!
-  role: String
+  role: roleStatus
   userImg: String!
+  status: Status!
   dogs: [Dog!]!
   appointments: [Appointment!]!
   credentials: Credentials!
@@ -145,6 +162,11 @@ type RemoveServicesSitter {
   message: String!
 }
 
+type ResponseAprobarAppointment {
+  message: String!
+  status: Boolean!
+}
+
 type RemoveSitterResponse {
   success: Boolean!
   message: String
@@ -158,7 +180,9 @@ type RemoveDogResponse {
 type Query {
   servicesSitter(id: String!): ServicesSitter!
   appointments: [Appointment!]!
-  appointment(id: Int!): Appointment!
+  appointment(id: String!): Appointment!
+  getAppointmentsByIdUser(idUser: String!): [Appointment!]!
+  getAppointmentsByIdSitter(idSitter: String!): [Appointment!]!
   appointmentDetails: [AppointmentDetail!]!
   appointmentDetail(id: Int!): AppointmentDetail!
   users: [User!]!
@@ -179,6 +203,9 @@ type Mutation {
   createAppointment(createAppointment: CreateAppointmentInput!): Appointment!
   updateAppointment(updateAppointmentInput: UpdateAppointmentInput!): Appointment!
   removeAppointment(id: Int!): Appointment!
+  confirmAppointment(idAppointment: String!): ResponseAprobarAppointment!
+  rejectAppointment(idAppointment: String!): ResponseAprobarAppointment!
+  appointmentPaidConfirm(idAppointment: String!): String!
   createAppointmentDetail(createAppointmentDetailInput: CreateAppointmentDetailInput!): AppointmentDetail!
   updateAppointmentDetail(updateAppointmentDetailInput: UpdateAppointmentDetailInput!): AppointmentDetail!
   removeAppointmentDetail(id: Int!): AppointmentDetail!
@@ -186,12 +213,14 @@ type Mutation {
   updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: String!): String!
   updateUserImage(id: String!, userImg: String!): User!
+  updateUserStatus(id: String!, status: String!): User!
   login(email: String!, password: String!): LoginResponse!
   createCredential(createCredentialInput: CreateCredentialInput!): Credentials!
   createSitter(firstname: String!, lastname: String!, birthdate: DateTime!, address: String!, role: String!, password: String!, email: String!, fee: Float!, descripcion: String!): Sitter!
   updateSitter(id: String!, updateSitterInput: UpdateSitterInput!): Sitter!
   updateSitterImage(id: String!, userImg: String!): Sitter!
   removeSitter(id: String!): RemoveSitterResponse!
+  updateSitterStatus(id: String!, status: String!): Sitter!
   createDog(idUser: String!, createDogInput: CreateDogInput!): Dog!
   updateDog(updateDogInput: UpdateDogInput!): Dog!
   removeDog(id: String!): RemoveDogResponse!
@@ -207,7 +236,7 @@ input CreateServicesSitterInput {
 input UpdateServicesSitterInput {
   name: String
   description: String
-  id: String! = "fcfc4d53-9554-4611-b6d5-507cb189f1b2"
+  id: String! = "c72ca436-28a9-4aa0-9815-a37ee4987af1"
 }
 
 input CreateAppointmentInput {
@@ -280,8 +309,10 @@ input UpdateUserInput {
   birthdate: DateTime
   address: String
   role: String
+  status: Status
   password: String
   email: String
+  fee: Float
 }
 
 input CreateCredentialInput {
@@ -298,8 +329,10 @@ input UpdateSitterInput {
   birthdate: DateTime
   address: String
   role: String
+  status: Status
   password: String
   email: String
+  fee: Float
 }
 
 input CreateDogInput {
@@ -334,7 +367,7 @@ input UpdateDogInput {
 
   """Size of the dog"""
   size: String
-  id: String! = "cb6e71ef-6599-4b15-9a00-14e4538b04cd"
+  id: String! = "d9779e42-2341-48b4-816c-cc42fdb1a49a"
 }
 
 input CreateCalificationDto {

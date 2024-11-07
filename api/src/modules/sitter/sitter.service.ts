@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateSitterInput } from './dto/create-sitter.input';
 import { UpdateSitterInput } from './dto/update-sitter.input';
@@ -13,6 +14,7 @@ import { Credentials } from '../credentials/entities/credential.entity';
 import { AuthService } from '../auth/auth.service';
 import { AuthRepository } from '../auth/auth.repository';
 import { UserRole } from 'src/enums/user-role.enum';
+import { Status } from 'src/enums/status.enum';
 
 @Injectable()
 export class SitterService {
@@ -138,6 +140,15 @@ export class SitterService {
     }
   }
 
+  async updateSitterStatus(id: string, status: string): Promise<Sitter> {
+    const user = await this.sitterRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
+
+    user.status = status as Status; 
+    return this.sitterRepository.save(user); 
+  }
 
 
 }

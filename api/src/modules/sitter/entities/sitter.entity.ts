@@ -6,7 +6,7 @@ import { Person } from 'src/global-entities/person.entity';
 import { Credentials } from 'src/modules/credentials/entities/credential.entity';
 import { Calification } from 'src/modules/califications/entities/calification.entity';
 import { IsInt, IsString, Length, Min } from 'class-validator';
-
+import { Status } from 'src/enums/status.enum'; 
 @Entity()
 @ObjectType()
 export class Sitter extends Person {
@@ -16,11 +16,11 @@ export class Sitter extends Person {
   @Min(0, { message: 'Rate must be zero or greater' })
   rate: number;
 
-  @Field(() => Float)
+  @Field(() => Int)
   @Column({ type: 'int' })
   @IsInt({ message: 'Fee must be an integer' })
   @Min(0, { message: 'Fee must be zero or greater' })
-  fee: number;
+  fee?: number;
 
   @Field(() => String)
   @Column({ type: 'varchar' })
@@ -45,4 +45,8 @@ export class Sitter extends Person {
 
   @OneToMany(() => Calification, (calification) => calification.sitter)
   califications: Calification[];
+ 
+  @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
+  @Field(() => Status)  
+  status?: Status;
 }
