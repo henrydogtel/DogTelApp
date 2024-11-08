@@ -5,9 +5,7 @@ import {
   ISitter,
   IUser,
 } from "@/interfaces/interfaces";
-import { config as dotenvConfig } from 'dotenv';
 
-dotenvConfig({ path: '.env' });
 
 const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string
 
