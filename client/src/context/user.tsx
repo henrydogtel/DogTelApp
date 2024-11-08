@@ -9,7 +9,7 @@ import {
   postSignUpSitter,
   postSignUpOwner,
 } from "@/app/lib/server/fetchUsers";
-
+import  Cookies from 'js-cookie'
 import {  getSitterById } from "@/app/lib/server/fetchSitter";
 import {
   IDogRegister,
@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { appointmentPaidConfirmFetch, approveAppointmentFetch, createAppointmentFetch, getSitterAppointmentsByIdFetch, getUserAppointmentsByIdFetch, markAsFinishedFetch, rejectAppointmentFetch } from "@/app/lib/server/fetchAppointments";
 const urlBack = process.env.NEXT_PUBLIC_BACKEND_URL as string;
+
 
 export const UserContext = createContext<IUserContextType>({
   user: null,
@@ -72,13 +73,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const data: any = await postSignIn(credentials);
       if (!data) return false;
-      console.log(data.user);
+      console.log(data.accessToken);
       window.location.href = '/home'
       setUser(data);
 
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", data.accessToken);
-
+      Cookies.set('user',data.accessToken)
       localStorage.setItem("firstname", data.user.firstname);
       localStorage.setItem("lastname", data.user.lastname);
       localStorage.setItem("token", data.accessToken);
@@ -163,6 +164,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('idUser');
     localStorage.removeItem('userId');
+    Cookies.remove('user')
 
 
     const response = await signOut();
