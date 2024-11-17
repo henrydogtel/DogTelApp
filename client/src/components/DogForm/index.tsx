@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
-
+import { UserContext } from "@/context/user";
+import { IDogRegister } from "@/interfaces/interfaces";
+import { useContext, useState } from "react";
+import Swal from "sweetalert2";
+import { neucha } from "@/app/lib/server/fonts";
 export default function DogForm() {
+  const { createDog } = useContext(UserContext);
+  const [idUser, setIdUser] = useState(localStorage.getItem('idUser'));
   const [formValues, setFormValues] = useState({
     name: "",
     birthDate: "",
-    images: "",
+    images: null,
     race: "",
-    size: "SMALL",
+    size: "small",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -16,26 +21,67 @@ export default function DogForm() {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formValues);
+    
+    if (idUser) {
+      const dogSend: IDogRegister = {
+        name: formValues.name,
+        birthdate: formValues.birthDate,
+        images: [],
+        race: formValues.race,
+        size: formValues.size,
+      };
+
+      const data = await createDog(idUser, dogSend);
+      if(data) {
+        Swal.fire({
+          icon: "success",
+          title: "Dog created",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error while creating dog",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }  
+      // Restablecer el formulario a su estado inicial
+      setFormValues({
+        name: "",
+        birthDate: "",
+        images: null,
+        race: "",
+        size: "small",
+      });
+    }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen mt-16 mb-16">
+    <div className="flex justify-center items-center mt-16 mb-16 ">
       <form
         onSubmit={handleSubmit}
         className="p-8 rounded-lg shadow-lg w-full max-w-lg"
       >
-        <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "#b17457" }}>
+        <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "#dc803f" }}>
           Upload Dog Data
         </h2>
 
         <div className="mb-4">
           <label
             htmlFor="name"
-            className="block text-lg font-semibold mb-2"
-            style={{ color: "#b17457" }}
+            className={`${neucha.className} block text-lg font-semibold mb-2`}
+            style={{ color: "#ef8a38" }}
           >
             Dog Name
           </label>
@@ -45,7 +91,7 @@ export default function DogForm() {
             name="name"
             value={formValues.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dc803f]"
             required
           />
         </div>
@@ -53,8 +99,8 @@ export default function DogForm() {
         <div className="mb-4">
           <label
             htmlFor="birthDate"
-            className="block text-lg font-semibold mb-2"
-            style={{ color: "#b17457" }}
+            className={`${neucha.className} block text-lg font-semibold mb-2`}
+            style={{ color: "#ef8a38" }}
           >
             Birth Date
           </label>
@@ -64,26 +110,7 @@ export default function DogForm() {
             name="birthDate"
             value={formValues.birthDate}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            htmlFor="images"
-            className="block text-lg font-semibold mb-2"
-            style={{ color: "#b17457" }}
-          >
-            Upload Dog Image
-          </label>
-          <input
-            type="file"
-            id="images"
-            name="images"
-            accept="image/*"
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dc803f]"
             required
           />
         </div>
@@ -91,10 +118,10 @@ export default function DogForm() {
         <div className="mb-4">
           <label
             htmlFor="race"
-            className="block text-lg font-semibold mb-2"
-            style={{ color: "#b17457" }}
+            className={`${neucha.className} block text-lg font-semibold mb-2`}
+            style={{ color: "#ef8a38" }}
           >
-            Breed
+            Race
           </label>
           <input
             type="text"
@@ -102,7 +129,7 @@ export default function DogForm() {
             name="race"
             value={formValues.race}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dc803f]"
             required
           />
         </div>
@@ -110,8 +137,8 @@ export default function DogForm() {
         <div className="mb-4">
           <label
             htmlFor="size"
-            className="block text-lg font-semibold mb-2"
-            style={{ color: "#b17457" }}
+            className={`${neucha.className} block text-lg font-semibold mb-2`}
+            style={{ color: "#ef8a38" }}
           >
             Size
           </label>
@@ -120,18 +147,18 @@ export default function DogForm() {
             name="size"
             value={formValues.size}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#b17457]"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dc803f]"
           >
-            <option value="SMALL">Small</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="LARGE">Large</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
           </select>
         </div>
 
         <button
           type="submit"
-          className="w-full py-3 mt-6 text-lg font-semibold rounded-lg shadow-lg transition duration-300"
-          style={{ backgroundColor: "#ffeead", color: "#b17457" }}
+          className="w-full py-3 mt-6 text-lg font-semibold rounded-lg shadow-lg transition duration-300 "
+          style={{ backgroundColor: "#ad6c32", color: "#ffff"  }}
         >
           Upload Dog Data
         </button>
