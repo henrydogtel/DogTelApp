@@ -1,0 +1,46 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - dev-backend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  
+
+    - name: Install dependencies
+      run: |
+        npm install --prefix api --production=false
+
+    - name: Build the project
+      run: |
+        npm run build --prefix api  
+
+    - name: Prepare deploy request
+      id: deploy_request
+      run: |
+        echo '{"serviceId": "dpg-cscfr3d6l47c73e0k7c0-a", "clearCache": true}' > deploy_request.json
+        cat deploy_request.json  
+
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}  
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}  
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}  
+      run: |
+        response=$(curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d @deploy_request.json \
+          https://api.render.com/v1/services/dpg-cscfr3d6l47c73e0k7c0-a/deploys)
+        echo "Response: $response"
